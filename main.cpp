@@ -37,6 +37,12 @@ int main() {
     int image_height = int(image_width / aspect_ratio);
     image_height = (image_height < 1) ? 1 : image_height;
 
+
+    hittable_list world;
+
+    world.add(make_shared<sphere>(point3(0,0,-1), 0.5));
+    world.add(make_shared<sphere>(point3(0,-100.5,-1), 100));
+
     // Camera
 
     auto focal_length = 1.0;
@@ -67,8 +73,9 @@ int main() {
             auto pixel_center = pixel00_loc + (i * pixel_delta_u) + (j * pixel_delta_v);
             auto ray_direction = pixel_center - camera_center;
             ray r(camera_center, ray_direction);
+            color pixel_color = ray_color(r, world);
 
-            color pixel_color = ray_color(r);
+            //color pixel_color = ray_color(r);
             write_color(std::cout, pixel_color);
         }
     }
