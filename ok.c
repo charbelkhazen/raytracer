@@ -1,13 +1,11 @@
 #include "stdlib.h" 
 #include <stdio.h>
 
-int pow(base, power);
-
-int pow(b, p)
+int std_pow(int b, int p)
 {
 	int res;
 
-	res = 1;
-
-
+	if (!p)
+		return (1);
+	return	b * std_pow(b, p - 1);
 }

@@ -1,8 +1,18 @@
 #include <unistd.h>
 #include <signal.h>
-
-
 #define std_assert(expr) (expr ? (void)0 : std_assertfail(#expr)) // subtle -> macro because permits dealing with expr as int and str
+
+#include <stdio.h> // del del del FOR DEBUG
+//only for p > 0
+long int std_pow(int b, int p)
+{
+	std_assert(p > 0);
+	int res;
+
+	if (!p)
+		return (1);
+	return	(b * std_pow(b, p - 1));
+}
 
 size_t	std_strlen(const char *str)
 {
@@ -69,13 +79,14 @@ int	std_itoa(char *arr, int n)
 
 static int std_extract_frac(double n)
 {
-	int	whole;
+	long int	whole;
 	double	frac;
 
 	if (n < 0)
 		n *= -1;
 	frac = n - (int)n;
-	whole = (int) (frac * 16);
+	whole = (long int) (frac * std_pow(10,16));
+	printf("2->%ld\n", whole);
 	while (!(whole % 10))
 		whole /= 10;	
 	return (whole);
@@ -95,8 +106,11 @@ int	std_dtoa(char *arr, double n)
 	return (0); // FIX FIX FIX
 }
 
-#include <stdio.h>
 int main()
 {
+	
 	printf("%d\n", std_extract_frac(12.45));
+	printf("%ld\n",std_pow(10, 16));
+	printf("%ld\n",std_pow(10, 16));
 }
+
