@@ -1,14 +1,11 @@
+#include "stdlib.h" 
 #include <stdio.h>
 
 int main()
 {
-	int i = 3;
-	printf("%d\n", i--);
-	printf("%d\n", --i);
-	/*
-	while (--i)
-	{
-		printf("%d\n", i);
-	}	
-	*/
+	int	size;
+
+	char arr[size];
+	std_itoa(arr, -12);
+	printf("%s\n", arr);
 }
