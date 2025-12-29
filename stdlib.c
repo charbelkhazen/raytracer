@@ -66,3 +66,37 @@ int	std_itoa(char *arr, int n)
 	}
 	return (0);
 }
+
+static int std_extract_frac(double n)
+{
+	int	whole;
+	double	frac;
+
+	if (n < 0)
+		n *= -1;
+	frac = n - (int)n;
+	whole = (int) (frac * 16);
+	while (!(whole % 10))
+		whole /= 10;	
+	return (whole);
+}
+
+int	std_dtoa(char *arr, double n)
+{
+	double	frac;
+	int	int_frac;
+	int	integer;			
+
+	integer = (int)n;
+	std_itoa(arr, integer);
+	frac = (integer - n);
+	if (frac < 0)
+		frac *= -1;
+	return (0); // FIX FIX FIX
+}
+
+#include <stdio.h>
+int main()
+{
+	printf("%d\n", std_extract_frac(12.45));
+}

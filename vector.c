@@ -32,5 +32,8 @@ int	vec_scale(vec_t *r, double f, vec_t *v)
 
 int	vec_toStr(vect_t *v)
 {
-	
+	char	*x_coord;
+	char	*y_coord;
+	char	*z_coord;
+	//continue...
 }

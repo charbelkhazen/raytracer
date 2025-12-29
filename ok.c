@@ -1,11 +1,13 @@
 #include "stdlib.h" 
 #include <stdio.h>
 
-int main()
-{
-	int	size;
+int pow(base, power);
 
-	char arr[size];
-	std_itoa(arr, -12);
-	printf("%s\n", arr);
+int pow(b, p)
+{
+	int res;
+
+	res = 1;
+
+
 }
