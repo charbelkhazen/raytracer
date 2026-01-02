@@ -1,4 +1,12 @@
 #include "stdlib.h"
+#include <math.h>
+
+int	std_cmpDouble(double a, double b, double eps)
+{
+	if (fabs(a - b) < eps)
+		return (1);
+	return (0);
+}
 #include <stdio.h> // todel
 
 int	std_sizeArrayDouble(double n, int precision)
