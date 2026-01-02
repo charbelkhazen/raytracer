@@ -1,13 +1,31 @@
-#include <math.h>
-int	std_cmpDouble(double a, double b, double eps)
+#include "stdlib.h"
+
+int	std_sizeArrayDouble(double n, int precision)
 {
-	if (fabs(a - b) < eps)
-		return (1);
-	return (0);
+	std_assert(precision > 1);
+	return (std_sizeArray((int) n) + precision);
 }
 
-#include <stdio.h>
+void	std_dtoa(char *arr, double n, int precision)
+{
+	int	whole;
+	double	tmp;
+	int	frac;
+	int	size;
+	
+	whole = (int)n;
+	std_itoa(arr, whole);
+	tmp =  (whole - n);
+	if (tmp < 0)
+		tmp  *= -1;
+	frac = (int)(tmp * std_pow(10, precision));
+	std_itoa(arr + std_strlen(arr), frac);
+}
+
 int main()
 {
-	printf("%d\n", std_cmpDouble(0.1 + 0.2, 0.3, 1e-9));
+	char	arr[100];
+
+	std_dtoa(arr, 10.23, 1);
+	printf("%s\n", arr);
 }
