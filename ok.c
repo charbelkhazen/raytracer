@@ -1,9 +1,10 @@
 #include "stdlib.h"
+#include <stdio.h> // todel
 
 int	std_sizeArrayDouble(double n, int precision)
 {
 	std_assert(precision > 1);
-	return (std_sizeArray((int) n) + precision);
+	return (std_sizeArray((int) n) + precision + 1);
 }
 
 void	std_dtoa(char *arr, double n, int precision)
@@ -15,7 +16,8 @@ void	std_dtoa(char *arr, double n, int precision)
 	
 	whole = (int)n;
 	std_itoa(arr, whole);
-	tmp =  (whole - n);
+	*(arr + std_strlen(arr)) = '.';
+	tmp = (whole - n);
 	if (tmp < 0)
 		tmp  *= -1;
 	frac = (int)(tmp * std_pow(10, precision));
@@ -26,6 +28,6 @@ int main()
 {
 	char	arr[100];
 
-	std_dtoa(arr, 10.23, 1);
-	printf("%s\n", arr);
+	std_dtoa(arr, -10.23, 4);
+	printf("whole thing:%s\n", arr);
 }

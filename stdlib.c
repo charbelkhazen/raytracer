@@ -76,9 +76,3 @@ void	std_itoa(char *arr, int n)
 	}
 }
 
-
-int main()
-{
-	std_assert(1 == 1);
-	std_assert(1 != 1);
-}
