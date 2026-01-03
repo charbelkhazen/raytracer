@@ -7,11 +7,10 @@ int	std_cmpDouble(double a, double b, double eps)
 		return (1);
 	return (0);
 }
-#include <stdio.h> // todel
 
 int	std_sizeArrayDouble(double n, int precision)
 {
-	std_assert(precision > 1);
+	std_assert(precision > 0);
 	return (std_sizeArray((int) n) + precision + 1);
 }
 
@@ -31,11 +30,14 @@ void	std_dtoa(char *arr, double n, int precision)
 	frac = (int)(tmp * std_pow(10, precision));
 	std_itoa(arr + std_strlen(arr), frac);
 }
-
+/*
 int main()
 {
+	int	size = std_sizeArrayDouble(10.23, 1);
+	printf("size:%d\n", size);
 	char	arr[100];
 
-	std_dtoa(arr, -10.23, 4);
+	std_dtoa(arr, -10.23, 1);
 	printf("whole thing:%s\n", arr);
 }
+*/

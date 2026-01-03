@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <math.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h> //to del
@@ -76,3 +77,44 @@ void	std_itoa(char *arr, int n)
 	}
 }
 
+int	std_cmpDouble(double a, double b, double eps)
+{
+	if (fabs(a - b) < eps)
+		return (1);
+	return (0);
+}
+
+int	std_sizeArrayDouble(double n, int precision)
+{
+	std_assert(precision > 0);
+	return (std_sizeArray((int) n) + precision + 1);
+}
+
+static void	std_fillThenNull(char *arr, char c)
+{
+	*(arr++) = c;
+	*arr = 0;
+}
+
+void	std_dtoa(char *arr, double n, int precision)
+{
+	int	whole;
+	double	tmp;
+	int	frac;
+	int	size;
+	
+	whole = (int)n;
+	//printf("whole is:%d\n", whole);
+	std_itoa(arr, whole);
+	//printf("arr on whole:%s\n", arr);
+	std_fillThenNull(arr + std_strlen(arr), '.');
+	//printf("arr after dot:%s\n", arr);
+	tmp = (whole - n);
+	//printf("extracted tmp:%f\n", tmp);
+	if (tmp < 0)
+		tmp  *= -1;
+	frac = (int)(tmp * std_pow(10, precision));
+	//printf("found frac:%d\n", frac);
+	std_itoa(arr + std_strlen(arr), frac);
+	//printf("arr end:%s\n", arr);
+}
