@@ -55,15 +55,14 @@ void	vec_toStr(char *str, t_vec *v, int p)
 	std_dtoa(str + std_strlen(str), v->z, p);
 }
 
-//void	vec_unitVec(t_vec *result, t_vec *vec);
-
 #include <stdio.h>
 int main()
 {
 	t_vec v;
-	v.x = 12.12;
-	v.y = 12.13;
-	v.z = 12.12;
+	v.x = 2;
+	v.y = 3;
+	v.z = 6;
+
 	char str[vec_strLen(&v, 2)];
 	vec_toStr(str, &v, 2);
 	printf("str:%s\n", str);
@@ -71,5 +70,9 @@ int main()
 	vec_centerVec(&v2);
 	vec_toStr(str, &v2, 2);
 	printf("str:%s\n", str);
-
+	printf("%f\n", vec_vectorLen(&v));
+	vec_unitVector(&v2, &v);
+	char s[vec_strLen(&v2, 2)];
+	vec_toStr(s, &v2, 2);
+	printf("%s\n", s);
 }
