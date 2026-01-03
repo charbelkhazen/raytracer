@@ -10,6 +10,13 @@ void	vec_centerVec(t_vec *v)
 	v ->z = 0;
 }
 
+void	vec_ones(t_vec *v)
+{
+	v->x = 1;
+	v->y = 1;
+	v ->z = 1;
+}
+
 void	vec_subs(t_vec *r, t_vec *v1, t_vec *v2)
 {
 	r->x = v1->x - v2->x;
@@ -41,6 +48,18 @@ void	vec_unitVector(t_vec *res, t_vec *v)
 	vec_scale(res, 1 / vec_vectorLen(v), v); 
 }
 
+double	vec_dot(t_vec *v1, t_vec *v2)
+{
+	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
+}
+
+void	vec_cross(t_vec *res, t_vec *v1, t_vec *v2)
+{
+	res->x = v1->y * v2->z - v1->z * v2->y;
+	res->y = v1->z * v2->x - v1->x * v2->z;
+	res->z = v1->x * v2->y - v1->y * v2->x;
+}
+
 int	vec_strLen(t_vec *v, int p)
 {
 	return (std_sizeArrayDouble(v->x, p) + std_sizeArrayDouble(v->y, p) + std_sizeArrayDouble(v->z, p));
@@ -55,6 +74,7 @@ void	vec_toStr(char *str, t_vec *v, int p)
 	std_dtoa(str + std_strlen(str), v->z, p);
 }
 
+
 #include <stdio.h>
 int main()
 {
@@ -63,16 +83,17 @@ int main()
 	v.y = 3;
 	v.z = 6;
 
-	char str[vec_strLen(&v, 2)];
-	vec_toStr(str, &v, 2);
-	printf("str:%s\n", str);
+	char str[100];
+
 	t_vec v2;
-	vec_centerVec(&v2);
-	vec_toStr(str, &v2, 2);
-	printf("str:%s\n", str);
-	printf("%f\n", vec_vectorLen(&v));
-	vec_unitVector(&v2, &v);
-	char s[vec_strLen(&v2, 2)];
-	vec_toStr(s, &v2, 2);
-	printf("%s\n", s);
+	vec_ones(&v2);
+
+	t_vec v3;
+	vec_add(&v3, &v, &v2);
+
+
+	t_vec cross;
+	vec_cross(&cross, &v, &v3);
+	vec_toStr(str, &cross, 2);
+	printf("%s\n", str);
 }
