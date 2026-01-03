@@ -90,7 +90,7 @@ int	std_sizeArrayDouble(double n, int precision)
 	return (std_sizeArray((int) n) + precision + 1);
 }
 
-static void	std_fillThenNull(char *arr, char c)
+void	std_fillThenNull(char *arr, char c)
 {
 	*(arr++) = c;
 	*arr = 0;

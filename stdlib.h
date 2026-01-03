@@ -13,3 +13,5 @@ void	std_itoa(char *array, int number);
 /*arr points at at least std_sizeArrayDouble(int number, precision) bytes*/
 int	std_sizeArrayDouble(double double_from_which_you_form_array, int precision);
 void	std_dtoa(char *arr, double n, int precision);
+
+void	std_fillThenNull(char *arr, char c);
