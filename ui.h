@@ -21,6 +21,15 @@ void	ui_buildImg(ui_mlxParams_t* params);
 void	ui_mlxRender(ui_mlxParams_t *params);
 #endif
 
+
+
+
+
+
+
+
+
+
 /*
 int main(void)
 {

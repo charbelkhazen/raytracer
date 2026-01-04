@@ -25,8 +25,6 @@ size_t	std_strlen(const char *str)
 // attention int max !!! e.g. 10 ^ 16 ooverflowwww
 int std_pow(int b, int p)
 {
-	int res;
-
 	if (!p)
 		return (1);
 	return	(b * std_pow(b, p - 1));
@@ -101,7 +99,6 @@ void	std_dtoa(char *arr, double n, int precision)
 	int	whole;
 	double	tmp;
 	int	frac;
-	int	size;
 	
 	whole = (int)n;
 	//printf("whole is:%d\n", whole);

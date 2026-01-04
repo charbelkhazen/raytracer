@@ -73,27 +73,3 @@ void	vec_toStr(char *str, t_vec *v, int p)
 	std_fillThenNull(str + std_strlen(str), ' ');
 	std_dtoa(str + std_strlen(str), v->z, p);
 }
-
-
-#include <stdio.h>
-int main()
-{
-	t_vec v;
-	v.x = 2;
-	v.y = 3;
-	v.z = 6;
-
-	char str[100];
-
-	t_vec v2;
-	vec_ones(&v2);
-
-	t_vec v3;
-	vec_add(&v3, &v, &v2);
-
-
-	t_vec cross;
-	vec_cross(&cross, &v, &v3);
-	vec_toStr(str, &cross, 2);
-	printf("%s\n", str);
-}
