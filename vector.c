@@ -10,6 +10,13 @@ void	vec_centerVec(t_vec *v)
 	v ->z = 0;
 }
 
+void	vec_fillVec(t_vec *v, double x, double y, double z)
+{
+	v->x = x;
+	v->y = y;
+	v->z = z;
+}
+
 void	vec_ones(t_vec *v)
 {
 	v->x = 1;
