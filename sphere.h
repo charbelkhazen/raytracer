@@ -11,8 +11,8 @@ typedef struct s_sphere
 	double  radius;
 }	t_sph;
 
-void	sph_create(t_sph *sphere, t_vec center, double radius);
+void	sph_fillSph(t_sph *sphere, t_vec center, double radius);
 
-int	sph_hit(t_sph *sphere, t_ray *ray, double t_min, double t_max, t_hitRec *rec)
+int	sph_hit(t_sph *sphere, t_ray *ray, double t_min, double t_max, t_hitRec *rec);
 
 #endif
