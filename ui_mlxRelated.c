@@ -7,8 +7,12 @@
 int	ui_initMlx(ui_mlxParams_t *p, double ratio, int w, char *ttl)
 {
 	int	h;
-
+	
+	std_assert(ratio > 0);
+	std_assert(w > 0);
 	h = (int)(w / ratio);
+	if (h < 1)
+		h = 1;
 	p->mlx = mlx_init();
 	p->width = w;
 	p->height = h;
