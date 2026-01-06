@@ -12,7 +12,7 @@ void	ray_fillRay(t_ray *ray, t_vec orig, t_vec dir)
 	ray->orig = orig;
 	ray->dir = dir;
 }
-
+/*
 int main()
 {
 	t_vec	orig;
@@ -23,3 +23,4 @@ int main()
 	vec_fillVec(&dir, 2, 2, 2);
 	ray_fillRay(&ray, orig, dir);
 }
+*/

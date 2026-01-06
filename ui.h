@@ -14,7 +14,7 @@ typedef struct ui_mlxParams_s
 	int	height;
 }	ui_mlxParams_t;
 
-int	ui_initMlx(ui_mlxParams_t *params, int width, int height, char *title);
+int	ui_initMlx(ui_mlxParams_t *params, double aspectRatio, int width, char *title);
 
 void	ui_buildImg(ui_mlxParams_t* params);
 
