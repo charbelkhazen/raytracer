@@ -26,6 +26,7 @@ static void ui_drawpixel(ui_mlxParams_t *p, t_vec *pixel, int x, int y)
 	*(unsigned int *)(p->buf + y * p->line_len + x * (p->bpp / 8)) = color;
 }
 
+
 void	ui_buildImg(ui_mlxParams_t *p)
 {
 	int	y;
@@ -33,7 +34,7 @@ void	ui_buildImg(ui_mlxParams_t *p)
 	int	height;
 	int	width;
 	t_vec	pixel;
-
+	
 	height = p->height;
 	width = p->width;
 	y = 0;
