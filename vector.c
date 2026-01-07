@@ -45,9 +45,14 @@ void	vec_scale(t_vec *r, double f, t_vec *v)
 	r->z = f * v->z;
 }
 
+double	vec_squaredLen(t_vec *v)
+{
+	return (v->x * v->x + v->y * v->y + v->z * v->z);
+}
+
 double	vec_vectorLen(t_vec *v)
 {
-	return (sqrt(std_pow(v->x, 2) + std_pow(v->y, 2) + std_pow(v->z, 2)));
+	return (sqrt(vec_squaredLen(v)));
 }
 
 void	vec_unitVector(t_vec *res, t_vec *v)
