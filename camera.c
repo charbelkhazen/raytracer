@@ -39,6 +39,7 @@ static void cam_setScreenOrigin(t_cam *cam)
 	t_vec half_v;
 	t_vec tmp;
 
+	vec_fillVec(&cam->center, 0, 0, 0);
 	vec_fillVec(&along_focal, 0, 0, cam->focal_dist);
 	vec_scale(&half_u, 0.5, &cam->screen_u);
 	vec_scale(&half_v, 0.5, &cam->screen_v);
