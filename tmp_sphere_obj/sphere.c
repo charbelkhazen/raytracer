@@ -3,7 +3,14 @@
 #include "stdlib.h"
 #include <math.h>
 
-static double	sph_getDelta(t_sph *sphere, t_ray *ray)
+typedef struct s_sph_quadParams
+{
+	double	a;
+	double	h;
+	double	c;
+}	t_sph_quadParams;
+
+static double	sph_getDelta(t_sph *sphere, t_ray *ray, t_sph_quadParams *params)
 {
 	t_vec	oc;
 	double	a;
