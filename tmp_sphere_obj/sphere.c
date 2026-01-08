@@ -11,14 +11,14 @@ typedef struct s_sph_quadParams
 	double	delta;
 }	t_sph_quadParams;
 
-static void	sph_getDelta(t_sph_quadParams *params, t_sph *sphere, t_ray *ray)
+static void	sph_solveQuadratic(t_sph_quadParams *params, t_sph *sphere, t_ray *ray)
 {
 	t_vec	oc;
 
 	oc = vec_subs(&sphere->center, &ray->orig);
 	params->a = vec_squaredLen(&ray->dir);
 	params->h = vec_dot(&ray->dir, &oc);
-	params->c = vec_vectorLen(&oc) - sphere->radius * sphere->radius;
+	params->c = vec_squaredLen(&oc) - sphere->radius * sphere->radius;
 	params->delta = (params->h * params->h - params->a * params->c);
 }
 
@@ -26,11 +26,13 @@ int	sph_hit(t_sph *sphere, t_ray *ray, double t_min, double t_max, t_hitRec *rec
 {
 	t_sph_quadParams	params;
 	t_vec	normal_non_unit;
+	double	sqrtd;
+	double	root;
 
-	sph_getDelta(&params, sphere, ray);
+	sph_solveQuadratic(&params, sphere, ray);
 	if (params.delta < 0)
 		return (0);
-	sqrtd = sqrt(params.discriminant);
+	sqrtd = sqrt(params.delta);
 	root = (params.h - sqrtd) / params.a;
 	if (root <= t_min || root >= t_max)
 	{
@@ -41,6 +43,6 @@ int	sph_hit(t_sph *sphere, t_ray *ray, double t_min, double t_max, t_hitRec *rec
 	rec->t = root;
 	rec->p = ray_at(ray, root);
 	vec_subs(&normal_non_unit, &rec->p, &sphere->center);
-	vec_scale(&rec->normal, &normal_non_unit, 1 / sphere->radius);
+	vec_scale(&rec->normal, &normal_non_unit, 1.0 / sphere->radius);
 	return (1);
 }
