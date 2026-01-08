@@ -1,6 +1,7 @@
 #include "camera.h"
 #include "vector.h"
 #include "stdlib.h"
+#include "ray.h"
 
 static void	cam_assertion(double img_ratio, int img_width)
 {
@@ -67,3 +68,58 @@ void cam_fillCam(t_cam *cam, double img_ratio, int img_width)
 	cam_setScreenOrigin(cam);
 	cam_setPixel00(cam);
 }
+
+static void	cam_choosePixel(t_vec *pixel, t_cam *cam, int pixel_i, int pixel_j)
+{
+	t_vec	x_pos;
+	t_vec	y_pos;
+	
+	//x_pos = i * pixel_delta_u (same for y_pos with j)
+	vec_scale(&x_pos, (double)pixel_i, &cam->pix_delta_u);
+	vec_scale(&y_pos, (double)pixel_j, &cam->pix_delta_v);
+	//chosen pixel = pix00_loc + x_pos + y_pos (but done in two steps)
+	vec_add(pixel, &x_pos, &y_pos);
+	vec_add(pixel, pixel, &cam->pix00_loc); 
+}
+
+static void	cam_throwRayOnPixel(t_ray *ray, t_vec *chosen_pixel, t_cam *cam)
+{
+	//ray orig = coordinates of camera center
+	vec_fillVec(&ray->orig, cam->center.x, cam->center.y, cam->center.z);
+
+	//ray direction found then normalized
+	vec_subs(&ray->dir, chosen_pixel, &cam->center);
+	vec_unitVector(&ray->dir, &ray->dir);
+}
+
+void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j)
+{
+	t_vec	chosen_pixel;
+
+	cam_choosePixel(&chosen_pixel, cam, pixel_i, pixel_j);
+	cam_throwRayOnPixel(ray, &chosen_pixel, cam);
+}
+
+
+
+
+/*
+temp
+}
+void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j)
+{
+	t_vec	x_pos;
+	t_vec	y_pos;
+	
+	//x_pos = i * pixel_delta_u (same for y_pos with j)
+	vec_scale(&x_pos, (double)pixel_i, &cam->pix_delta_u);
+	vec_scale(&y_pos, (double)pixel_j, &cam->pix_delta_v);
+	//ray dir = pix00_loc + x_pos + y_pos (but done in two steps)
+
+	vec_add(&ray->dir, &x_pos, &y_pos);
+	vec_add(&ray-> dir, &ray->dir, &cam->pix00_loc); 
+
+	//ray orig = coordinates of camera center
+	vec_fillVec(&ray->orig, cam->center.x, cam->center.y, cam->center.z);
+}
+*/
