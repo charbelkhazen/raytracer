@@ -2,6 +2,8 @@
 #include "vector.h"
 #include "stdlib.h"
 #include "ray.h"
+#include "sphere.h"
+#include "object.h"
 
 static void	cam_assertion(double img_ratio, int img_width)
 {
@@ -98,4 +100,16 @@ void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j)
 
 	cam_choosePixel(&chosen_pixel, cam, pixel_i, pixel_j);
 	cam_throwRayOnPixel(ray, &chosen_pixel, cam);
+}
+
+//naive color function - sphere hit other
+//MUST MODIFIED
+void	cam_rayColor(t_vec *color, t_ray *ray, t_sphere *sphere)
+{
+	t_hitRec	rec;
+
+	if (sph_hit(sphere, ray, -9999, 99999, &rec))
+		vec_fillVec(color, 255, 255, 255);
+	else
+		vec_fillVec(color, 0, 0, 0);
 }

@@ -24,6 +24,7 @@ static void	sph_solveQuadratic(t_sph_quadParams *params, t_sph *sphere, t_ray *r
 
 int	sph_hit(t_sph *sphere, t_ray *ray, double t_min, double t_max, t_hitRec *rec)
 {
+//asserts e.g. rec not null...
 	t_sph_quadParams	params;
 	t_vec	normal_non_unit;
 	double	sqrtd;
