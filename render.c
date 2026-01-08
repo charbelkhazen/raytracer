@@ -23,6 +23,32 @@ static void render_drawpixel(ui_mlxParams_t *p, t_vec *pixel, int x, int y)
 	*(unsigned int *)(p->buf + y * p->line_len + x * (p->bpp / 8)) = color;
 }
 
+void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam)
+{
+	int	y;
+	int	x;
+	int	height;
+	int	width;
+	t_vec	pixel;
+	
+	height = p->height;
+	width = p->width;
+	y = 0;
+	while (y < height)
+	{
+		ui_remLinesErrMsg(height - y);
+		x = 0;
+		while (x < width)
+		{
+			vec_fillVec(&pixel, (double)x / (width - 1), (double)y / (height - 1), 0.0); 
+			ui_drawpixel(p, &pixel, x, y);
+			x ++;
+		}
+		y ++;
+	}
+	err_writeStdErr("Done\n", 1);
+}
+/*
 void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
 {
 	int	y;
@@ -61,3 +87,4 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
 	}
 	err_writeStdErr("Done\n", 1);
 }
+*/
