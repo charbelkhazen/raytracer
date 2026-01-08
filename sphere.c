@@ -15,7 +15,7 @@ static void	sph_solveQuadratic(t_sph_quadParams *params, t_sph *sphere, t_ray *r
 {
 	t_vec	oc;
 
-	oc = vec_subs(&sphere->center, &ray->orig);
+	vec_subs(&oc, &sphere->center, &ray->orig);
 	params->a = vec_squaredLen(&ray->dir);
 	params->h = vec_dot(&ray->dir, &oc);
 	params->c = vec_squaredLen(&oc) - sphere->radius * sphere->radius;
@@ -41,8 +41,8 @@ int	sph_hit(t_sph *sphere, t_ray *ray, double t_min, double t_max, t_hitRec *rec
 			return (0);
 	}
 	rec->t = root;
-	rec->p = ray_at(ray, root);
+	ray_at(&rec->p, ray, root);
 	vec_subs(&normal_non_unit, &rec->p, &sphere->center);
-	vec_scale(&rec->normal, &normal_non_unit, 1.0 / sphere->radius);
+	vec_scale(&rec->normal, 1.0 / sphere->radius, &normal_non_unit);
 	return (1);
 }
