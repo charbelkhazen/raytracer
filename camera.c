@@ -99,27 +99,3 @@ void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j)
 	cam_choosePixel(&chosen_pixel, cam, pixel_i, pixel_j);
 	cam_throwRayOnPixel(ray, &chosen_pixel, cam);
 }
-
-
-
-
-/*
-temp
-}
-void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j)
-{
-	t_vec	x_pos;
-	t_vec	y_pos;
-	
-	//x_pos = i * pixel_delta_u (same for y_pos with j)
-	vec_scale(&x_pos, (double)pixel_i, &cam->pix_delta_u);
-	vec_scale(&y_pos, (double)pixel_j, &cam->pix_delta_v);
-	//ray dir = pix00_loc + x_pos + y_pos (but done in two steps)
-
-	vec_add(&ray->dir, &x_pos, &y_pos);
-	vec_add(&ray-> dir, &ray->dir, &cam->pix00_loc); 
-
-	//ray orig = coordinates of camera center
-	vec_fillVec(&ray->orig, cam->center.x, cam->center.y, cam->center.z);
-}
-*/
