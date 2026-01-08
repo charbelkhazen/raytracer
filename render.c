@@ -1,5 +1,7 @@
 #include "ui.h"
 #include "camera.h"
+#include "stdlib.h"
+# include "error.h"
 
 static void render_remLinesErrMsg(int remaining_lines)
 {
@@ -31,17 +33,18 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam)
 	int	width;
 	t_vec	pixel;
 	
+	(void)cam;
 	height = p->height;
 	width = p->width;
 	y = 0;
 	while (y < height)
 	{
-		ui_remLinesErrMsg(height - y);
+		render_remLinesErrMsg(height - y);
 		x = 0;
 		while (x < width)
 		{
 			vec_fillVec(&pixel, (double)x / (width - 1), (double)y / (height - 1), 0.0); 
-			ui_drawpixel(p, &pixel, x, y);
+			render_drawpixel(p, &pixel, x, y);
 			x ++;
 		}
 		y ++;
