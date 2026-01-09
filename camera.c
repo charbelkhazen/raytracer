@@ -23,7 +23,7 @@ static void	cam_setImageDim(t_cam *cam, double img_ratio, int img_width)
 static void	cam_setScreen(t_cam *cam)
 {
 	cam->focal_dist    = 1.0;
-	cam->screen_height = 2.0;
+	cam->screen_height = 2.0; // should be  a param probably
 	cam->screen_width  = cam->screen_height *((double)cam->img_width / cam->img_height);
 	vec_fillVec(&cam->screen_u, cam->screen_width, 0, 0);
 	vec_fillVec(&cam->screen_v, 0, -cam->screen_height, 0);
@@ -47,6 +47,7 @@ static void cam_setScreenOrigin(t_cam *cam)
 	vec_scale(&half_u, 0.5, &cam->screen_u);
 	vec_scale(&half_v, 0.5, &cam->screen_v);
 
+	//screen00_loc = center - (0,0, focal_dist) - 0.5 * (screen_u + screen_v)
 	vec_subs(&tmp, &along_focal, &half_u);
 	vec_subs(&tmp, &tmp, &half_v);
 	vec_subs(&cam->screen00_loc, &cam->center, &tmp);
