@@ -115,3 +115,22 @@ void	std_dtoa(char *arr, double n, int precision)
 	std_itoa(arr + std_strlen(arr), frac);
 	//printf("arr end:%s\n", arr);
 }
+
+int	std_strlcpy(char *dst, const char *src, int size)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = std_strlen(src);
+	if (size > 0)
+	{
+		while (src[i] && i < size - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (len);
+}

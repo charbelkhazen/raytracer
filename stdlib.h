@@ -1,3 +1,6 @@
+#ifndef STDLIB_H
+#define STDLIB_H
+
 int	std_pow(int base, int power);
 
 void	std_assert(int condition);
@@ -15,3 +18,7 @@ int	std_sizeArrayDouble(double double_from_which_you_form_array, int precision);
 void	std_dtoa(char *arr, double n, int precision);
 
 void	std_fillThenNull(char *arr, char c);
+
+int	std_strlcpy(char *dst, const char *src, int size);
+
+#endif

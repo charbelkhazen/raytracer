@@ -1,5 +1,6 @@
 #include "vector.h"
 #include "ray.h"
+#include "stdlib.h"
 
 void	ray_at(t_vec *res, t_ray *ray, double t)
 {
@@ -12,6 +13,19 @@ void	ray_fillRay(t_ray *ray, t_vec orig, t_vec dir)
 	ray->orig = orig;
 	ray->dir = dir;
 }
+
+void	ray_toStr(char	*string, t_ray *ray, int precision)
+{
+	std_assert(precision > 0);
+	std_strlcpy(string, "orig ", 5);
+	vec_toStr(string + std_strlen(string), &ray->orig, 1);
+	std_strlcpy(string, " dir ", 5);
+	vec_toStr(string + std_strlen(string), &ray->dir, 1);
+}
+	
+
+	
+
 /*
 int main()
 {
