@@ -26,7 +26,29 @@ static void render_drawpixel(ui_mlxParams_t *p, t_vec *pixel, int x, int y)
 	*(unsigned int *)(p->buf + y * p->line_len + x * (p->bpp / 8)) = color;
 }
 
-#include <stdio.h>
+//idea
+//throw ray -> using x and y
+//color pixel -> color(ray, world);
+	// color(ray, world) : uses hit, uses list of objects
+//then after finding the color of ray at (x,y):
+//use ui_drawpixel (move it here as a static function) : takes mlx param, pixel color and x and y (all good)
+
+static void	render_throwThenColor(ui_mlxParams_t *p, t_cam *cam, int pixel_i, int pixel_j)
+{
+	t_ray	ray;
+	t_vec	color;
+	t_sph	sphere; //sphere and center sphere should be defined outside and passed as arguments in logic_to_mlx (world)
+	t_vec	center_sphere;
+
+	//temp
+	vec_fillVec(&center_sphere, 0, 0, -10);
+	sph_fillSph(&sphere, center_sphere, 5);
+
+	cam_throwRay(&ray, cam, pixel_i, pixel_j);
+	cam_rayColor(&color, &ray, &sphere); // needs to be modified, here, its naive
+	render_drawpixel(p, &color, pixel_i, pixel_j);
+}
+
 void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
 {
 	int	y;
@@ -43,21 +65,7 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
 		x = 0;
 		while (x < width)
 		{
-			t_ray	ray;
-			cam_throwRay(&ray, cam, x, y);
-			t_vec	color;
-			t_sph sphere;
-			t_vec	center_sphere;
-			vec_fillVec(&center_sphere, 0, 0, -10);
-			sph_fillSph(&sphere, center_sphere, 5);
-			cam_rayColor(&color, &ray, &sphere); // needs to be modified, here, its naive
-			render_drawpixel(p, &color, x, y);
-			//idea
-			//throw ray -> using x and y
-			//color pixel -> color(ray, world);
-				// color(ray, world) : uses hit, uses list of objects
-			//then after finding the color of ray at (x,y):
-			//use ui_drawpixel (move it here as a static function) : takes mlx param, pixel color and x and y (all good)
+			render_throwThenColor(p, cam, x, y);
 			x ++;
 		}
 		y ++;
