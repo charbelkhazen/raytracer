@@ -17,12 +17,11 @@ void	ray_fillRay(t_ray *ray, t_vec orig, t_vec dir)
 void	ray_toStr(char	*string, t_ray *ray, int precision)
 {
 	std_assert(precision > 0);
-	std_strlcpy(string, "orig ", 5);
-	vec_toStr(string + std_strlen(string), &ray->orig, 1);
-	std_strlcpy(string, " dir ", 5);
-	vec_toStr(string + std_strlen(string), &ray->dir, 1);
+	std_strlcpy(string, "orig ", 6);
+	vec_toStr(string + std_strlen(string), &ray->orig, precision);
+	std_strlcpy(string + std_strlen(string), " dir ", 6);
+	vec_toStr(string + std_strlen(string), &ray->dir, precision);
 }
-	
 
 	
 

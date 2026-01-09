@@ -116,6 +116,7 @@ void	std_dtoa(char *arr, double n, int precision)
 	//printf("arr end:%s\n", arr);
 }
 
+//needs assertion...refactor if time
 int	std_strlcpy(char *dst, const char *src, int size)
 {
 	int	i;

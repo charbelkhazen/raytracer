@@ -26,6 +26,7 @@ static void render_drawpixel(ui_mlxParams_t *p, t_vec *pixel, int x, int y)
 	*(unsigned int *)(p->buf + y * p->line_len + x * (p->bpp / 8)) = color;
 }
 
+#include <stdio.h>
 void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
 {
 	int	y;
@@ -33,8 +34,8 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
 	int	height;
 	int	width;
 
-	height = p->height;
-	width = p->width;
+	height = cam->img_height;
+	width = cam->img_width;
 	y = 0;
 	while (y < height)
 	{
@@ -42,16 +43,16 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
 		x = 0;
 		while (x < width)
 		{
-			t_ray	ray;  // either defined above or in a new function with throwRay(...
+			t_ray	ray;
 			cam_throwRay(&ray, cam, x, y);
-			t_vec	color; // !! either defined above or in a new function
-			//sphere: maybe in world and world passed in arg of function
+			t_vec	color;
 			t_sph sphere;
 			t_vec	center_sphere;
 			vec_fillVec(&center_sphere, 0, 0, -1);
 			sph_fillSph(&sphere, center_sphere, 0.5);
 			cam_rayColor(&color, &ray, &sphere); // needs to be modified, here, its naive
 			render_drawpixel(p, &color, x, y);
+			//idea
 			//throw ray -> using x and y
 			//color pixel -> color(ray, world);
 				// color(ray, world) : uses hit, uses list of objects

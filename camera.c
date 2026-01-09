@@ -48,8 +48,8 @@ static void cam_setScreenOrigin(t_cam *cam)
 	vec_scale(&half_v, 0.5, &cam->screen_v);
 
 	//screen00_loc = center - (0,0, focal_dist) - 0.5 * (screen_u + screen_v)
-	vec_subs(&tmp, &along_focal, &half_u);
-	vec_subs(&tmp, &tmp, &half_v);
+	vec_add(&tmp, &along_focal, &half_u);
+	vec_add(&tmp, &tmp, &half_v);
 	vec_subs(&cam->screen00_loc, &cam->center, &tmp);
 }
 
