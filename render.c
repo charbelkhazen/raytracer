@@ -48,8 +48,8 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
 			t_vec	color;
 			t_sph sphere;
 			t_vec	center_sphere;
-			vec_fillVec(&center_sphere, 0, 0, -1);
-			sph_fillSph(&sphere, center_sphere, 0.5);
+			vec_fillVec(&center_sphere, 0, 0, -10);
+			sph_fillSph(&sphere, center_sphere, 5);
 			cam_rayColor(&color, &ray, &sphere); // needs to be modified, here, its naive
 			render_drawpixel(p, &color, x, y);
 			//idea
