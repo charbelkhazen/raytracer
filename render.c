@@ -25,34 +25,6 @@ static void render_drawpixel(ui_mlxParams_t *p, t_vec *pixel, int x, int y)
 	color = (red << 16) | (green << 8) | blue;
 	*(unsigned int *)(p->buf + y * p->line_len + x * (p->bpp / 8)) = color;
 }
-/*
-void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam)
-{
-	int	y;
-	int	x;
-	int	height;
-	int	width;
-	t_vec	pixel;
-	
-	(void)cam;
-	height = p->height;
-	width = p->width;
-	y = 0;
-	while (y < height)
-	{
-		render_remLinesErrMsg(height - y);
-		x = 0;
-		while (x < width)
-		{
-			vec_fillVec(&pixel, (double)x / (width - 1), (double)y / (height - 1), 0.0); 
-			render_drawpixel(p, &pixel, x, y);
-			x ++;
-		}
-		y ++;
-	}
-	err_writeStdErr("Done\n", 1);
-}
-*/
 
 void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
 {
@@ -60,7 +32,7 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
 	int	x;
 	int	height;
 	int	width;
-	
+
 	height = p->height;
 	width = p->width;
 	y = 0;
@@ -76,7 +48,7 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
 			//sphere: maybe in world and world passed in arg of function
 			t_sph sphere;
 			t_vec	center_sphere;
-			vec_fillVec(&center_sphere, 0, 0, -5);
+			vec_fillVec(&center_sphere, 0, 0, -1);
 			sph_fillSph(&sphere, center_sphere, 0.5);
 			cam_rayColor(&color, &ray, &sphere); // needs to be modified, here, its naive
 			render_drawpixel(p, &color, x, y);
