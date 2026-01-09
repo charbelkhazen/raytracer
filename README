@@ -1,0 +1,6 @@
+used:
+variadic functions (stderr)
+modular code (should I .a for each module ?)
+design by contract
+no io or allocation in module - clients responsability
+

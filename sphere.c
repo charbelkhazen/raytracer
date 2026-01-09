@@ -11,6 +11,13 @@ typedef struct s_sph_quadParams
 	double	delta;
 }	t_sph_quadParams;
 
+
+void	sph_fillSph(t_sph *sphere, t_vec center, double radius)
+{
+	sphere->center = center;
+	sphere->radius = radius;
+}
+
 static void	sph_solveQuadratic(t_sph_quadParams *params, t_sph *sphere, t_ray *ray)
 {
 	t_vec	oc;
