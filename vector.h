@@ -12,6 +12,7 @@ void	vec_centerVec(t_vec *vec);
 
 void	vec_fillVec(t_vec *vec, double x, double y, double z);
 
+//vec1 - vec2
 void	vec_subs(t_vec *result, t_vec *vec1, t_vec *vec2);
 
 void	vec_add(t_vec *result, t_vec *vec1, t_vec *vec2);
