@@ -19,3 +19,4 @@ void	univ_clear(t_univ *univ)
 {
 	univ->len=0;
 }
+

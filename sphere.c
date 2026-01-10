@@ -14,6 +14,7 @@ typedef struct s_sph_quadParams
 
 void	sph_fillSph(t_sph *sphere, t_vec center, double radius)
 {
+	sphere->type = 's';
 	sphere->center = center;
 	sphere->radius = radius;
 }
