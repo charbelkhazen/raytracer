@@ -30,5 +30,14 @@ int main()
 	univ_init(&univ, obj_lst, NUM_OBJ);
 
 	univ_add(&univ, (t_obj *)&sphere1);
+	univ_add(&univ, (t_obj *)&sphere2);
 
+	t_ray ray;
+	t_vec ray_dir;
+
+	vec_fillVec(&ray_dir, 1, 1, 1);
+	ray_fillRay(&ray, &origin, &ray_dir);
+	
+	t_hitRec rec; //DOES IT MAKE SENSE TO HAVE REC AS AN INPUT
+	univ_throwRay(&ray, &univ, &rec);
 }
