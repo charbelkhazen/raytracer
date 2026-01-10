@@ -1,6 +1,8 @@
 #ifndef UNIVERSE_H
 #define UNIVERSE_H
 #include "object.h"
+#include "ray.h"
+#include "vector.h"
 
 typedef struct s_universe
 {
@@ -15,5 +17,6 @@ int	univ_add(t_univ *univ, t_obj object);
 
 void	univ_clear(t_univ *univ);
 
+int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec);
 
 #endif
