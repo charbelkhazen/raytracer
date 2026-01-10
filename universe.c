@@ -7,7 +7,7 @@ void	univ_init(t_univ *univ, t_obj *obj_lst, int cap)
 	univ->cap = cap;
 }
 
-int	univ_push(t_univ *univ, t_obj object)
+int	univ_add(t_univ *univ, t_obj object)
 {
 	if (univ->len == univ->cap)
 		return (0);
