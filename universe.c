@@ -1,5 +1,5 @@
 #include "universe.h"
-#include "sphere.c"
+#include "sphere.h"
 #include <stdlib.h> //for exit(139) line 52
 
 void	univ_init(t_univ *univ, t_obj *obj_lst, int cap)

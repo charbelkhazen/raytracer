@@ -26,11 +26,9 @@ int main()
 
 	t_univ	univ;
 	t_obj	obj_lst[NUM_OBJ];
-
-/*
-	univ_init(&univ, obj_lst, NUM_OBJ);
-	univ_push(&univ, obj1);
-	univ_push(&univ, obj2);
-*/
 	
+	univ_init(&univ, obj_lst, NUM_OBJ);
+
+	univ_add(&univ, (t_obj *)&sphere1);
+
 }
