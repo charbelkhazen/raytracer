@@ -10,7 +10,8 @@ typedef struct s_hitRec {
 }	t_hitRec;
 
 typedef struct s_obj {
-	int	type;
-} t_obj;
+	int	obj_type;
+	int	mat_type;
+}	t_obj;
 
 #endif

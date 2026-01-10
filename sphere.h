@@ -6,7 +6,7 @@
 
 typedef struct s_sphere
 {
-	int	type;
+	int	obj_type;
 	t_vec   center;
 	double  radius;
 }	t_sph;
