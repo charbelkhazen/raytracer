@@ -2,10 +2,12 @@
 #define HIT_RECORD_H
 
 #include "vector.h"
+#include "material.h"
 
 typedef struct s_hitRec {
-	t_vec p;
-	t_vec normal;
+	t_vec	p;
+	t_vec	normal; // NEED TO SEE HOW
+	t_mat	material;
 	double t;
 }	t_hitRec;
 
