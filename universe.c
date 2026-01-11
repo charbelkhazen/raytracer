@@ -48,8 +48,7 @@ int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec)
 		{
 			hit = sph_hit((t_sph *)&obj, ray, tmin, tmax, rec);
 			if (hit)
-				if (rec->t < tmax)
-					tmax = rec->t;
+				tmax = rec->t;
 		}
 		else //needs modif, should include cylinder and surface (same as above but with cyl_hit and sur_hit)
 			exit(139); // should never happen, find better way of crashing
