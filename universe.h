@@ -18,6 +18,7 @@ int	univ_add(t_univ *univ, t_obj *object);
 
 void	univ_clear(t_univ *univ);
 
+//change name to hit ? or ishit?
 int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec); //does it make sense to have rec as input here -> review where exactly is rec used. see render
 
 #endif

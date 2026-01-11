@@ -111,6 +111,11 @@ void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j)
 void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ)
 {
 	t_hitRec	rec;
+
+	if (univ_throwRay(ray, univ, &rec)) //assumes tmin/max defined in throwray only
+		vec_fillVec(color, 1.0, 1.0, 1.0);
+	else
+		vec_fillVec(color, 0, 0, 0);
 	/*
 	if (sph_hit(sphere, ray, -9999, 99999, &rec))
 	{
@@ -118,6 +123,6 @@ void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ)
 		vec_fillVec(color, 1.0, 1.0, 1.0);
 	}
 	else
-	*/
 		vec_fillVec(color, 0, 0, 0);
+	*/
 }
