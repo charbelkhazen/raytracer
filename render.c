@@ -48,7 +48,7 @@ static void	render_throwThenColor(ui_mlxParams_t *p, t_cam *cam, t_univ *univ, i
 	//get ray for (i,j)
 	cam_throwRay(&ray, cam, pixel_i, pixel_j);
 	//get color for the ray
-	cam_rayColor(&color, &ray, &sphere); // needs to be modified, here, its naive
+	cam_rayColor(&color, &ray, univ); // needs to be modified, here, its naive
 	render_drawpixel(p, &color, pixel_i, pixel_j);
 }
 

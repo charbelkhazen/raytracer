@@ -3,6 +3,7 @@
 #include "object.h"
 #include "ray.h"
 #include "vector.h"
+#include "universe.h"
 
 typedef struct s_universe
 {
