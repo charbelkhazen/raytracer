@@ -3,6 +3,7 @@
 #include "stdlib.h"
 # include "error.h"
 # include "sphere.h"
+# include "universe.h"
 
 static void render_remLinesErrMsg(int remaining_lines)
 {
@@ -51,7 +52,7 @@ static void	render_throwThenColor(ui_mlxParams_t *p, t_cam *cam, int pixel_i, in
 	render_drawpixel(p, &color, pixel_i, pixel_j);
 }
 
-void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam) //take world also??
+void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam, t_univ *univ) //take world also??
 {
 	int	y;
 	int	x;
