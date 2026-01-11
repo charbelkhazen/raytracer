@@ -29,8 +29,9 @@ int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec)
 	t_obj	obj;
 	int	nobj;
 	int	i;
-	int	tmax;
-	int	tmin;
+	double	tmax;
+	double	tmin;
+	t_hitRec tmp_rec;
 	int	hit;
 
 	nobj = univ->len;
@@ -38,17 +39,20 @@ int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec)
 	hit = 0;
 
 	i = 0;
-	tmin = -999999;// math!
-	tmax = 999999; // math!
+	tmin = -999999;//  WILL MODIFY LATER
+	tmax = 999999; //  WILL MODIFY LATER
 
 	while (i < nobj)
 	{
 		obj = obj_lst[i];	
 		if (obj.obj_type == 's')
 		{
-			hit = sph_hit((t_sph *)&obj, ray, tmin, tmax, rec);
+			hit = sph_hit((t_sph *)&obj, ray, tmin, tmax, &tmp_rec);
 			if (hit)
-				tmax = rec->t;
+			{
+				tmax = tmp_rec.t;
+				*rec = tmp_rec;
+			}
 		}
 		else //needs modif, should include cylinder and surface (same as above but with cyl_hit and sur_hit)
 			exit(139); // should never happen, find better way of crashing
