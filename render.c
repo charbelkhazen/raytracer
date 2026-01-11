@@ -38,12 +38,6 @@ static void	render_throwThenColor(ui_mlxParams_t *p, t_cam *cam, t_univ *univ, i
 {
 	t_ray	ray;
 	t_vec	color;
-	t_sph	sphere; //sphere and center sphere should be defined outside and passed as arguments in logic_to_mlx (world)
-	t_vec	center_sphere;
-
-	//temp
-	vec_fillVec(&center_sphere, 0, 0, -10);
-	sph_fillSph(&sphere, center_sphere, 5);
 
 	//get ray for (i,j)
 	cam_throwRay(&ray, cam, pixel_i, pixel_j);
@@ -52,7 +46,8 @@ static void	render_throwThenColor(ui_mlxParams_t *p, t_cam *cam, t_univ *univ, i
 	render_drawpixel(p, &color, pixel_i, pixel_j);
 }
 
-void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam, t_univ *univ) //take world also??
+//render_throwThenColor needs refactoring
+void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam, t_univ *univ)
 {
 	int	y;
 	int	x;
