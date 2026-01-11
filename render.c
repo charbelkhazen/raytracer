@@ -34,7 +34,7 @@ static void render_drawpixel(ui_mlxParams_t *p, t_vec *pixel, int x, int y)
 //then after finding the color of ray at (x,y):
 //use ui_drawpixel (move it here as a static function) : takes mlx param, pixel color and x and y (all good)
 
-static void	render_throwThenColor(ui_mlxParams_t *p, t_cam *cam, int pixel_i, int pixel_j)
+static void	render_throwThenColor(ui_mlxParams_t *p, t_cam *cam, t_univ *univ, int pixel_i, int pixel_j)
 {
 	t_ray	ray;
 	t_vec	color;
@@ -68,7 +68,7 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam, t_univ *univ) //take world
 		x = 0;
 		while (x < width)
 		{
-			render_throwThenColor(p, cam, x, y);
+			render_throwThenColor(p, cam, univ, x, y);
 			x ++;
 		}
 		y ++;
