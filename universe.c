@@ -45,10 +45,10 @@ int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec)
 	while (i < nobj)
 	{
 		obj = obj_lst[i];	
-		if (obj.obj_type == 's')
+		if (obj.obj_shapeType == 's')
 		{
 			t_sph *sphere;
-			sphere = (t_sph *)&obj;
+			sphere = (sphere *)obj.obj_shapeType;
 			hit = sph_hit(sphere, ray, tmin, tmax, &tmp_rec);
 			if (hit)
 			{
