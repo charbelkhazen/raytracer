@@ -34,7 +34,7 @@ int main(void)
 	t_vec mat_color;
 
 	vec_fillVec(&mat_color, 0, 1, 1); //? 1 or 255??
-	mat_fillMaterial(&mat, 0, mat_color);
+	mat_fillMaterial(&mat, 'm', mat_color);
 
 	t_obj obj1;
 	t_obj obj2;

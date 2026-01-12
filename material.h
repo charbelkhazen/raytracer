@@ -5,7 +5,7 @@
 
 typedef struct s_material
 {
-	char	type;
+	char	type; // why  not int
 	t_vec	color;
 }	t_mat;
 

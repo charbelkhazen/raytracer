@@ -106,6 +106,7 @@ void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j)
 }
 
 //naive color function - sphere hit other
+#include <stdio.h>
 void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ)
 {
 	t_hitRec	rec;
@@ -113,6 +114,7 @@ void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ)
 	if (univ_hit(ray, univ, &rec)) //assumes tmin/max defined in throwray only
 	{
 		//function of rec	
+		printf("rec->type:%c\n", rec.material.type);
 		vec_fillVec(color, 1.0, 1.0, 1.0);
 	}
 	else
