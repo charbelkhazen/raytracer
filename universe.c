@@ -23,7 +23,7 @@ void	univ_clear(t_univ *univ)
 	univ->len=0;
 }
 
-void	obj_apply_material(t_obj *obj, t_hitRec *rec)
+static void	univ_obj_apply_material(t_obj *obj, t_hitRec *rec)
 {
 	if (obj->obj_matType == 'm')
 		rec->material = *(t_mat *)obj->obj_mat;
@@ -31,7 +31,7 @@ void	obj_apply_material(t_obj *obj, t_hitRec *rec)
 		exit(139);
 }
 
-static int	obj_hit_sphere(t_obj *obj, t_ray *ray, t_hitRec *rec, double tmin, double *tmax)
+static int	univ_obj_hit_sphere(t_obj *obj, t_ray *ray, t_hitRec *rec, double tmin, double *tmax)
 {
 	t_sph	*sphere;
 
@@ -39,14 +39,14 @@ static int	obj_hit_sphere(t_obj *obj, t_ray *ray, t_hitRec *rec, double tmin, do
 	if (!sph_hit(sphere, ray, tmin, *tmax, rec))
 		return (0);
 	*tmax = rec->t;
-	obj_apply_material(obj, rec);
+	univ_obj_apply_material(obj, rec);
 	return (1);
 }
 
-static int	obj_try_hit(t_obj *obj, t_ray *ray, t_hitRec *rec, double tmin, double *tmax)
+static int	univ_obj_try_hit(t_obj *obj, t_ray *ray, t_hitRec *rec, double tmin, double *tmax)
 {
 	if (obj->obj_shapeType == 's')
-		return (obj_hit_sphere(obj, ray, rec, tmin, tmax));
+		return (univ_obj_hit_sphere(obj, ray, rec, tmin, tmax));
 	return (0);
 }
 
@@ -59,7 +59,7 @@ static int	univ_iterate_hits(t_ray *ray, t_univ *univ, t_hitRec *rec, double tmi
 	hit = 0;
 	while (i < univ->len)
 	{
-		if (obj_try_hit(&univ->obj_lst[i], ray, rec, tmin, tmax))
+		if (univ_obj_try_hit(&univ->obj_lst[i], ray, rec, tmin, tmax))
 			hit = 1;
 		i++;
 	}
