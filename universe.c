@@ -48,7 +48,7 @@ int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec)
 		if (obj.obj_shapeType == 's')
 		{
 			t_sph *sphere;
-			sphere = (sphere *)obj.obj_shapeType;
+			sphere = (t_sph *) obj.obj_shape;
 			hit = sph_hit(sphere, ray, tmin, tmax, &tmp_rec);
 			if (hit)
 			{
