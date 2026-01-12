@@ -53,7 +53,12 @@ int	univ_hit(t_ray *ray, t_univ *univ, t_hitRec *rec)
 			{
 				hit = 1;
 				tmax = rec->t;
+				if (obj.obj_matType == 'm')
+					rec->material = *(t_mat *) obj.obj_mat;
+				else
+					exit(139);
 			}
+
 		}
 		else //needs modif, should include cylinder and surface (same as above but with cyl_hit and sur_hit)
 			exit(139); // should never happen, find better way of crashing
