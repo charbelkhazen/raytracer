@@ -3,6 +3,7 @@
 
 #include "object.h"
 #include "ray.h"
+#include "intersection.h"
 
 typedef struct s_sphere
 {

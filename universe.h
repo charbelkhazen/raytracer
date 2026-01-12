@@ -4,6 +4,7 @@
 #include "ray.h"
 #include "vector.h"
 #include "universe.h"
+#include "intersection.h"
 
 typedef struct s_universe
 {

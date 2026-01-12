@@ -5,6 +5,7 @@
 #include "sphere.h"
 #include "object.h"
 #include "universe.h"
+#include "intersection.h"
 
 static void	cam_assertion(double img_ratio, int img_width)
 {

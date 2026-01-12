@@ -2,6 +2,7 @@
 #include "ray.h"
 #include "stdlib.h"
 #include <math.h>
+#include "intersection.h"
 
 typedef struct s_sph_quadParams
 {
