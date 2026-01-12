@@ -49,9 +49,9 @@ int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec)
 		{
 			t_sph *sphere;
 			sphere = (t_sph *) obj.obj_shape;
-			hit = sph_hit(sphere, ray, tmin, tmax, &tmp_rec);
-			if (hit)
+			if(sph_hit(sphere, ray, tmin, tmax, &tmp_rec))
 			{
+				hit = 1;
 				tmax = tmp_rec.t;
 				*rec = tmp_rec; //even useful?
 			}
