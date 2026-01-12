@@ -32,7 +32,6 @@ int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec)
 	int	i;
 	double	tmax;
 	double	tmin;
-	t_hitRec tmp_rec;
 	int	hit;
 
 	nobj = univ->len;
@@ -50,11 +49,10 @@ int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec)
 		{
 			t_sph *sphere;
 			sphere = (t_sph *) obj.obj_shape;
-			if(sph_hit(sphere, ray, tmin, tmax, &tmp_rec))
+			if(sph_hit(sphere, ray, tmin, tmax, rec))
 			{
 				hit = 1;
-				tmax = tmp_rec.t;
-				*rec = tmp_rec; //even useful?
+				tmax = rec->t;
 			}
 		}
 		else //needs modif, should include cylinder and surface (same as above but with cyl_hit and sur_hit)
