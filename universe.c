@@ -23,46 +23,55 @@ void	univ_clear(t_univ *univ)
 	univ->len=0;
 }
 
-//refactor
-int	univ_hit(t_ray *ray, t_univ *univ, t_hitRec *rec)
+void	obj_apply_material(t_obj *obj, t_hitRec *rec)
 {
-	t_obj	*obj_lst;
-	t_obj	obj;
-	int	nobj;
+	if (obj->obj_matType == 'm')
+		rec->material = *(t_mat *)obj->obj_mat;
+	else
+		exit(139);
+}
+
+static int	obj_hit_sphere(t_obj *obj, t_ray *ray, t_hitRec *rec, double tmin, double *tmax)
+{
+	t_sph	*sphere;
+
+	sphere = (t_sph *)obj->obj_shape;
+	if (!sph_hit(sphere, ray, tmin, *tmax, rec))
+		return (0);
+	*tmax = rec->t;
+	obj_apply_material(obj, rec);
+	return (1);
+}
+
+static int	obj_try_hit(t_obj *obj, t_ray *ray, t_hitRec *rec, double tmin, double *tmax)
+{
+	if (obj->obj_shapeType == 's')
+		return (obj_hit_sphere(obj, ray, rec, tmin, tmax));
+	return (0);
+}
+
+static int	univ_iterate_hits(t_ray *ray, t_univ *univ, t_hitRec *rec, double tmin, double *tmax)
+{
 	int	i;
-	double	tmax;
-	double	tmin;
 	int	hit;
 
-	nobj = univ->len;
-	obj_lst = univ->obj_lst;
-	hit = 0;
-
 	i = 0;
-	tmin = 0.001; //  WILL MODIFY LATER
-	tmax = 999999; //  WILL MODIFY LATER
-
-	while (i < nobj)
+	hit = 0;
+	while (i < univ->len)
 	{
-		obj = obj_lst[i];	
-		if (obj.obj_shapeType == 's')
-		{
-			t_sph *sphere;
-			sphere = (t_sph *) obj.obj_shape;
-			if(sph_hit(sphere, ray, tmin, tmax, rec))
-			{
-				hit = 1;
-				tmax = rec->t;
-				if (obj.obj_matType == 'm')
-					rec->material = *(t_mat *) obj.obj_mat;
-				else
-					exit(139);
-			}
-
-		}
-		else //needs modif, should include cylinder and surface (same as above but with cyl_hit and sur_hit)
-			exit(139); // should never happen, find better way of crashing
+		if (obj_try_hit(&univ->obj_lst[i], ray, rec, tmin, tmax))
+			hit = 1;
 		i++;
 	}
 	return (hit);
+}
+
+int	univ_hit(t_ray *ray, t_univ *univ, t_hitRec *rec)
+{
+	double	tmin;
+	double	tmax;
+
+	tmin = 0.001;
+	tmax = 1e6;
+	return (univ_iterate_hits(ray, univ, rec, tmin, &tmax));
 }
