@@ -39,7 +39,7 @@ int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec)
 	hit = 0;
 
 	i = 0;
-	tmin = -999999;//  WILL MODIFY LATER
+	tmin = 0.001; //  WILL MODIFY LATER
 	tmax = 999999; //  WILL MODIFY LATER
 
 	while (i < nobj)
@@ -47,11 +47,13 @@ int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec)
 		obj = obj_lst[i];	
 		if (obj.obj_type == 's')
 		{
-			hit = sph_hit((t_sph *)&obj, ray, tmin, tmax, &tmp_rec);
+			t_sph *sphere;
+			sphere = (t_sph *)&obj;
+			hit = sph_hit(sphere, ray, tmin, tmax, &tmp_rec);
 			if (hit)
 			{
 				tmax = tmp_rec.t;
-				*rec = tmp_rec;
+				*rec = tmp_rec; //even useful?
 			}
 		}
 		else //needs modif, should include cylinder and surface (same as above but with cyl_hit and sur_hit)

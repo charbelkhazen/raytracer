@@ -20,14 +20,14 @@ int main(void)
 	t_sph sphere1;
 	t_vec	center1;
 
-	vec_fillVec(&center1, 10, 10, 10);
-	sph_fillSph(&sphere1, center1, 0.5);
+	vec_fillVec(&center1, 0, 0, -5);
+	sph_fillSph(&sphere1, center1, 1);
 
 	t_sph sphere2;
 	t_vec	center2;
 
-	vec_fillVec(&center2, 30, 30, 30);
-	sph_fillSph(&sphere2, center2, 1);
+	vec_fillVec(&center2, 2, 0, -8);
+	sph_fillSph(&sphere2, center2, 2);
 
 	t_univ	univ;
 	t_obj	obj_lst[NUM_OBJ];
