@@ -1,26 +1,2 @@
-I would like to define a material independtly of shape
-so that material would be assigned to more than one shape 
-e.g. matte blue to cyclinder and to sphere and metalic green to sphere and plane
-
--> t_mat and t_shape objects 
-
-I cannot use casting method for inheritence
-
-bcz ill end up with something like this
-
-typedef struct s_obj
-{
-  int obj_shape;
-  int obj_material;
-} t_obj;
-
-while:
-
-typedef struct s_sphere
-{
-  int obj_type;
-  t_vec center;
-  double radius
-} t_sphere;
-
-here t_sphere does not contain int obj_material -> its pointer cannot be correctly casted to obj
+in main : CORRECT THE OJBECT CREATING AND OBJECT LIST CREATIon
+!!when adding , are you adding to universe cpies or original

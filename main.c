@@ -9,6 +9,7 @@
 #include "object.h"
 # include "vector.h"
 #include "sphere.h"
+#include "material.h"
 
 int main(void)
 {
@@ -28,14 +29,26 @@ int main(void)
 
 	vec_fillVec(&center2, 2, 0, -8);
 	sph_fillSph(&sphere2, center2, 2);
+	
+	t_mat mat;
+	t_vec mat_color;
+
+	vec_fillVec(&mat_color, 0, 1, 1); //? 1 or 255??
+	mat_fillMaterial(&mat, 0, 0);
+
+	t_obj obj1;
+	t_obj obj2;
+
+	obj_fillObj(&obj1, 's', (void *)&sphere1, 'm', (void *)&mat);
+	obj_fillObj(&obj2, 's', (void *)&sphere2, 'm', (void *)&mat);
 
 	t_univ	univ;
 	t_obj	obj_lst[NUM_OBJ];
 	
 	univ_init(&univ, obj_lst, NUM_OBJ);
 
-	univ_add(&univ, (t_obj *)&sphere1);
-	univ_add(&univ, (t_obj *)&sphere2);
+	univ_add(&univ, &obj1);
+	univ_add(&univ, &obj2);
 
 	/*setting cam and mlx, calling render*/
 	double img_ratio;

@@ -14,6 +14,7 @@ typedef struct s_universe
 
 void	univ_init(t_univ *univ, t_obj *empty_lst_objects, int lst_capacity);
 
+//cpies Or orig?
 int	univ_add(t_univ *univ, t_obj *object);
 
 void	univ_clear(t_univ *univ);
