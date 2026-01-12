@@ -106,9 +106,6 @@ void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j)
 }
 
 //naive color function - sphere hit other
-//MUST MODIFIED
-#include <unistd.h>
-#include <stdio.h>
 void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ)
 {
 	t_hitRec	rec;
@@ -120,13 +117,4 @@ void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ)
 	}
 	else
 		vec_fillVec(color, 0, 0, 0);
-	/*
-	if (sph_hit(sphere, ray, -9999, 99999, &rec))
-	{
-		write(2, "ok\n", 3);
-		vec_fillVec(color, 1.0, 1.0, 1.0);
-	}
-	else
-		vec_fillVec(color, 0, 0, 0);
-	*/
 }
