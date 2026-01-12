@@ -24,7 +24,7 @@ void	univ_clear(t_univ *univ)
 }
 
 //refactor
-int	univ_throwRay(t_ray *ray, t_univ *univ, t_hitRec *rec)
+int	univ_hit(t_ray *ray, t_univ *univ, t_hitRec *rec)
 {
 	t_obj	*obj_lst;
 	t_obj	obj;
