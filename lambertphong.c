@@ -14,7 +14,7 @@ int	lp_attenuationFactor(t_ray ray_to_light, t_univ univ)
 	return (1);
 }
 
-void	lp_specular(t_vec *color, t_ray ray, t_hitRec rec, t_light light, t_univ univ)
+void	lp_specular(t_vec *color, t_ray ray, t_hitRec rec, t_light light, t_ray rayToLight)
 {
 	//Blinn-Phong reflection
 	t_vec	halfwayVector;
@@ -22,17 +22,18 @@ void	lp_specular(t_vec *color, t_ray ray, t_hitRec rec, t_light light, t_univ un
 	t_vec	white_color;
 	double	shininess;
 
-	shininess = 1.0; // MUST BE PASSED AS PARAMETER ULTIMATELY
+	shininess = 20.0; // MUST BE PASSED AS PARAMETER ULTIMATELY
 
-	vec_subs(&halfwayVector, &light.src, &ray.dir);
+	vec_subs(&halfwayVector, &rayToLight.dir, &ray.dir);
 	vec_unitVector(&halfwayVector, &halfwayVector);
 
 	vec_fillVec(&white_color, 1, 1, 1);
-	color_scalar = pow(vec_dot(&halfwayVector, &rec.normal), shininess) * light.bright;
+	color_scalar = pow(fmax(vec_dot(&halfwayVector, &rec.normal), 0.0), shininess) * light.bright;
 	vec_scale(color, color_scalar, &white_color); 
 }
 
 //add to it ambient effect
+//you can remove univ when isolating into lambert and phong , then use it only when you combine them
 void	lp_shade(t_vec *color, t_hitRec rec, t_light light, t_univ univ)
 {
 	t_ray	rayToLight;
