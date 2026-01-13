@@ -1,7 +1,3 @@
-in main : CORRECT THE OJBECT CREATING AND OBJECT LIST CREATIon
-!!when adding , are you adding to universe cpies or original
+need to add a new struct containing : light + universe . param_struct
 
-
-ADD REFACTORED VERSION
-rendering should show material
-implement light
+make normal vector well behaved
