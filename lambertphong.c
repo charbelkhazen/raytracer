@@ -66,7 +66,7 @@ void	lp_shade(t_vec *color, t_hitRec rec, t_light light, t_univ univ, t_ray ray)
 
 	lp_lambert(&lambert_color, rec, light, rayToLight);
 
-	lp_specular(&specular_color, ray, rec, light, rayToLight);
-	vec_add(color, &specular_color, &lambert_color);
-	vec_scale(color, att_factor, color);
+	//lp_specular(&specular_color, ray, rec, light, rayToLight);
+	//vec_add(color, &specular_color, &lambert_color);
+	vec_scale(color, att_factor, &lambert_color);
 }
