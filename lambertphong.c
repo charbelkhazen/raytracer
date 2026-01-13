@@ -3,6 +3,7 @@
 # include "intersection.h"
 # include "light.h"
 # include <math.h>
+# include "ambientlight.h"
 
 //very naive : assumes all objects are opaque !!
 int	lp_attenuationFactor(t_ray ray_to_light, t_univ univ)
@@ -54,6 +55,17 @@ void	lp_lambert(t_vec *color, t_hitRec rec, t_light light, t_ray rayToLight)
 	vec_scale(color, color_scalar, &obj_color);
 }
 
+static void lp_capColorToOne(t_vec *color)
+{
+	if (color->x > 1)
+		color->x = 1;
+	if (color->y > 1)
+		color->y = 1;
+	if (color->z > 1)
+		color->z = 1;
+
+}
+
 void	lp_shade(t_vec *color, t_hitRec rec, t_light light, t_univ univ, t_ray ray)
 {
 	t_ray	rayToLight;
@@ -69,10 +81,14 @@ void	lp_shade(t_vec *color, t_hitRec rec, t_light light, t_univ univ, t_ray ray)
 	lp_specular(&specular_color, ray, rec, light, rayToLight);
 	vec_add(color, &specular_color, &lambert_color);
 	vec_scale(color, att_factor, color);
-	if (color->x > 1)
-		color->x = 1;
-	if (color->y > 1)
-		color->y = 1;
-	if (color->z > 1)
-		color->z = 1;
+
+	lp_capColorToOne(color);
+/*
+	t_ambientLight alight;
+	t_vec	alight_color;
+	
+	vec_fillVec(&alight_color, 1, 1, 1);
+	al_fill(&alight, 0.5, alight_color);
+	vec_add(color, color, &alight.alight_color);
+*/
 }

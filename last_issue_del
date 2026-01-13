@@ -1,10 +1,9 @@
 need to add a new struct containing : light + universe . param_struct
 
-make normal vector well behaved
-
-
 - MUST ADD AMBIENT LIGHT
 
 - CAN USE LIGHT COLOR -> in lambert and phong I : which used to be double 0,1 will now be a vector (rgb) 
 
 - UNDERSTAND PLANE IN SUBJECT
+
+- understand space 
