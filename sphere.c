@@ -3,6 +3,7 @@
 #include "stdlib.h"
 #include <math.h>
 #include "intersection.h"
+# include "vector.h"
 
 typedef struct s_sph_quadParams
 {
@@ -31,6 +32,13 @@ static void	sph_solveQuadratic(t_sph_quadParams *params, t_sph *sphere, t_ray *r
 	params->delta = (params->h * params->h - params->a * params->c);
 }
 
+//ray can start inside the sphere -> normal can point inside the sphere. This function checks and solves this issue
+static	void	sph_normalPointOut(t_vec *normal, t_ray *ray)
+{
+	if (vec_dot(normal, &ray->dir) > 0)
+		vec_scale(normal, -1, normal);
+}
+
 int	sph_hit(t_sph *sphere, t_ray *ray, double t_min, double t_max, t_hitRec *rec)
 {
 	//asserts e.g. rec not null...
@@ -54,5 +62,6 @@ int	sph_hit(t_sph *sphere, t_ray *ray, double t_min, double t_max, t_hitRec *rec
 	ray_at(&rec->p, ray, root);
 	vec_subs(&normal_non_unit, &rec->p, &sphere->center);
 	vec_scale(&rec->normal, 1.0 / sphere->radius, &normal_non_unit);
+	sph_normalPointOut(&rec->normal, ray);
 	return (1);
 }
