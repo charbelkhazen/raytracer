@@ -8,3 +8,10 @@ void	light_rayToLight(t_ray *ray, t_vec *point, t_vec *src)
 	vec_subs(&ray->dir, src, point);
 	vec_unitVector(&ray->dir, &ray->dir);
 }
+
+void	light_fill(t_light *light, t_vec src, t_vec color, double brightness)
+{
+	light->src = src;
+	light->color = color;
+	light->bright = brightness;
+}

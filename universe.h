@@ -6,7 +6,7 @@
 #include "universe.h"
 #include "intersection.h"
 
-typedef struct s_universe
+typedef struct s_univ
 {
 	t_obj	*obj_lst; //if requires alloc, refactor to univ[100]
 	int	len;

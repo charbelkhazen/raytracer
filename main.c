@@ -10,6 +10,7 @@
 # include "vector.h"
 #include "sphere.h"
 #include "material.h"
+#include "light.h"
 
 int main(void)
 {
@@ -49,6 +50,15 @@ int main(void)
 
 	univ_add(&univ, &obj1);
 	univ_add(&univ, &obj2);
+
+	t_light	light;
+	t_vec	lightcoord;
+	t_vec	lightcol;
+
+	vec_fillVec(&lightcoord, 8, 15, -1);
+	vec_fillVec(&lightcol, 1, 1, 1);
+	light_fill(&light, lightcoord, lightcol, 1);
+
 
 	/*setting cam and mlx, calling render*/
 	double img_ratio;

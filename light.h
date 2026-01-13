@@ -10,6 +10,8 @@ typedef struct s_light
 	double	bright;
 }	t_light;
 
+void	light_fill(t_light *light, t_vec src, t_vec color, double brightness);
+
 //normalized
 void	light_rayToLight(t_ray	*ray, t_vec *point, t_vec *light_src);
 
