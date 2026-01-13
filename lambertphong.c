@@ -13,13 +13,13 @@ int	lp_attenuationFactor(t_ray ray_to_light, t_univ univ)
 	return (0);
 }
 
-void	lp_shade(t_vec *color, t_hitRec rec, t_ray ray, t_light light)
+void	lp_shade(t_vec *color, t_hitRec rec, t_ray ray, t_light light, t_univ univ)
 {
 	t_ray	rayToLight;
 	int	att_factor;
 
 	light_rayToLight(&rayToLight, &rec.p, &light.src);
-	att_factor = lp_attenuationFactor(ray, rayToLight);
+	att_factor = lp_attenuationFactor(rayToLight, univ);
 	
 	t_vec	obj_color;
 	t_vec	normal;
@@ -32,8 +32,8 @@ void	lp_shade(t_vec *color, t_hitRec rec, t_ray ray, t_light light)
 
 	double color_scalar;
 
-	color_scalar = light_brightness * vec_dot(&normal, &rayToLight);
+	color_scalar = light_brightness * vec_dot(&normal, &rayToLight.dir);
 	vec_scale(color, color_scalar, &obj_color);
-	vec_scale(color, att_factor, &color);
+	vec_scale(color, att_factor, color);
 }
 
