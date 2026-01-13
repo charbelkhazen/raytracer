@@ -6,6 +6,7 @@
 #include "object.h"
 #include "universe.h"
 #include "intersection.h"
+#include "lambertphong.h"
 
 static void	cam_assertion(double img_ratio, int img_width)
 {
@@ -114,12 +115,8 @@ void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ, t_light *light)
 	if (univ_hit(ray, univ, &rec)) //assumes tmin/max defined in throwray only
 	{
 		//*color = rec.material.color;
-		*color = rec.normal;
-		/*
-	//function of rec	
-		printf("rec->type:%c\n", rec.material.type);
-		vec_fillVec(color, 1.0, 1.0, 1.0);
-		*/
+		//*color = rec.normal;
+		lp_shade(color, rec, *light, *univ);
 	}
 	else
 		vec_fillVec(color, 0, 0, 0);

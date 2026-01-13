@@ -13,7 +13,7 @@ int	lp_attenuationFactor(t_ray ray_to_light, t_univ univ)
 	return (1);
 }
 
-void	lp_shade(t_vec *color, t_hitRec rec, t_ray ray, t_light light, t_univ univ)
+void	lp_shade(t_vec *color, t_hitRec rec, t_light light, t_univ univ)
 {
 	t_ray	rayToLight;
 	int	att_factor;
