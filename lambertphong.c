@@ -9,8 +9,8 @@ int	lp_attenuationFactor(t_ray ray_to_light, t_univ univ)
 	t_hitRec	rec;
 
 	if (univ_hit(&ray_to_light, &univ, &rec))
-		return (1);
-	return (0);
+		return (0);
+	return (1);
 }
 
 void	lp_shade(t_vec *color, t_hitRec rec, t_ray ray, t_light light, t_univ univ)
@@ -33,6 +33,9 @@ void	lp_shade(t_vec *color, t_hitRec rec, t_ray ray, t_light light, t_univ univ)
 	double color_scalar;
 
 	color_scalar = light_brightness * vec_dot(&normal, &rayToLight.dir);
+	//light behind surface or brightness negative
+	if (color_scalar < 0)
+		color_scalar = 0;
 	vec_scale(color, color_scalar, &obj_color);
 	vec_scale(color, att_factor, color);
 }
