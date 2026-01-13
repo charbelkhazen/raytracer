@@ -116,7 +116,7 @@ void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ, t_light *light)
 	{
 		//*color = rec.material.color;
 		//*color = rec.normal;
-		lp_shade(color, rec, *light, *univ);
+		lp_shade(color, rec, *light, *univ, *ray);
 	}
 	else
 		vec_fillVec(color, 0, 0, 0);

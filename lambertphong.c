@@ -34,29 +34,39 @@ void	lp_specular(t_vec *color, t_ray ray, t_hitRec rec, t_light light, t_ray ray
 
 //add to it ambient effect
 //you can remove univ when isolating into lambert and phong , then use it only when you combine them
-void	lp_shade(t_vec *color, t_hitRec rec, t_light light, t_univ univ)
+void	lp_lambert(t_vec *color, t_hitRec rec, t_light light, t_ray rayToLight)
 {
-	t_ray	rayToLight;
-	int	att_factor;
-
-	light_rayToLight(&rayToLight, &rec.p, &light.src);
-	att_factor = lp_attenuationFactor(rayToLight, univ);
-	
 	t_vec	obj_color;
 	t_vec	normal;
 	double	light_brightness;
+	double color_scalar;
 	
 	
 	obj_color = rec.material.color;
 	normal = rec.normal;
 	light_brightness = light.bright;
 
-	double color_scalar;
 
 	color_scalar = light_brightness * vec_dot(&normal, &rayToLight.dir);
 	//light behind surface or brightness negative
 	if (color_scalar < 0)
 		color_scalar = 0;
 	vec_scale(color, color_scalar, &obj_color);
+}
+
+void	lp_shade(t_vec *color, t_hitRec rec, t_light light, t_univ univ, t_ray ray)
+{
+	t_ray	rayToLight;
+	int	att_factor;
+	t_vec	specular_color;
+	t_vec	lambert_color;
+
+	light_rayToLight(&rayToLight, &rec.p, &light.src);
+	att_factor = lp_attenuationFactor(rayToLight, univ);
+
+	lp_lambert(&lambert_color, rec, light, rayToLight);
+
+	lp_specular(&specular_color, ray, rec, light, rayToLight);
+	vec_add(color, &specular_color, &lambert_color);
 	vec_scale(color, att_factor, color);
 }
