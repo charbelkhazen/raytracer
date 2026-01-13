@@ -3,6 +3,7 @@
 # include "intersection.h"
 # include "light.h"
 # include <math.h>
+
 //very naive : assumes all objects are opaque !!
 int	lp_attenuationFactor(t_ray ray_to_light, t_univ univ)
 {
@@ -23,11 +24,11 @@ void	lp_specular(t_vec *color, t_ray ray, t_hitRec rec, t_light light, t_univ un
 
 	shininess = 1.0; // MUST BE PASSED AS PARAMETER ULTIMATELY
 
-	vec_subs(&halfwayVector, &light->src, &ray->dir);
+	vec_subs(&halfwayVector, &light.src, &ray.dir);
 	vec_unitVector(&halfwayVector, &halfwayVector);
 
 	vec_fillVec(&white_color, 1, 1, 1);
-	color_scalar = power(vec_dot(&halfwayVector, &rec.normal), shininess) * light.bright;
+	color_scalar = pow(vec_dot(&halfwayVector, &rec.normal), shininess) * light.bright;
 	vec_scale(color, color_scalar, &white_color); 
 }
 
