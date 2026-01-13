@@ -83,12 +83,16 @@ void	lp_shade(t_vec *color, t_hitRec rec, t_light light, t_univ univ, t_ray ray)
 	vec_scale(color, att_factor, color);
 
 	lp_capColorToOne(color);
-/*
+
 	t_ambientLight alight;
 	t_vec	alight_color;
 	
 	vec_fillVec(&alight_color, 1, 1, 1);
-	al_fill(&alight, 0.5, alight_color);
-	vec_add(color, color, &alight.alight_color);
-*/
+	al_fill(&alight, 0.1, alight_color);
+
+	t_vec ambient_color;
+
+	vec_scale(&ambient_color, alight.ratio, &(alight.color));
+	vec_add(color, color, &ambient_color);
+	lp_capColorToOne(color);
 }
