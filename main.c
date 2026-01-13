@@ -55,7 +55,7 @@ int main(void)
 	t_vec	lightcoord;
 	t_vec	lightcol;
 
-	vec_fillVec(&lightcoord, 8, 15, -1);
+	vec_fillVec(&lightcoord, 8, 5, -1);
 	vec_fillVec(&lightcol, 1, 1, 1);
 	light_fill(&light, lightcoord, lightcol, 1);
 
