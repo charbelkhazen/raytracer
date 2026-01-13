@@ -7,6 +7,7 @@ typedef struct s_light
 {
 	t_vec	src;
 	t_vec	color;
+	double	bright;
 }	t_light;
 
 //normalized
