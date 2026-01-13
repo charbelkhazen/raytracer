@@ -113,9 +113,12 @@ void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ)
 
 	if (univ_hit(ray, univ, &rec)) //assumes tmin/max defined in throwray only
 	{
-		//function of rec	
+		*color = rec.material.color;
+		/*
+	//function of rec	
 		printf("rec->type:%c\n", rec.material.type);
 		vec_fillVec(color, 1.0, 1.0, 1.0);
+		*/
 	}
 	else
 		vec_fillVec(color, 0, 0, 0);

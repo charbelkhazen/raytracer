@@ -33,7 +33,7 @@ int main(void)
 	t_mat mat;
 	t_vec mat_color;
 
-	vec_fillVec(&mat_color, 0, 1, 1); //? 1 or 255??
+	vec_fillVec(&mat_color, 1, 1, 0); //? 1 or 255??
 	mat_fillMaterial(&mat, 'm', mat_color);
 
 	t_obj obj1;
