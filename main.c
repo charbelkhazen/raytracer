@@ -74,7 +74,7 @@ int main(void)
 
 	cam_fillCam(&cam, img_ratio, img_width);
 
-	render_logicToMlx(&mlx_params, &cam, &univ);
+	render_logicToMlx(&mlx_params, &cam, &univ, &light);
 
 	ui_mlxRender(&mlx_params);
 

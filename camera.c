@@ -107,7 +107,7 @@ void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j)
 
 //naive color function - sphere hit other
 #include <stdio.h>
-void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ)
+void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ, t_light *light)
 {
 	t_hitRec	rec;
 

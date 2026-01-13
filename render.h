@@ -4,6 +4,8 @@
 #include "ui.h"
 #include "camera.h"
 #include "universe.h"
+#include "light.h"
 
-void	render_logicToMlx(ui_mlxParams_t *params, t_cam *camera, t_univ *universe);
+void	render_logicToMlx(ui_mlxParams_t *params, t_cam *camera, t_univ *universe, t_light *light);
+
 #endif
