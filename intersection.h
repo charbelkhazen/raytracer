@@ -8,7 +8,7 @@ typedef struct s_hitRec { //seperate it  (other module - intersection != object 
 	t_vec	p;
 	t_vec	normal; // NEED TO SEE HOW
 	t_mat	material;
-	double t;
+	double	t;
 }	t_hitRec;
 
 #endif
