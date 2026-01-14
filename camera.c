@@ -31,7 +31,7 @@ static void	cam_setScreen(t_cam *cam, double hfov)
 	double	h;
 
 	cam->focal_dist    = 1.0;
-	//cam->screen_height = 2.0; // should be  a param probably
+
 	theta = hfov * M_PI / 180.0;
 	h = tan(theta / 2.0);
 	cam->screen_width = h * cam->focal_dist * 2;
