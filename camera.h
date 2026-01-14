@@ -14,6 +14,9 @@ typedef struct s_cam
 	int	img_width;
 	int	img_height;
 	double	hfov;
+	t_vec	lookfrom;
+	t_vec	lookat;
+	t_vec	vup; //vector that defines x and y on plane orth. to lookat dir
 	double	screen_height;
 	double	screen_width;
 	t_vec	screen_u;
