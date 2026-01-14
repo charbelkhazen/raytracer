@@ -29,9 +29,10 @@ typedef struct s_cam
 {
 	t_vec	center;
 	double	focal_dist;
-	double	img_ratio;
-	int	img_width;
-	int	img_height;
+	//double	img_ratio;
+	//int	img_width;
+	//int	img_height;
+	t_img	img;
 	t_viewer view;
 	double	screen_height;
 	double	screen_width;

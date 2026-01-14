@@ -26,11 +26,11 @@ static void	cam_assertion(double img_ratio, int img_width)
 
 static void	cam_setImageDim(t_cam *cam, double img_ratio, int img_width)
 {
-	cam->img_ratio  = img_ratio;
-	cam->img_width  = img_width;
-	cam->img_height = (int)((double)img_width / img_ratio);
-	if (cam->img_height < 1)
-		cam->img_height = 1;
+	cam->img.img_ratio  = img_ratio;
+	cam->img.img_width  = img_width;
+	cam->img.img_height = (int)((double)img_width / img_ratio);
+	if (cam->img.img_height < 1)
+		cam->img.img_height = 1;
 }
 
 static void	cam_setScreen(t_cam *cam, double hfov)
@@ -43,15 +43,15 @@ static void	cam_setScreen(t_cam *cam, double hfov)
 	theta = hfov * M_PI / 180.0;
 	h = tan(theta / 2.0);
 	cam->screen_width = h * cam->focal_dist * 2;
-	cam->screen_height  = cam->screen_width *((double)cam->img_height / cam->img_width);
+	cam->screen_height  = cam->screen_width *((double)cam->img.img_height / cam->img.img_width);
 	vec_fillVec(&cam->screen_u, cam->screen_width, 0, 0);
 	vec_fillVec(&cam->screen_v, 0, -cam->screen_height, 0);
 }
 
 static void cam_setPixelDeltas(t_cam *cam)
 {
-	vec_scale(&cam->pix_delta_u, 1.0 / cam->img_width,  &cam->screen_u);
-	vec_scale(&cam->pix_delta_v, 1.0 / cam->img_height, &cam->screen_v);
+	vec_scale(&cam->pix_delta_u, 1.0 / cam->img.img_width,  &cam->screen_u);
+	vec_scale(&cam->pix_delta_v, 1.0 / cam->img.img_height, &cam->screen_v);
 }
 
 static void cam_setScreenOrigin(t_cam *cam)

@@ -54,8 +54,8 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam, t_univ *univ, t_light *lig
 	int	height;
 	int	width;
 
-	height = cam->img_height;
-	width = cam->img_width;
+	height = cam->img.img_height;
+	width = cam->img.img_width;
 	y = 0;
 	while (y < height)
 	{
