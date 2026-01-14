@@ -7,6 +7,7 @@
 #include "universe.h"
 #include "intersection.h"
 #include "lambertphong.h"
+# include <math.h>
 
 static void	cam_assertion(double img_ratio, int img_width)
 {
@@ -23,11 +24,17 @@ static void	cam_setImageDim(t_cam *cam, double img_ratio, int img_width)
 		cam->img_height = 1;
 }
 
-static void	cam_setScreen(t_cam *cam)
+static void	cam_setScreen(t_cam *cam, double hfov)
 {
+	double	theta;
+	double	h;
+
 	cam->focal_dist    = 1.0;
-	cam->screen_height = 2.0; // should be  a param probably
-	cam->screen_width  = cam->screen_height *((double)cam->img_width / cam->img_height);
+	//cam->screen_height = 2.0; // should be  a param probably
+	theta = hfov * M_PI / 180.0;
+	h = tan(theta / 2.0);
+	cam->screen_width = h * cam->focal_dist * 2;
+	cam->screen_height  = cam->screen_width *((double)cam->img_height / cam->img_width);
 	vec_fillVec(&cam->screen_u, cam->screen_width, 0, 0);
 	vec_fillVec(&cam->screen_v, 0, -cam->screen_height, 0);
 }
@@ -69,7 +76,7 @@ void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, double hfov)
 {
 	cam_assertion(img_ratio, img_width);
 	cam_setImageDim(cam, img_ratio, img_width);
-	cam_setScreen(cam);
+	cam_setScreen(cam, hfov);
 	cam_setPixelDeltas(cam);
 	cam_setScreenOrigin(cam);
 	cam_setPixel00(cam);

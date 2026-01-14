@@ -78,6 +78,7 @@ int main(void)
 
 	img_ratio = 16.0 / 9.0;
 	img_width = 900;
+	hfov = 90.0;
 
 	if (ui_initMlx(&mlx_params, img_ratio, img_width, "MiniRT"))
         	return err_msgReturnOne("MLX init failed");
