@@ -33,19 +33,37 @@ static void	cam_setImageDim(t_cam *cam, double img_ratio, int img_width)
 		cam->img.img_height = 1;
 }
 
-static void	cam_setScreen(t_cam *cam, double hfov)
+static void	cam_setScreen(t_cam *cam, t_viewer view)
 {
 	double	theta;
 	double	h;
+	double	focal_dist;
+	t_vec	lookfrom_to_lookat;
 
-	cam->focal_dist    = 1.0;
+	//cam->focal_dist    = 1.0;
+	vec_subs(&lookfrom_to_lookat, &view.lookfrom, &view.lookat); 
+	focal_dist = vec_vectorLen(&lookfrom_to_lookat);
 
-	theta = hfov * M_PI / 180.0;
+	theta = view.hfov * M_PI / 180.0;
 	h = tan(theta / 2.0);
-	cam->geom.screen_width = h * cam->focal_dist * 2;
+	
+	cam->geom.screen_width = h * focal_dist * 2;
 	cam->geom.screen_height  = cam->geom.screen_width *((double)cam->img.img_height / cam->img.img_width);
-	vec_fillVec(&cam->geom.screen_u, cam->geom.screen_width, 0, 0);
-	vec_fillVec(&cam->geom.screen_v, 0, -cam->geom.screen_height, 0);
+
+	//calculate u, v ,w unit basis
+	t_vec	w;
+	t_vec	u;
+	t_vec	v;
+
+	vec_unitVector(&w, &lookfrom_to_lookat);
+
+	vec_cross(&u, &view.vup, &w);
+	vec_unitVector(&u, &u);
+
+	vec_cross(&v, &w, &u);
+	//Calculate the vectors across the horizontal and down the vertical viewport edges.
+	vec_scale(&cam->geom.screen_u, cam->geom.screen_width, &u);
+	vec_scale(&cam->geom.screen_v, -cam->geom.screen_height, &v);
 }
 
 static void cam_setPixelDeltas(t_cam *cam)
@@ -54,22 +72,33 @@ static void cam_setPixelDeltas(t_cam *cam)
 	vec_scale(&cam->geom.pix_delta_v, 1.0 / cam->img.img_height, &cam->geom.screen_v);
 }
 
-static void cam_setScreenOrigin(t_cam *cam)
+static void cam_setScreenOrigin(t_cam *cam, t_viewer view)
 {
 	t_vec along_focal;
 	t_vec half_u;
 	t_vec half_v;
 	t_vec tmp;
 
-	vec_fillVec(&cam->center, 0, 0, 0);
-	vec_fillVec(&along_focal, 0, 0, cam->focal_dist);
+	/*this is repetitive - I am getting the focal dist and u v w should be refactored */
+	t_vec	lookfrom_to_lookat;
+	double	focal_dist;
+	vec_subs(&lookfrom_to_lookat, &view.lookfrom, &view.lookat); 
+	focal_dist = vec_vectorLen(&lookfrom_to_lookat);
+
+	//calculate w unit basis
+	t_vec	w;
+
+	vec_unitVector(&w, &lookfrom_to_lookat);
+	/*will delete upper part*/
+
+	vec_scale(&along_focal, focal_dist, &w);
 	vec_scale(&half_u, 0.5, &cam->geom.screen_u);
 	vec_scale(&half_v, 0.5, &cam->geom.screen_v);
 
-	//screen00_loc = center - (0,0, focal_dist) - 0.5 * (screen_u + screen_v)
+	//screen00_loc = center - focal_distance * w - 0.5 * (screen_u + screen_v)
 	vec_add(&tmp, &along_focal, &half_u);
 	vec_add(&tmp, &tmp, &half_v);
-	vec_subs(&cam->geom.screen00_loc, &cam->center, &tmp);
+	vec_subs(&cam->geom.screen00_loc, &view.lookfrom, &tmp);
 }
 
 static void cam_setPixel00(t_cam *cam)
@@ -84,10 +113,11 @@ static void cam_setPixel00(t_cam *cam)
 void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, t_viewer view)
 {
 	cam_assertion(img_ratio, img_width);
+	cam->view = view;
 	cam_setImageDim(cam, img_ratio, img_width);
-	cam_setScreen(cam, view.hfov);
+	cam_setScreen(cam, view);
 	cam_setPixelDeltas(cam);
-	cam_setScreenOrigin(cam);
+	cam_setScreenOrigin(cam, view);
 	cam_setPixel00(cam);
 }
 
@@ -107,10 +137,10 @@ static void	cam_choosePixel(t_vec *pixel, t_cam *cam, int pixel_i, int pixel_j)
 static void	cam_throwRayOnPixel(t_ray *ray, t_vec *chosen_pixel, t_cam *cam)
 {
 	//ray orig = coordinates of camera center
-	vec_fillVec(&ray->orig, cam->center.x, cam->center.y, cam->center.z);
+	vec_fillVec(&ray->orig, cam->view.lookfrom.x, cam->view.lookfrom.y, cam->view.lookfrom.z);
 
 	//ray direction found then normalized
-	vec_subs(&ray->dir, chosen_pixel, &cam->center);
+	vec_subs(&ray->dir, chosen_pixel, &cam->view.lookfrom);
 	vec_unitVector(&ray->dir, &ray->dir);
 }
 

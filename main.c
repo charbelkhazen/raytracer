@@ -91,8 +91,13 @@ int main(void)
 	t_vec	vup;
 	double	hfov;
 	hfov = 90.0;
+	vec_fillVec(&lookfrom, 0, 0, 0);
+	vec_fillVec(&lookat, 0, 0, -1);
+	vec_fillVec(&vup, 0, 1, 0);
+
 	viewer_fill(&view, vup, lookfrom, lookat, hfov);
 
+	//!insted of img_ratio and img_width. Fill them in t_img
 	cam_fillCam(&cam, img_ratio, img_width, view);
 
 	render_logicToMlx(&mlx_params, &cam, &univ, &light);
