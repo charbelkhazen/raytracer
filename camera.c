@@ -42,16 +42,16 @@ static void	cam_setScreen(t_cam *cam, double hfov)
 
 	theta = hfov * M_PI / 180.0;
 	h = tan(theta / 2.0);
-	cam->screen_width = h * cam->focal_dist * 2;
-	cam->screen_height  = cam->screen_width *((double)cam->img.img_height / cam->img.img_width);
-	vec_fillVec(&cam->screen_u, cam->screen_width, 0, 0);
-	vec_fillVec(&cam->screen_v, 0, -cam->screen_height, 0);
+	cam->geom.screen_width = h * cam->focal_dist * 2;
+	cam->geom.screen_height  = cam->geom.screen_width *((double)cam->img.img_height / cam->img.img_width);
+	vec_fillVec(&cam->geom.screen_u, cam->geom.screen_width, 0, 0);
+	vec_fillVec(&cam->geom.screen_v, 0, -cam->geom.screen_height, 0);
 }
 
 static void cam_setPixelDeltas(t_cam *cam)
 {
-	vec_scale(&cam->pix_delta_u, 1.0 / cam->img.img_width,  &cam->screen_u);
-	vec_scale(&cam->pix_delta_v, 1.0 / cam->img.img_height, &cam->screen_v);
+	vec_scale(&cam->geom.pix_delta_u, 1.0 / cam->img.img_width,  &cam->geom.screen_u);
+	vec_scale(&cam->geom.pix_delta_v, 1.0 / cam->img.img_height, &cam->geom.screen_v);
 }
 
 static void cam_setScreenOrigin(t_cam *cam)
@@ -63,22 +63,22 @@ static void cam_setScreenOrigin(t_cam *cam)
 
 	vec_fillVec(&cam->center, 0, 0, 0);
 	vec_fillVec(&along_focal, 0, 0, cam->focal_dist);
-	vec_scale(&half_u, 0.5, &cam->screen_u);
-	vec_scale(&half_v, 0.5, &cam->screen_v);
+	vec_scale(&half_u, 0.5, &cam->geom.screen_u);
+	vec_scale(&half_v, 0.5, &cam->geom.screen_v);
 
 	//screen00_loc = center - (0,0, focal_dist) - 0.5 * (screen_u + screen_v)
 	vec_add(&tmp, &along_focal, &half_u);
 	vec_add(&tmp, &tmp, &half_v);
-	vec_subs(&cam->screen00_loc, &cam->center, &tmp);
+	vec_subs(&cam->geom.screen00_loc, &cam->center, &tmp);
 }
 
 static void cam_setPixel00(t_cam *cam)
 {
 	t_vec tmp;
 
-	vec_add(&tmp, &cam->pix_delta_u, &cam->pix_delta_v);
+	vec_add(&tmp, &cam->geom.pix_delta_u, &cam->geom.pix_delta_v);
 	vec_scale(&tmp, 0.5, &tmp);
-	vec_add(&cam->pix00_loc, &cam->screen00_loc, &tmp);
+	vec_add(&cam->geom.pix00_loc, &cam->geom.screen00_loc, &tmp);
 }
 
 void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, t_viewer view)
@@ -97,11 +97,11 @@ static void	cam_choosePixel(t_vec *pixel, t_cam *cam, int pixel_i, int pixel_j)
 	t_vec	y_pos;
 	
 	//x_pos = i * pixel_delta_u (same for y_pos with j)
-	vec_scale(&x_pos, (double)pixel_i, &cam->pix_delta_u);
-	vec_scale(&y_pos, (double)pixel_j, &cam->pix_delta_v);
+	vec_scale(&x_pos, (double)pixel_i, &cam->geom.pix_delta_u);
+	vec_scale(&y_pos, (double)pixel_j, &cam->geom.pix_delta_v);
 	//chosen pixel = pix00_loc + x_pos + y_pos (but done in two steps)
 	vec_add(pixel, &x_pos, &y_pos);
-	vec_add(pixel, pixel, &cam->pix00_loc); 
+	vec_add(pixel, pixel, &cam->geom.pix00_loc); 
 }
 
 static void	cam_throwRayOnPixel(t_ray *ray, t_vec *chosen_pixel, t_cam *cam)

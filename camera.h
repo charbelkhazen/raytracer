@@ -23,18 +23,9 @@ typedef	struct	s_img
 	double	img_ratio;
 }	t_img;
 
-void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, double hfov);
-
-typedef struct s_cam
+typedef	struct s_geom
 {
-	t_vec	center;
-	double	focal_dist;
-	//double	img_ratio;
-	//int	img_width;
-	//int	img_height;
-	t_img	img;
-	t_viewer view;
-	double	screen_height;
+	double	screen_height; 
 	double	screen_width;
 	t_vec	screen_u;
 	t_vec	screen_v;
@@ -42,6 +33,19 @@ typedef struct s_cam
 	t_vec	pix00_loc;
 	t_vec	pix_delta_u;
 	t_vec	pix_delta_v;
+}	t_geom;
+void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, double hfov);
+
+typedef struct s_cam
+{
+	t_vec	center; // rm
+	double	focal_dist; // rm
+	//double	img_ratio;
+	//int	img_width;
+	//int	img_height;
+	t_img	img;
+	t_viewer view;
+	t_geom	geom;
 }	t_cam;
 
 void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, t_viewer view);
