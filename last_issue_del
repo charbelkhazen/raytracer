@@ -7,3 +7,5 @@ need to add a new struct containing : light + universe . param_struct
 - UNDERSTAND PLANE IN SUBJECT
 
 - understand space 
+
+- is it possible to make it faster using multithreading

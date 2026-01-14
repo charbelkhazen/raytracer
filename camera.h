@@ -13,6 +13,7 @@ typedef struct s_cam
 	double	img_ratio;
 	int	img_width;
 	int	img_height;
+	double	hfov;
 	double	screen_height;
 	double	screen_width;
 	t_vec	screen_u;
