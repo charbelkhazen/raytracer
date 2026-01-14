@@ -25,7 +25,7 @@ typedef struct s_cam
 	
 }	t_cam;
 
-void	cam_fillCam(t_cam *cam, double img_ratio, int img_width);
+void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, double hfov);
 
 void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j);
 

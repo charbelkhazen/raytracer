@@ -65,7 +65,7 @@ static void cam_setPixel00(t_cam *cam)
 	vec_add(&cam->pix00_loc, &cam->screen00_loc, &tmp);
 }
 
-void cam_fillCam(t_cam *cam, double img_ratio, int img_width)
+void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, double hfov)
 {
 	cam_assertion(img_ratio, img_width);
 	cam_setImageDim(cam, img_ratio, img_width);

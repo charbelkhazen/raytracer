@@ -82,7 +82,7 @@ int main(void)
 	if (ui_initMlx(&mlx_params, img_ratio, img_width, "MiniRT"))
         	return err_msgReturnOne("MLX init failed");
 
-	cam_fillCam(&cam, img_ratio, img_width);
+	cam_fillCam(&cam, img_ratio, img_width, hfov);
 
 	render_logicToMlx(&mlx_params, &cam, &univ, &light);
 
