@@ -12,6 +12,9 @@
 #include "material.h"
 #include "light.h"
 
+
+#include "viewer.h"
+
 int main(void)
 {
 	/*adding universe*/
@@ -72,18 +75,25 @@ int main(void)
 	/*setting cam and mlx, calling render*/
 	double	img_ratio;
 	double	img_width;
-	double	hfov;
 	ui_mlxParams_t mlx_params;
 	t_cam	cam;
 
 	img_ratio = 16.0 / 9.0;
 	img_width = 900;
-	hfov = 90.0;
 
 	if (ui_initMlx(&mlx_params, img_ratio, img_width, "MiniRT"))
         	return err_msgReturnOne("MLX init failed");
 
-	cam_fillCam(&cam, img_ratio, img_width, hfov);
+	/*init view*/
+	t_viewer view;
+	t_vec	lookfrom;
+	t_vec	lookat;
+	t_vec	vup;
+	double	hfov;
+	hfov = 90.0;
+	viewer_fill(&view, vup, lookfrom, lookat, hfov);
+
+	cam_fillCam(&cam, img_ratio, img_width, view);
 
 	render_logicToMlx(&mlx_params, &cam, &univ, &light);
 

@@ -8,6 +8,7 @@
 #include "intersection.h"
 #include "lambertphong.h"
 # include <math.h>
+# include "viewer.h"
 
 static void	cam_assertion(double img_ratio, int img_width)
 {
@@ -72,11 +73,11 @@ static void cam_setPixel00(t_cam *cam)
 	vec_add(&cam->pix00_loc, &cam->screen00_loc, &tmp);
 }
 
-void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, double hfov)
+void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, t_viewer view)
 {
 	cam_assertion(img_ratio, img_width);
 	cam_setImageDim(cam, img_ratio, img_width);
-	cam_setScreen(cam, hfov);
+	cam_setScreen(cam, view.hfov);
 	cam_setPixelDeltas(cam);
 	cam_setScreenOrigin(cam);
 	cam_setPixel00(cam);
