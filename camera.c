@@ -8,7 +8,15 @@
 #include "intersection.h"
 #include "lambertphong.h"
 # include <math.h>
-# include "viewer.h"
+//# include "viewer.h"
+
+void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, double hfov)
+{
+	viewer->lookat = lookat;
+	viewer->lookfrom = lookfrom;
+	viewer->vup = vup;
+	viewer->hfov = hfov;
+}
 
 static void	cam_assertion(double img_ratio, int img_width)
 {

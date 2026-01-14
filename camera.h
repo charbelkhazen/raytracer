@@ -5,7 +5,25 @@
 # include "sphere.h"
 # include "universe.h"
 # include "light.h"
-# include "viewer.h"
+//# include "viewer.h"
+
+
+typedef struct s_viewer
+{
+	t_vec	lookfrom;
+	t_vec	lookat;
+	t_vec	vup; //vector that defines x and y on plane orth. to look_at dir
+	double	hfov;
+}	t_viewer;
+
+typedef	struct	s_img
+{
+	int	img_width;
+	int	img_height;
+	double	img_ratio;
+}	t_img;
+
+void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, double hfov);
 
 typedef struct s_cam
 {
@@ -29,6 +47,7 @@ void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, t_viewer view);
 
 void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j);
 
+//sould be in render!!!
 //temporary function - needs modif
 void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ, t_light *light); // hit record should  be part of ray? 
 #endif

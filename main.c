@@ -13,7 +13,7 @@
 #include "light.h"
 
 
-#include "viewer.h"
+//#include "viewer.h"
 
 int main(void)
 {
@@ -84,7 +84,7 @@ int main(void)
 	if (ui_initMlx(&mlx_params, img_ratio, img_width, "MiniRT"))
         	return err_msgReturnOne("MLX init failed");
 
-	/*init view*/
+	/*view parameters*/
 	t_viewer view;
 	t_vec	lookfrom;
 	t_vec	lookat;
