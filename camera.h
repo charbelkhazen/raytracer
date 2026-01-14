@@ -5,6 +5,7 @@
 # include "sphere.h"
 # include "universe.h"
 # include "light.h"
+# include "viewer.h"
 
 typedef struct s_cam
 {
@@ -14,9 +15,7 @@ typedef struct s_cam
 	int	img_width;
 	int	img_height;
 	double	hfov;
-	t_vec	lookfrom;
-	t_vec	lookat;
-	t_vec	vup; //vector that defines x and y on plane orth. to lookat dir
+	t_viewer view;
 	double	screen_height;
 	double	screen_width;
 	t_vec	screen_u;
@@ -25,7 +24,6 @@ typedef struct s_cam
 	t_vec	pix00_loc;
 	t_vec	pix_delta_u;
 	t_vec	pix_delta_v;
-	
 }	t_cam;
 
 void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, double hfov);
