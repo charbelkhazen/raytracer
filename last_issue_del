@@ -9,3 +9,7 @@ need to add a new struct containing : light + universe . param_struct
 - understand space 
 
 - is it possible to make it faster using multithreading
+
+
+1 - from user to camera.c 
+2 - make camera flip (i.e. vup , lookfrom , lookat...)
