@@ -11,13 +11,3 @@ double wrapAngle180(double angle)
 
     return angle;
 }
-
-
-#include <stdio.h>
-int main()
-{
-	printf("%f\n", wrapAngle180(-360)); 
-	printf("%f\n", wrapAngle180(-361)); 
-	printf("%f\n", wrapAngle180(360)); 
-	printf("%f\n", wrapAngle180(370)); 
-}
