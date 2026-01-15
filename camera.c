@@ -80,30 +80,25 @@ static void	cam_setScreen(t_cam *cam, t_viewer view, t_img img)
 	double	h;
 
 	geom_setLookAtFrom(&cam->geom, view);
-	//vec_subs(&lookfrom_to_lookat, &view.lookfrom, &view.lookat); 
 	geom_setFocalDist(&cam->geom);
-	//cam->geom.focal_dist = vec_vectorLen(&cam->geom.lookat_to_lookfrom);
 	geom_setScreenDim(&cam->geom, view, img);
-	//theta = view.hfov * M_PI / 180.0;
-	//h = tan(theta / 2.0);
-	
-	//cam->geom.screen_width = h * cam->geom.focal_dist * 2;
-	//cam->geom.screen_height  = cam->geom.screen_width *((double)cam->img.img_height / cam->img.img_width);
-
+	geom_setOrthobasis(&cam->geom, view);
 	//calculate u, v ,w unit basis
+	/*
 	t_vec	w;
 	t_vec	u;
 	t_vec	v;
 
-	vec_unitVector(&w, &cam->geom.lookat_to_lookfrom);
+	vec_unitVector(&cam->geom.orthobasis_w, &cam->geom.lookat_to_lookfrom);
 
-	vec_cross(&u, &view.vup, &w);
-	vec_unitVector(&u, &u);
+	vec_cross(&cam->geom.orthobasis_u, &view.vup, &cam->geom.orthobasis_w);
+	vec_unitVector(&cam->geom.orthobasis_u, &cam->geom.orthobasis_u);
 
-	vec_cross(&v, &w, &u);
+	vec_cross(&cam->geom.orthobasis_v, &cam->geom.orthobasis_w, &cam->geom.orthobasis_u);
 	//Calculate the vectors across the horizontal and down the vertical viewport edges.
-	vec_scale(&cam->geom.screen_u, cam->geom.screen_width, &u);
-	vec_scale(&cam->geom.screen_v, -cam->geom.screen_height, &v);
+	*/
+	vec_scale(&cam->geom.screen_u, cam->geom.screen_width, &cam->geom.orthobasis_u);
+	vec_scale(&cam->geom.screen_v, -cam->geom.screen_height, &cam->geom.orthobasis_v);
 }
 
 static void cam_setPixelDeltas(t_cam *cam)
