@@ -140,10 +140,13 @@ void	cam_fillCam(t_cam *cam, t_img img, t_viewer view)
 {
 	cam->img = img;
 	cam->view = view;
+	geom_fill(&cam->geom, view, img);
+	/*
 	cam_setScreen(cam, view, img);
 	cam_setPixelDeltas(cam, view, img);
 	cam_setScreenOrigin(cam, view);
 	cam_setPixel00(cam);
+	*/
 }
 
 static void	cam_choosePixel(t_vec *pixel, t_cam *cam, int pixel_i, int pixel_j)
