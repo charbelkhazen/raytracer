@@ -74,20 +74,21 @@ static void	geom_fill(t_geom *geom, t_viewer view, t_img img)
 	geom_setScreenVectors(geom);
 }
 
-static void	cam_setScreen(t_cam *cam, t_viewer view)
+static void	cam_setScreen(t_cam *cam, t_viewer view, t_img img)
 {
 	double	theta;
 	double	h;
 
 	geom_setLookAtFrom(&cam->geom, view);
 	//vec_subs(&lookfrom_to_lookat, &view.lookfrom, &view.lookat); 
-	cam->geom.focal_dist = vec_vectorLen(&cam->geom.lookat_to_lookfrom);
-
-	theta = view.hfov * M_PI / 180.0;
-	h = tan(theta / 2.0);
+	geom_setFocalDist(&cam->geom);
+	//cam->geom.focal_dist = vec_vectorLen(&cam->geom.lookat_to_lookfrom);
+	geom_setScreenDim(&cam->geom, view, img);
+	//theta = view.hfov * M_PI / 180.0;
+	//h = tan(theta / 2.0);
 	
-	cam->geom.screen_width = h * cam->geom.focal_dist * 2;
-	cam->geom.screen_height  = cam->geom.screen_width *((double)cam->img.img_height / cam->img.img_width);
+	//cam->geom.screen_width = h * cam->geom.focal_dist * 2;
+	//cam->geom.screen_height  = cam->geom.screen_width *((double)cam->img.img_height / cam->img.img_width);
 
 	//calculate u, v ,w unit basis
 	t_vec	w;
@@ -153,7 +154,7 @@ void	cam_fillCam(t_cam *cam, t_img img, t_viewer view)
 {
 	cam->img = img;
 	cam->view = view;
-	cam_setScreen(cam, view);
+	cam_setScreen(cam, view, img);
 	cam_setPixelDeltas(cam);
 	cam_setScreenOrigin(cam, view);
 	cam_setPixel00(cam);
