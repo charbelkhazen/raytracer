@@ -73,16 +73,18 @@ int main(void)
 
 
 	/*setting cam and mlx, calling render*/
-	double	img_ratio;
-	double	img_width;
-	//t_img	img;
 	ui_mlxParams_t mlx_params;
 	t_cam	cam;
 
+	/*setting img*/
+	t_img	img;
+	double	img_ratio;
+	double	img_width;
 	img_ratio = 16.0 / 9.0;
 	img_width = 900;
+	img_fill(&img, img_width, img_ratio);
 
-	if (ui_initMlx(&mlx_params, img_ratio, img_width, "MiniRT"))
+	if (ui_initMlx(&mlx_params, img_ratio, img_width, "MiniRT")) // take advantage of setting img struct
         	return err_msgReturnOne("MLX init failed");
 
 	/*view parameters*/
