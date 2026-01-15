@@ -48,7 +48,7 @@ typedef struct s_cam
 	t_geom	geom;
 }	t_cam;
 
-void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, t_viewer view);
+void	cam_fillCam(t_cam *cam, t_img img, t_viewer view);
 
 void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j);
 

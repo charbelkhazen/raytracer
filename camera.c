@@ -27,12 +27,15 @@ void	img_fill(t_img *img, int img_width, double img_ratio)
 		img->img_height = 1;
 }
 
+/*
+//remove
 static void	cam_assertion(double img_ratio, int img_width)
 {
 	std_assert(img_ratio > 0);
 	std_assert(img_width > 0);
 }
 
+//REMOV EEE
 static void	cam_setImageDim(t_cam *cam, double img_ratio, int img_width)
 {
 	cam->img.img_ratio  = img_ratio;
@@ -41,6 +44,7 @@ static void	cam_setImageDim(t_cam *cam, double img_ratio, int img_width)
 	if (cam->img.img_height < 1)
 		cam->img.img_height = 1;
 }
+*/
 
 static void	cam_setScreen(t_cam *cam, t_viewer view)
 {
@@ -119,11 +123,12 @@ static void cam_setPixel00(t_cam *cam)
 	vec_add(&cam->geom.pix00_loc, &cam->geom.screen00_loc, &tmp);
 }
 
-void	cam_fillCam(t_cam *cam, double img_ratio, int img_width, t_viewer view)
+void	cam_fillCam(t_cam *cam, t_img img, t_viewer view)
 {
-	cam_assertion(img_ratio, img_width);
+	//cam_assertion(img_ratio, img_width); //needs modif
+	cam->img = img;
 	cam->view = view;
-	cam_setImageDim(cam, img_ratio, img_width);
+	//cam_setImageDim(cam, img_ratio, img_width);
 	cam_setScreen(cam, view);
 	cam_setPixelDeltas(cam);
 	cam_setScreenOrigin(cam, view);

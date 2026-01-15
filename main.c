@@ -101,7 +101,7 @@ int main(void)
 	viewer_fill(&view, vup, lookfrom, lookat, hfov);
 
 	//!insted of img_ratio and img_width. Fill them in t_img
-	cam_fillCam(&cam, img_ratio, img_width, view);
+	cam_fillCam(&cam, img, view);
 
 	render_logicToMlx(&mlx_params, &cam, &univ, &light);
 
