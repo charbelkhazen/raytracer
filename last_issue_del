@@ -13,3 +13,10 @@ need to add a new struct containing : light + universe . param_struct
 
 1 - from user to camera.c 
 2 - make camera flip (i.e. vup , lookfrom , lookat...)
+
+
+
+-> refactor camera :
+	color function needs to be in render module 
+	img and view seperate modules
+	see what you can with geom ( can you make it opaque ? consider isolating it only as a last resort option)

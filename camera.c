@@ -65,7 +65,7 @@ static void	geom_setScreenVectors(t_geom *geom)
 	vec_scale(&geom->screen_v, -geom->screen_height, &geom->orthobasis_v);
 }
 
-static void	geom_setPixelDeltas(t_geom *geom, t_viewer view, t_img img)
+static void	geom_setPixelDeltas(t_geom *geom, t_img img)
 {
 	vec_scale(&geom->pix_delta_u, 1.0 / img.img_width,  &geom->screen_u);
 	vec_scale(&geom->pix_delta_v, 1.0 / img.img_height, &geom->screen_v);
@@ -104,36 +104,9 @@ static void	geom_fill(t_geom *geom, t_viewer view, t_img img)
 	geom_setScreenDim(geom, view, img);
 	geom_setOrthobasis(geom, view);
 	geom_setScreenVectors(geom);
-	geom_setPixelDeltas(geom, view, img);
+	geom_setPixelDeltas(geom, img);
 	geom_setScreenOrigin(geom, view);
 	geom_setPixel00(geom); 
-}
-
-static void	cam_setScreen(t_cam *cam, t_viewer view, t_img img)
-{
-	double	theta;
-	double	h;
-
-	geom_setLookAtFrom(&cam->geom, view);
-	geom_setFocalDist(&cam->geom);
-	geom_setScreenDim(&cam->geom, view, img);
-	geom_setOrthobasis(&cam->geom, view);
-	geom_setScreenVectors(&cam->geom);
-}
-
-static void cam_setPixelDeltas(t_cam *cam, t_viewer view, t_img img)
-{
-	geom_setPixelDeltas(&cam->geom, view, img);
-}
-
-static void cam_setScreenOrigin(t_cam *cam, t_viewer view)
-{
-	geom_setScreenOrigin(&cam->geom, view);
-}
-
-static void cam_setPixel00(t_cam *cam)
-{
-	geom_setPixel00(&cam->geom);
 }
 
 void	cam_fillCam(t_cam *cam, t_img img, t_viewer view)
@@ -141,12 +114,6 @@ void	cam_fillCam(t_cam *cam, t_img img, t_viewer view)
 	cam->img = img;
 	cam->view = view;
 	geom_fill(&cam->geom, view, img);
-	/*
-	cam_setScreen(cam, view, img);
-	cam_setPixelDeltas(cam, view, img);
-	cam_setScreenOrigin(cam, view);
-	cam_setPixel00(cam);
-	*/
 }
 
 static void	cam_choosePixel(t_vec *pixel, t_cam *cam, int pixel_i, int pixel_j)
@@ -157,6 +124,7 @@ static void	cam_choosePixel(t_vec *pixel, t_cam *cam, int pixel_i, int pixel_j)
 	//x_pos = i * pixel_delta_u (same for y_pos with j)
 	vec_scale(&x_pos, (double)pixel_i, &cam->geom.pix_delta_u);
 	vec_scale(&y_pos, (double)pixel_j, &cam->geom.pix_delta_v);
+
 	//chosen pixel = pix00_loc + x_pos + y_pos (but done in two steps)
 	vec_add(pixel, &x_pos, &y_pos);
 	vec_add(pixel, pixel, &cam->geom.pix00_loc); 
