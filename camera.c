@@ -27,24 +27,27 @@ void	img_fill(t_img *img, int img_width, double img_ratio)
 		img->img_height = 1;
 }
 
-/*
-//remove
-static void	cam_assertion(double img_ratio, int img_width)
+static void	geom_setLookAtFrom(t_geom *geom, t_viewer view)
 {
-	std_assert(img_ratio > 0);
-	std_assert(img_width > 0);
+	vec_subs(&geom->lookat_to_lookfrom, &view.lookfrom, &view.lookat); 
 }
 
-//REMOV EEE
-static void	cam_setImageDim(t_cam *cam, double img_ratio, int img_width)
+static void	geom_setFocalDist(t_geom *geom)
 {
-	cam->img.img_ratio  = img_ratio;
-	cam->img.img_width  = img_width;
-	cam->img.img_height = (int)((double)img_width / img_ratio);
-	if (cam->img.img_height < 1)
-		cam->img.img_height = 1;
+	geom->focal_dist = vec_vectorLen(&geom->lookat_to_lookfrom);
 }
-*/
+
+static void	geom_set_screenDim(t_geom *geom, t_viewer view, t_img img)
+{
+	double theta;
+	double h;
+
+	theta = view.hfov * M_PI / 180.0;
+	h = tan(theta / 2.0);
+	
+	geom->screen_width = h * geom->focal_dist * 2;
+	geom->screen_height  = geom->screen_width *((double)img.img_height / img.img_width);
+}
 
 static void	cam_setScreen(t_cam *cam, t_viewer view)
 {
@@ -125,10 +128,8 @@ static void cam_setPixel00(t_cam *cam)
 
 void	cam_fillCam(t_cam *cam, t_img img, t_viewer view)
 {
-	//cam_assertion(img_ratio, img_width); //needs modif
 	cam->img = img;
 	cam->view = view;
-	//cam_setImageDim(cam, img_ratio, img_width);
 	cam_setScreen(cam, view);
 	cam_setPixelDeltas(cam);
 	cam_setScreenOrigin(cam, view);

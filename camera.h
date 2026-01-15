@@ -29,12 +29,25 @@ void	img_fill(t_img *img, int img_width, double img_ratio);
 
 typedef	struct s_geom
 {
+	//not normalized
+	t_vec	lookat_to_lookfrom;
+
+	t_vec	orthobasis_w;
+	t_vec	orthobasis_u;
+	t_vec	orthobasis_v;
+
+	double	focal_dist;
+
 	double	screen_height; 
 	double	screen_width;
+
 	t_vec	screen_u;
 	t_vec	screen_v;
+
 	t_vec	screen00_loc;
+
 	t_vec	pix00_loc;
+
 	t_vec	pix_delta_u;
 	t_vec	pix_delta_v;
 }	t_geom;
