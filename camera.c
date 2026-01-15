@@ -83,6 +83,7 @@ static void	cam_setScreen(t_cam *cam, t_viewer view, t_img img)
 	geom_setFocalDist(&cam->geom);
 	geom_setScreenDim(&cam->geom, view, img);
 	geom_setOrthobasis(&cam->geom, view);
+	geom_setScreenVectors(&cam->geom);
 	//calculate u, v ,w unit basis
 	/*
 	t_vec	w;
@@ -96,9 +97,9 @@ static void	cam_setScreen(t_cam *cam, t_viewer view, t_img img)
 
 	vec_cross(&cam->geom.orthobasis_v, &cam->geom.orthobasis_w, &cam->geom.orthobasis_u);
 	//Calculate the vectors across the horizontal and down the vertical viewport edges.
-	*/
 	vec_scale(&cam->geom.screen_u, cam->geom.screen_width, &cam->geom.orthobasis_u);
 	vec_scale(&cam->geom.screen_v, -cam->geom.screen_height, &cam->geom.orthobasis_v);
+	*/
 }
 
 static void cam_setPixelDeltas(t_cam *cam)
