@@ -65,7 +65,7 @@ static void	geom_setScreenVectors(t_geom *geom)
 	vec_scale(&geom->screen_v, -geom->screen_height, &geom->orthobasis_v);
 }
 
-static void	geom_setPixelDelta(t_geom *geom, t_viewer view, t_img img)
+static void	geom_setPixelDeltas(t_geom *geom, t_viewer view, t_img img)
 {
 	vec_scale(&geom->pix_delta_u, 1.0 / img.img_width,  &geom->screen_u);
 	vec_scale(&geom->pix_delta_v, 1.0 / img.img_height, &geom->screen_v);
@@ -110,10 +110,13 @@ static void	cam_setScreen(t_cam *cam, t_viewer view, t_img img)
 	geom_setScreenVectors(&cam->geom);
 }
 
-static void cam_setPixelDeltas(t_cam *cam)
+static void cam_setPixelDeltas(t_cam *cam, t_viewer view, t_img img)
 {
+	geom_setPixelDeltas(&cam->geom, view, img);
+	/*
 	vec_scale(&cam->geom.pix_delta_u, 1.0 / cam->img.img_width,  &cam->geom.screen_u);
 	vec_scale(&cam->geom.pix_delta_v, 1.0 / cam->img.img_height, &cam->geom.screen_v);
+	*/
 }
 
 static void cam_setScreenOrigin(t_cam *cam, t_viewer view)
@@ -159,7 +162,7 @@ void	cam_fillCam(t_cam *cam, t_img img, t_viewer view)
 	cam->img = img;
 	cam->view = view;
 	cam_setScreen(cam, view, img);
-	cam_setPixelDeltas(cam);
+	cam_setPixelDeltas(cam, view, img);
 	cam_setScreenOrigin(cam, view);
 	cam_setPixel00(cam);
 }
