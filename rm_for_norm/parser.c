@@ -39,8 +39,7 @@ void	pars_skipWhiteSpace(char **ptr_buf)
 		(*ptr_buf) ++;
 }
 
-//at least len(str) = 17 
-void	pars_errFormat(char *str) // can add more info, e.g. line
+void	pars_raiseError(void) // can add more info, e.g. line
 {
 	char	*message;
 
@@ -49,7 +48,7 @@ void	pars_errFormat(char *str) // can add more info, e.g. line
 	exit(1);
 }
 
-static const char	*parse_sign(const char *s, double *sign)
+static const char	*std_atodSignUtil(const char *s, double *sign)
 {
 	*sign = 1.0;
 	if (*s == '-' || *s == '+')
@@ -61,7 +60,7 @@ static const char	*parse_sign(const char *s, double *sign)
 	return (s);
 }
 
-static const char	*parse_number(const char *s, double *res)
+static const char	*std_atodNumberUtil(const char *s, double *res)
 {
 	double	frac;
 
@@ -83,29 +82,39 @@ static const char	*parse_number(const char *s, double *res)
 	return (s);
 }
 
-int	atod(const char *s, double *out)
+int	std_atod(double *out, char *buf)
 {
 	double	sign;
 	double	res;
 
-	if (!s || !out)
+	if (!buf || !out)
 		return (0);
 
-	s = parse_sign(s, &sign);
-	parse_number(s, &res);
+	buf = std_atodSignUtil(buf, &sign);
+	std_atodNumberUtil(buf, &res);
 	*out = res * sign;
 	return (1);
 }
 
-void	pars_consumeNumber(double *num, char **buff)
+void	pars_consumeNumber(double *num, char **buf)
 {
+	std_assert(num && buf && *buf); //review this, maybe useless
+
 	if (!(std_isNum(**buf) || **buf == '-' || **buf == '+'))
-		return (pars_errFormat()); 
-	// if atod (buf, num) == 0 -> pars_errFormat
-	//skip whitespace
+		return (pars_raiseError()); 
+	if (!std_atod(num, *buf))
+		return (pars_raiseError());
+	pars_skipWhiteSpace(buf);	
 }
 
-void	consume_Comma
+void	consume_Comma(char **buf)
+{
+	std_assert(buf && *buf); // may be useless
+
+	if (**buf != ',')
+		return (pars_raiseError());
+	(*buf)++;
+}
 	
 void	pars_parseAmbient(char **buf)
 {
