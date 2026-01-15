@@ -49,6 +49,16 @@ static void	geom_set_screenDim(t_geom *geom, t_viewer view, t_img img)
 	geom->screen_height  = geom->screen_width *((double)img.img_height / img.img_width);
 }
 
+static void	geom_set_othobasis(t_geom *geom, t_viewer view)
+{
+	vec_unitVector(&geom->orthobasis_w, &geom->lookat_to_lookfrom);
+
+	vec_cross(&geom->orthobasis_u, &view.vup, &geom->orthobasis_w);
+	vec_unitVector(&geom->orthobasis_u, &geom->orthobasis_u);
+
+	vec_cross(&geom->orthobasis_v, &geom->orthobasis_w, &geom->orthobasis_u);
+}
+
 static void	cam_setScreen(t_cam *cam, t_viewer view)
 {
 	double	theta;
