@@ -1,3 +1,7 @@
+//TODO:move and rename atod related function
+//TODO:understand the post increment used in atod (or its helper function)
+//TODO:complete ambient light parsing following the pseudocode written 
+
 #include "stdlib.h"
 #include <stdlib.h>
 
@@ -97,13 +101,30 @@ void	pars_consumeNumber(double *num, char **buff)
 {
 	if (!(std_isNum(**buf) || **buf == '-' || **buf == '+'))
 		return (pars_errFormat()); 
-	*num =  //atod ? pars_errFormat() : num transformed
+	// if atod (buf, num) == 0 -> pars_errFormat
+	//skip whitespace
+}
 
-	
+void	consume_Comma
 	
 void	pars_parseAmbient(char **buf)
 {
-		
+	//consume number 
+	//consume white space 
+	//consume comma
+	//consume number 
+	//consume white space 
+	//consume comma
+	//consume number 
+	//consume white space  //MANDATORY (check if)
+
+	//consume number
+
+	//mandatory white space
+	//number
+	//whitespace
+	//comma
+...
 	return ;
 }
 
