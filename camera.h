@@ -25,6 +25,8 @@ typedef	struct	s_img
 	double	img_ratio;
 }	t_img;
 
+void	img_fill(t_img *img, int img_width, double img_ratio);
+
 typedef	struct s_geom
 {
 	double	screen_height; 

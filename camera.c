@@ -18,6 +18,15 @@ void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, doub
 	viewer->hfov = hfov;
 }
 
+void	img_fill(t_img *img, int img_width, double img_ratio)
+{
+	img->img_width = img_width;
+	img->img_ratio = img_ratio;
+	img->img_height = (int)((double)img_width / img_ratio);
+	if (img->img_height < 1)
+		img->img_height = 1;
+}
+
 static void	cam_assertion(double img_ratio, int img_width)
 {
 	std_assert(img_ratio > 0);

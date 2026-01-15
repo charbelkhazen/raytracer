@@ -75,6 +75,7 @@ int main(void)
 	/*setting cam and mlx, calling render*/
 	double	img_ratio;
 	double	img_width;
+	//t_img	img;
 	ui_mlxParams_t mlx_params;
 	t_cam	cam;
 
