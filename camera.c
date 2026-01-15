@@ -59,6 +59,12 @@ static void	geom_set_othobasis(t_geom *geom, t_viewer view)
 	vec_cross(&geom->orthobasis_v, &geom->orthobasis_w, &geom->orthobasis_u);
 }
 
+static void	geom_setScreenVectors(t_geom *geom)
+{
+	vec_scale(&geom->screen_u, geom->screen_width, &geom->orthobasis_u);
+	vec_scale(&geom->screen_v, -geom->screen_height, &geom->orthobasis_v);
+}
+
 static void	cam_setScreen(t_cam *cam, t_viewer view)
 {
 	double	theta;
