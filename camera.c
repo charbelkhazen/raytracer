@@ -87,7 +87,16 @@ static void	geom_setScreenOrigin(t_geom *geom, t_viewer view)
 	vec_add(&tmp, &tmp, &half_v);
 	vec_subs(&geom->screen00_loc, &view.lookfrom, &tmp);
 }
-/*
+
+static void	geom_setPixel00(t_geom *geom)
+{
+	t_vec tmp;
+
+	vec_add(&tmp, &geom->pix_delta_u, &geom->pix_delta_v);
+	vec_scale(&tmp, 0.5, &tmp);
+	vec_add(&geom->pix00_loc, &geom->screen00_loc, &tmp);
+}
+
 static void	geom_fill(t_geom *geom, t_viewer view, t_img img)
 {
 	geom_setLookAtFrom(geom, view);
@@ -95,8 +104,10 @@ static void	geom_fill(t_geom *geom, t_viewer view, t_img img)
 	geom_setScreenDim(geom, view, img);
 	geom_setOrthobasis(geom, view);
 	geom_setScreenVectors(geom);
+	geom_setPixelDeltas(geom, view, img);
+	geom_setScreenOrigin(geom, view);
+	geom_setPixel00(geom); 
 }
-*/
 
 static void	cam_setScreen(t_cam *cam, t_viewer view, t_img img)
 {
@@ -122,11 +133,7 @@ static void cam_setScreenOrigin(t_cam *cam, t_viewer view)
 
 static void cam_setPixel00(t_cam *cam)
 {
-	t_vec tmp;
-
-	vec_add(&tmp, &cam->geom.pix_delta_u, &cam->geom.pix_delta_v);
-	vec_scale(&tmp, 0.5, &tmp);
-	vec_add(&cam->geom.pix00_loc, &cam->geom.screen00_loc, &tmp);
+	geom_setPixel00(&cam->geom);
 }
 
 void	cam_fillCam(t_cam *cam, t_img img, t_viewer view)
