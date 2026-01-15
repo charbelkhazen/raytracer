@@ -3,6 +3,7 @@
 //TODO:complete ambient light parsing following the pseudocode written 
 
 #include "stdlib.h"
+#include "error.h"
 #include <stdlib.h>
 
 int	pars_consumeType(char **ptr_buf)
@@ -16,17 +17,12 @@ int	pars_consumeType(char **ptr_buf)
 	type = buf[0];
 
 	if ((type == 's' && buf[1] == 'p') || (type == 'p' && buf[1] == 'l') || (type == 'c' && buf[1] == 'y'))
-	{
 	    (*ptr_buf) += 2;
-	    pars_skipWhiteSpace(ptr_buf);
-	}
 	else if (type == 'A' || type == 'C' || type == 'L')
-	{
-	    (*ptr_buf) ++
-	    pars_skipWhiteSpace(ptr_buf);
-	}
+	    (*ptr_buf) ++;
 	else
 	    return (0);
+	pars_skipWhiteSpace(ptr_buf);
 	return (type);
 }
 
@@ -39,16 +35,13 @@ void	pars_skipWhiteSpace(char **ptr_buf)
 		(*ptr_buf) ++;
 }
 
-void	pars_raiseError(void) // can add more info, e.g. line
+void	pars_raiseError(void)
 {
-	char	*message;
-
-	message = "format error .rt";
-	std_strlcpy(str, &message, std_strlen(message));
+	write(2, "Format Error .rt\n", 17);
 	exit(1);
 }
 
-static const char	*std_atodSignUtil(const char *s, double *sign)
+static char	*std_atodSignUtil(const char *s, double *sign)
 {
 	*sign = 1.0;
 	if (*s == '-' || *s == '+')
@@ -60,7 +53,7 @@ static const char	*std_atodSignUtil(const char *s, double *sign)
 	return (s);
 }
 
-static const char	*std_atodNumberUtil(const char *s, double *res)
+static char	*std_atodNumberUtil(const char *s, double *res)
 {
 	double	frac;
 
@@ -86,12 +79,16 @@ int	std_atod(double *out, char *buf)
 {
 	double	sign;
 	double	res;
+	char	*end;
 
 	if (!buf || !out)
 		return (0);
 
-	buf = std_atodSignUtil(buf, &sign);
-	std_atodNumberUtil(buf, &res);
+	end = std_atodSignUtil(buf, &sign);
+	end = std_atodNumberUtil(end, &res);
+	if (*end && !std_isWhiteSpace(*end) && *end != ',')
+		return (0);
+
 	*out = res * sign;
 	return (1);
 }
@@ -104,6 +101,10 @@ void	pars_consumeNumber(double *num, char **buf)
 		return (pars_raiseError()); 
 	if (!std_atod(num, *buf))
 		return (pars_raiseError());
+
+	while (**buf && (std_isNum(**buf) || **buf == '.'))
+		(*buf)++;
+
 	pars_skipWhiteSpace(buf);	
 }
 
@@ -114,27 +115,50 @@ void	consume_Comma(char **buf)
 	if (**buf != ',')
 		return (pars_raiseError());
 	(*buf)++;
+	pars_skipWhiteSpace(buf);	
 }
 	
-void	pars_parseAmbient(char **buf)
+void	pars_parseLight(char **buf)
 {
-	//consume number 
-	//consume white space 
-	//consume comma
-	//consume number 
-	//consume white space 
-	//consume comma
-	//consume number 
-	//consume white space  //MANDATORY (check if)
+	double	x;
+	double	y;
+	double	z;
+	double	brightness;
+	double	r;
+	double	g;
+	double	b;
 
-	//consume number
+	std_assert(buf && *buf);
 
-	//mandatory white space
-	//number
-	//whitespace
-	//comma
-...
-	return ;
+	/* position x,y,z */
+	pars_consumeNumber(&x, buf);
+	consume_Comma(buf);
+	pars_consumeNumber(&y, buf);
+	consume_Comma(buf);
+	pars_consumeNumber(&z, buf);
+
+	/* mandatory whitespace before brightness */
+	if (!std_isWhiteSpace(**buf))
+		pars_raiseError();
+	pars_skipWhiteSpace(buf);
+
+	/* brightness */
+	pars_consumeNumber(&brightness, buf);
+
+	/* mandatory whitespace before color */
+	if (!std_isWhiteSpace(**buf))
+		pars_raiseError();
+	pars_skipWhiteSpace(buf);
+
+	/* color r,g,b (even if unused) */
+	pars_consumeNumber(&r, buf);
+	consume_Comma(buf);
+	pars_consumeNumber(&g, buf);
+	consume_Comma(buf);
+	pars_consumeNumber(&b, buf);
+
+	/* optional trailing whitespace */
+	pars_skipWhiteSpace(buf);
 }
 
 int main()

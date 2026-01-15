@@ -5,3 +5,4 @@ design by contract
 refactored libft
 no io or allocation in module - clients responsability
 cool trick with std_assert : when using a function macro , input can be both interpret as string and as int 
+leverage actual mechanics of post and pre inc/decrement
