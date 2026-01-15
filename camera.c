@@ -71,6 +71,22 @@ static void	geom_setPixelDelta(t_geom *geom, t_viewer view, t_img img)
 	vec_scale(&geom->pix_delta_v, 1.0 / img.img_height, &geom->screen_v);
 }
 
+static void	geom_setScreenOrigin(t_geom *geom, t_viewer view)
+{
+	t_vec along_focal;
+	t_vec half_u;
+	t_vec half_v;
+	t_vec tmp;
+
+	vec_scale(&along_focal, geom->focal_dist, &geom->orthobasis_w);
+	vec_scale(&half_u, 0.5, &geom->screen_u);
+	vec_scale(&half_v, 0.5, &geom->screen_v);
+
+	//screen00_loc = center - focal_distance * w - 0.5 * (screen_u + screen_v)
+	vec_add(&tmp, &along_focal, &half_u);
+	vec_add(&tmp, &tmp, &half_v);
+	vec_subs(&geom->screen00_loc, &view.lookfrom, &tmp);
+}
 /*
 static void	geom_fill(t_geom *geom, t_viewer view, t_img img)
 {
