@@ -21,4 +21,8 @@ void	std_fillThenNull(char *arr, char c);
 
 int	std_strlcpy(char *dst, const char *src, int size);
 
+int	std_isWhiteSpace(char c);
+
+int	std_isNum(char c);
+
 #endif
