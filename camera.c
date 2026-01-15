@@ -65,6 +65,13 @@ static void	geom_setScreenVectors(t_geom *geom)
 	vec_scale(&geom->screen_v, -geom->screen_height, &geom->orthobasis_v);
 }
 
+static void	geom_setPixelDelta(t_geom *geom, t_viewer view, t_img img)
+{
+	vec_scale(&geom->pix_delta_u, 1.0 / img.img_width,  &geom->screen_u);
+	vec_scale(&geom->pix_delta_v, 1.0 / img.img_height, &geom->screen_v);
+}
+
+/*
 static void	geom_fill(t_geom *geom, t_viewer view, t_img img)
 {
 	geom_setLookAtFrom(geom, view);
@@ -73,6 +80,7 @@ static void	geom_fill(t_geom *geom, t_viewer view, t_img img)
 	geom_setOrthobasis(geom, view);
 	geom_setScreenVectors(geom);
 }
+*/
 
 static void	cam_setScreen(t_cam *cam, t_viewer view, t_img img)
 {
@@ -84,22 +92,6 @@ static void	cam_setScreen(t_cam *cam, t_viewer view, t_img img)
 	geom_setScreenDim(&cam->geom, view, img);
 	geom_setOrthobasis(&cam->geom, view);
 	geom_setScreenVectors(&cam->geom);
-	//calculate u, v ,w unit basis
-	/*
-	t_vec	w;
-	t_vec	u;
-	t_vec	v;
-
-	vec_unitVector(&cam->geom.orthobasis_w, &cam->geom.lookat_to_lookfrom);
-
-	vec_cross(&cam->geom.orthobasis_u, &view.vup, &cam->geom.orthobasis_w);
-	vec_unitVector(&cam->geom.orthobasis_u, &cam->geom.orthobasis_u);
-
-	vec_cross(&cam->geom.orthobasis_v, &cam->geom.orthobasis_w, &cam->geom.orthobasis_u);
-	//Calculate the vectors across the horizontal and down the vertical viewport edges.
-	vec_scale(&cam->geom.screen_u, cam->geom.screen_width, &cam->geom.orthobasis_u);
-	vec_scale(&cam->geom.screen_v, -cam->geom.screen_height, &cam->geom.orthobasis_v);
-	*/
 }
 
 static void cam_setPixelDeltas(t_cam *cam)
