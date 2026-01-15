@@ -1,0 +1,22 @@
+typedef struct s_ray
+typedef struct	s_event_list
+typedef struct	s_win_list
+typedef struct	s_img
+typedef struct	s_xvar
+typedef struct s_matte
+typedef struct s_ambientLight
+typedef struct s_sphere
+typedef struct s_obj {
+typedef struct s_viewer
+typedef struct s_cam
+typedef struct s_material
+typedef struct s_hitRec { //seperate it  (other module - intersection != object definition)
+typedef struct s_light
+typedef struct s_univ
+typedef struct s_obj
+typedef struct s_sphere
+typedef struct ui_mlxParams_s
+typedef struct s_sph_quadParams
+typedef struct vector_s
+typedef struct s_viewer
+typedef struct s_list

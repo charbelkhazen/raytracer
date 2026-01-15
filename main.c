@@ -18,10 +18,6 @@
 int main(void)
 {
 	/*adding universe*/
-	t_vec	origin;
-
-	vec_centerVec(&origin);
-
 	t_sph sphere1;
 	t_vec	center1;
 
