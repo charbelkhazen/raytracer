@@ -113,39 +113,11 @@ static void	cam_setScreen(t_cam *cam, t_viewer view, t_img img)
 static void cam_setPixelDeltas(t_cam *cam, t_viewer view, t_img img)
 {
 	geom_setPixelDeltas(&cam->geom, view, img);
-	/*
-	vec_scale(&cam->geom.pix_delta_u, 1.0 / cam->img.img_width,  &cam->geom.screen_u);
-	vec_scale(&cam->geom.pix_delta_v, 1.0 / cam->img.img_height, &cam->geom.screen_v);
-	*/
 }
 
 static void cam_setScreenOrigin(t_cam *cam, t_viewer view)
 {
-	t_vec along_focal;
-	t_vec half_u;
-	t_vec half_v;
-	t_vec tmp;
-
-	/*this is repetitive - I am getting the focal dist and u v w should be refactored */
-	t_vec	lookfrom_to_lookat;
-	double	focal_dist;
-	vec_subs(&lookfrom_to_lookat, &view.lookfrom, &view.lookat); 
-	focal_dist = vec_vectorLen(&lookfrom_to_lookat);
-
-	//calculate w unit basis
-	t_vec	w;
-
-	vec_unitVector(&w, &lookfrom_to_lookat);
-	/*will delete upper part*/
-
-	vec_scale(&along_focal, focal_dist, &w);
-	vec_scale(&half_u, 0.5, &cam->geom.screen_u);
-	vec_scale(&half_v, 0.5, &cam->geom.screen_v);
-
-	//screen00_loc = center - focal_distance * w - 0.5 * (screen_u + screen_v)
-	vec_add(&tmp, &along_focal, &half_u);
-	vec_add(&tmp, &tmp, &half_v);
-	vec_subs(&cam->geom.screen00_loc, &view.lookfrom, &tmp);
+	geom_setScreenOrigin(&cam->geom, view);
 }
 
 static void cam_setPixel00(t_cam *cam)
