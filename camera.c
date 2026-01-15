@@ -37,7 +37,7 @@ static void	geom_setFocalDist(t_geom *geom)
 	geom->focal_dist = vec_vectorLen(&geom->lookat_to_lookfrom);
 }
 
-static void	geom_set_screenDim(t_geom *geom, t_viewer view, t_img img)
+static void	geom_setScreenDim(t_geom *geom, t_viewer view, t_img img)
 {
 	double theta;
 	double h;
@@ -49,7 +49,7 @@ static void	geom_set_screenDim(t_geom *geom, t_viewer view, t_img img)
 	geom->screen_height  = geom->screen_width *((double)img.img_height / img.img_width);
 }
 
-static void	geom_set_othobasis(t_geom *geom, t_viewer view)
+static void	geom_setOrthobasis(t_geom *geom, t_viewer view)
 {
 	vec_unitVector(&geom->orthobasis_w, &geom->lookat_to_lookfrom);
 
@@ -65,21 +65,28 @@ static void	geom_setScreenVectors(t_geom *geom)
 	vec_scale(&geom->screen_v, -geom->screen_height, &geom->orthobasis_v);
 }
 
+static void	geom_fill(t_geom *geom, t_viewer view, t_img img)
+{
+	geom_setLookAtFrom(geom, view);
+	geom_setFocalDist(geom);
+	geom_setScreenDim(geom, view, img);
+	geom_setOrthobasis(geom, view);
+	geom_setScreenVectors(geom);
+}
+
 static void	cam_setScreen(t_cam *cam, t_viewer view)
 {
 	double	theta;
 	double	h;
-	double	focal_dist;
-	t_vec	lookfrom_to_lookat;
 
-	//cam->focal_dist    = 1.0;
-	vec_subs(&lookfrom_to_lookat, &view.lookfrom, &view.lookat); 
-	focal_dist = vec_vectorLen(&lookfrom_to_lookat);
+	geom_setLookAtFrom(&cam->geom, view);
+	//vec_subs(&lookfrom_to_lookat, &view.lookfrom, &view.lookat); 
+	cam->geom.focal_dist = vec_vectorLen(&cam->geom.lookat_to_lookfrom);
 
 	theta = view.hfov * M_PI / 180.0;
 	h = tan(theta / 2.0);
 	
-	cam->geom.screen_width = h * focal_dist * 2;
+	cam->geom.screen_width = h * cam->geom.focal_dist * 2;
 	cam->geom.screen_height  = cam->geom.screen_width *((double)cam->img.img_height / cam->img.img_width);
 
 	//calculate u, v ,w unit basis
@@ -87,7 +94,7 @@ static void	cam_setScreen(t_cam *cam, t_viewer view)
 	t_vec	u;
 	t_vec	v;
 
-	vec_unitVector(&w, &lookfrom_to_lookat);
+	vec_unitVector(&w, &cam->geom.lookat_to_lookfrom);
 
 	vec_cross(&u, &view.vup, &w);
 	vec_unitVector(&u, &u);
