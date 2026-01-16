@@ -3,6 +3,7 @@
 //TODO:  Change name of consumeNumber and Comma to parse (i.e. raises err too)
 #ifndef PARSER_H
 # define PARSER_H
+# include "vector.h"
 
 void	pars_skipWhiteSpace(char **ptr_buf);
 
