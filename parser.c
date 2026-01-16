@@ -2,6 +2,7 @@
 //TODO: dtoa 's utils' return values are dirty (char *) ....
 //TODO: shouldnt there be a range for x,y,z source coordinates
 //TODO: + or - alone parse as 0 , consume Number issue??
+//TODO: 1.2.3 NOT BE PARSED - SEE PARSE NUMBER
 
 
 #include "stdlib.h"
@@ -44,68 +45,14 @@ void	pars_raiseError(void)
 	write(2, "Format Error .rt\n", 17);
 	exit(1);
 }
-/*
-void	std_atodSignUtil(char **buf, double *sign)
-{
-	*sign = 1.0;
-	if (**buf == '-' || **buf == '+')
-	{
-		if (**buf == '-')
-			*sign = -1.0;
-		(*buf)++;
-	}
-}
 
-void	std_atodNumberUtil(char **buf, double *res)
-{
-	double	frac;
-	int	hasDigit;
-
-	*res = 0.0;
-	frac = 0.1;
-	hasDigit = 0;
-
-	while (**buf >= '0' && **buf <= '9')
-	{
-		hasDigit = 1;
-		*res = *res * 10.0 + (*(*buf)++ - '0');
-	}
-	if (!hasDigit)
-		pars_raiseError();
-	if (**buf == '.')
-	{
-		(*buf)++;
-		while (**buf >= '0' && **buf <= '9')
-		{
-			*res += (*(*buf)++ - '0') * frac;
-			frac *= 0.1;
-		}
-	}
-}
-
-int	std_atod(double *out, char *buf)
-{
-	double	sign;
-	double	res;
-
-	if (!buf || !out)
-		return (0);
-
-	while (std_isWhiteSpace(*buf))
-		buf++;
-	std_atodSignUtil(&buf, &sign);
-	std_atodNumberUtil(&buf, &res);
-
-	*out = res * sign;
-	return (1);
-}
-*/
 void	pars_consumeNumber(double *num, char **buf)
 {
 	std_assert(num && buf && *buf); //review this, maybe useless
 
 	if (!(std_isNum(**buf) || **buf == '-' || **buf == '+'))
 		return (pars_raiseError()); 
+
 	if (std_atod(num, *buf))
 		return (pars_raiseError());
 
@@ -113,7 +60,9 @@ void	pars_consumeNumber(double *num, char **buf)
 		(*buf)++;
 
 	while (**buf && (std_isNum(**buf) || **buf == '.'))
+	{
 		(*buf)++;
+	}
 
 	pars_skipWhiteSpace(buf);	
 }
@@ -178,6 +127,8 @@ void	pars_parseLight(char **buf)
 	double	brightness;
 
 	std_assert(buf && *buf);
+
+	pars_skipWhiteSpace(buf);
 
 	pars_consume3Numbers(&src, buf);
 

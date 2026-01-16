@@ -1,3 +1,4 @@
+//TODO: MAKE atoid return the number of bytes used rather than 1-0 (bytes consumed)
 #include <unistd.h>
 #include <math.h>
 #include <signal.h>
@@ -198,12 +199,9 @@ int	std_atod(double *out, char *buf)
 	if (!buf || !out)
 		return (1);
 
-	while (std_isWhiteSpace(*buf))
-		buf++;
-	
 	std_atodSignUtil(&buf, &sign);
 
-	if (!std_atodNumberUtil(&buf, &res))
+	if (std_atodNumberUtil(&buf, &res))
 		return (1);
 
 	*out = res * sign;
