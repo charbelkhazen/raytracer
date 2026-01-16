@@ -1,6 +1,7 @@
 //TODO:move and rename atod related function
 //TODO: dtoa 's utils' return values are dirty (char *) ....
 //TODO: shouldnt there be a range for x,y,z source coordinates
+//TODO: + or - alone parse as 0 , consume Number issue??
 
 
 #include "stdlib.h"
@@ -38,13 +39,12 @@ int	pars_consumeType(char **ptr_buf)
 }
 
 
-
 void	pars_raiseError(void)
 {
 	write(2, "Format Error .rt\n", 17);
 	exit(1);
 }
-
+/*
 void	std_atodSignUtil(char **buf, double *sign)
 {
 	*sign = 1.0;
@@ -59,13 +59,19 @@ void	std_atodSignUtil(char **buf, double *sign)
 void	std_atodNumberUtil(char **buf, double *res)
 {
 	double	frac;
+	int	hasDigit;
 
 	*res = 0.0;
 	frac = 0.1;
+	hasDigit = 0;
 
 	while (**buf >= '0' && **buf <= '9')
+	{
+		hasDigit = 1;
 		*res = *res * 10.0 + (*(*buf)++ - '0');
-
+	}
+	if (!hasDigit)
+		pars_raiseError();
 	if (**buf == '.')
 	{
 		(*buf)++;
@@ -85,21 +91,26 @@ int	std_atod(double *out, char *buf)
 	if (!buf || !out)
 		return (0);
 
+	while (std_isWhiteSpace(*buf))
+		buf++;
 	std_atodSignUtil(&buf, &sign);
 	std_atodNumberUtil(&buf, &res);
 
 	*out = res * sign;
 	return (1);
 }
-
+*/
 void	pars_consumeNumber(double *num, char **buf)
 {
 	std_assert(num && buf && *buf); //review this, maybe useless
 
 	if (!(std_isNum(**buf) || **buf == '-' || **buf == '+'))
 		return (pars_raiseError()); 
-	if (!std_atod(num, *buf))
+	if (std_atod(num, *buf))
 		return (pars_raiseError());
+
+	if (**buf == '+' || **buf == '-')
+		(*buf)++;
 
 	while (**buf && (std_isNum(**buf) || **buf == '.'))
 		(*buf)++;
@@ -156,7 +167,7 @@ void	pars_checkColorRange(t_vec color)
 
 void	pars_checkUnitIntervalRange(double num)
 {
-	if (num < 0.0 || num > 255.0)
+	if (num < 0.0 || num > 1.0)
 		return (pars_raiseError());
 }
 

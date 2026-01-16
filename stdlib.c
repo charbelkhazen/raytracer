@@ -150,3 +150,63 @@ int	std_isNum(char c)
 	else
 		return (0);
 }
+
+int	std_atodSignUtil(char **buf, double *sign)
+{
+	*sign = 1.0;
+	if (**buf == '-' || **buf == '+')
+	{
+		if (**buf == '-')
+			*sign = -1.0;
+		(*buf)++;
+	}
+	return (0);
+}
+
+int	std_atodNumberUtil(char **buf, double *res)
+{
+	double	frac;
+	int	hasDigit;
+
+	*res = 0.0;
+	frac = 0.1;
+	hasDigit = 0;
+
+	while (**buf >= '0' && **buf <= '9')
+	{
+		hasDigit = 1;
+		*res = *res * 10.0 + (*(*buf)++ - '0');
+	}
+	if (!hasDigit)
+		return (1);
+	if (**buf == '.')
+	{
+		(*buf)++;
+		while (**buf >= '0' && **buf <= '9')
+		{
+			*res += (*(*buf)++ - '0') * frac;
+			frac *= 0.1;
+		}
+	}
+	return (0);
+}
+
+int	std_atod(double *out, char *buf)
+{
+	double	sign;
+	double	res;
+
+	if (!buf || !out)
+		return (1);
+
+	while (std_isWhiteSpace(*buf))
+		buf++;
+	if (!std_atodSignUtil(&buf, &sign))
+		return (1);
+	if (!std_atodNumberUtil(&buf, &res))
+		return (1);
+
+	*out = res * sign;
+
+	return (0);
+}

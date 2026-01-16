@@ -25,4 +25,5 @@ int	std_isWhiteSpace(char c);
 
 int	std_isNum(char c);
 
+int	std_atod(double *out, char *buf);
 #endif
