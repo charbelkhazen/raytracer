@@ -1,6 +1,7 @@
 //TODO:move and rename atod related function
-//TODO:VERIFY RANGE OF VALUES (0-255) - brightness
 //TODO: dtoa 's utils' return values are dirty (char *) ....
+//TODO: shouldnt there be a range for x,y,z source coordinates
+
 
 #include "stdlib.h"
 #include "error.h"
@@ -44,53 +45,48 @@ void	pars_raiseError(void)
 	exit(1);
 }
 
-static char	*std_atodSignUtil(char *s, double *sign)
+void	std_atodSignUtil(char **buf, double *sign)
 {
 	*sign = 1.0;
-	if (*s == '-' || *s == '+')
+	if (**buf == '-' || **buf == '+')
 	{
-		if (*s == '-')
+		if (**buf == '-')
 			*sign = -1.0;
-		s++;
+		(*buf)++;
 	}
-	return (s);
 }
 
-static char	*std_atodNumberUtil(char *s, double *res)
+void	std_atodNumberUtil(char **buf, double *res)
 {
 	double	frac;
 
 	*res = 0.0;
 	frac = 0.1;
 
-	while (*s >= '0' && *s <= '9')
-		*res = *res * 10.0 + (*s++ - '0');
+	while (**buf >= '0' && **buf <= '9')
+		*res = *res * 10.0 + (*(*buf)++ - '0');
 
-	if (*s == '.')
+	if (**buf == '.')
 	{
-		s++;
-		while (*s >= '0' && *s <= '9')
+		(*buf)++;
+		while (**buf >= '0' && **buf <= '9')
 		{
-			*res += (*s++ - '0') * frac;
+			*res += (*(*buf)++ - '0') * frac;
 			frac *= 0.1;
 		}
 	}
-	return (s);
 }
 
 int	std_atod(double *out, char *buf)
 {
 	double	sign;
 	double	res;
-	char	*end;
 
 	if (!buf || !out)
 		return (0);
 
-	end = std_atodSignUtil(buf, &sign);
-	end = std_atodNumberUtil(end, &res);
-	if (*end && !std_isWhiteSpace(*end) && *end != ',')
-		return (0);
+	std_atodSignUtil(&buf, &sign);
+	std_atodNumberUtil(&buf, &res);
 
 	*out = res * sign;
 	return (1);
@@ -144,6 +140,26 @@ void	pars_consumeMandatoryWhiteSpace(char **buf)
 	pars_skipWhiteSpace(buf);
 }
 
+void	pars_checkColorRange(t_vec color)
+{
+	double	x;
+	double	y;
+	double	z;
+
+	x = color.x;
+	y = color.y;
+	z =  color.z;
+
+	if (x < 0.0 || x > 255.0 || y < 0.0 || y > 255.0 || z < 0.0 || z > 255.0)
+		return (pars_raiseError());
+}
+
+void	pars_checkUnitIntervalRange(double num)
+{
+	if (num < 0.0 || num > 255.0)
+		return (pars_raiseError());
+}
+
 void	pars_parseLight(char **buf)
 {
 	t_vec	src;
@@ -158,9 +174,13 @@ void	pars_parseLight(char **buf)
 
 	pars_consumeNumber(&brightness, buf);
 
+	pars_checkUnitIntervalRange(brightness);
+
 	pars_consumeMandatoryWhiteSpace(buf);
 
 	pars_consume3Numbers(&color, buf);
+
+	pars_checkColorRange(color);
 
 	pars_skipWhiteSpace(buf);
 }
