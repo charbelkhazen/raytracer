@@ -3,6 +3,7 @@
 //TODO: shouldnt there be a range for x,y,z source coordinates
 //TODO: + or - alone parse as 0 , consume Number issue??
 //TODO: 1.2.3 NOT BE PARSED - SEE PARSE NUMBER
+//TODO: LIGHT PARSE SHOULD TAKE AS INPUT t_light and fill it , and no need for **buf as input , *buf works( we're working line by line)
 
 
 #include "stdlib.h"
