@@ -1,10 +1,20 @@
 //TODO:move and rename atod related function
-//TODO:understand the post increment used in atod (or its helper function)
-//TODO:complete ambient light parsing following the pseudocode written 
+//TODO:VERIFY RANGE OF VALUES (0-255) - brightness
+//TODO: dtoa 's utils' return values are dirty (char *) ....
 
 #include "stdlib.h"
 #include "error.h"
 #include <stdlib.h>
+#include <unistd.h>
+#include "vector.h"
+
+void	pars_skipWhiteSpace(char **ptr_buf)
+{
+	std_assert(ptr_buf && *ptr_buf);
+
+	while (**ptr_buf && std_isWhiteSpace(**ptr_buf))
+		(*ptr_buf) ++;
+}
 
 int	pars_consumeType(char **ptr_buf)
 {
@@ -27,13 +37,6 @@ int	pars_consumeType(char **ptr_buf)
 }
 
 
-void	pars_skipWhiteSpace(char **ptr_buf)
-{
-	std_assert(ptr_buf && *ptr_buf);
-
-	while (**ptr_buf && std_isWhiteSpace(**ptr_buf))
-		(*ptr_buf) ++;
-}
 
 void	pars_raiseError(void)
 {
@@ -41,7 +44,7 @@ void	pars_raiseError(void)
 	exit(1);
 }
 
-static char	*std_atodSignUtil(const char *s, double *sign)
+static char	*std_atodSignUtil(char *s, double *sign)
 {
 	*sign = 1.0;
 	if (*s == '-' || *s == '+')
@@ -53,7 +56,7 @@ static char	*std_atodSignUtil(const char *s, double *sign)
 	return (s);
 }
 
-static char	*std_atodNumberUtil(const char *s, double *res)
+static char	*std_atodNumberUtil(char *s, double *res)
 {
 	double	frac;
 
@@ -61,7 +64,7 @@ static char	*std_atodNumberUtil(const char *s, double *res)
 	frac = 0.1;
 
 	while (*s >= '0' && *s <= '9')
-		*res = *res * 10.0 + (*s++ - '0'); //!!!!!!!!!!!!!!!!!!!!POST INCREMENT !!!!!!!!!!!!
+		*res = *res * 10.0 + (*s++ - '0');
 
 	if (*s == '.')
 	{
@@ -118,6 +121,7 @@ void	consume_Comma(char **buf)
 	pars_skipWhiteSpace(buf);	
 }
 
+//SHOULD BE COMMA SEPERATED
 static void	pars_consume3Numbers(t_vec *vector, char **buf)
 {
 	double	x;
@@ -143,37 +147,26 @@ void	pars_consumeMandatoryWhiteSpace(char **buf)
 void	pars_parseLight(char **buf)
 {
 	t_vec	src;
+	t_vec	color;
 	double	brightness;
-	double	r;
-	double	g;
-	double	b;
 
 	std_assert(buf && *buf);
 
-	pars_ConsumeFirst3Numbers(&src, buf);
+	pars_consume3Numbers(&src, buf);
 
 	pars_consumeMandatoryWhiteSpace(buf);
 
-	//consume and fill brightness
 	pars_consumeNumber(&brightness, buf);
 
-	/* mandatory whitespace before color */
-	if (!std_isWhiteSpace(**buf))
-		pars_raiseError();
-	pars_skipWhiteSpace(buf);
+	pars_consumeMandatoryWhiteSpace(buf);
 
-	/* color r,g,b (even if unused) */
-	pars_consumeNumber(&r, buf);
-	consume_Comma(buf);
-	pars_consumeNumber(&g, buf);
-	consume_Comma(buf);
-	pars_consumeNumber(&b, buf);
+	pars_consume3Numbers(&color, buf);
 
-	/* optional trailing whitespace */
 	pars_skipWhiteSpace(buf);
 }
-
+/*
 int main()
 {
 	char	*str = "hello how are you";
 }
+*/
