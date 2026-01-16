@@ -1,9 +1,9 @@
-//TODO:move and rename atod related function
-//TODO: dtoa 's utils' return values are dirty (char *) ....
 //TODO: shouldnt there be a range for x,y,z source coordinates
 //TODO: + or - alone parse as 0 , consume Number issue??
-//TODO: 1.2.3 NOT BE PARSED - SEE PARSE NUMBER
 //TODO: LIGHT PARSE SHOULD TAKE AS INPUT t_light and fill it , and no need for **buf as input , *buf works( we're working line by line)
+//TODO: if lower case letter type -> more than once if upper just once-> SHOULD BE HANDLED BY PARSER
+//TODO: SOME INFORMATION INSIDE ELEMTNS ARE NOT MANDATORY (E.G. COLOR FOR LIGHT) YET PARSER DOES CONSIDER THEM MANDATORY
+//TODO: what if buffer (line) passed to pase light is just a line having a null termiinating byte ""
 
 
 #include "stdlib.h"
@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "vector.h"
+#include "light.h"
 
 void	pars_skipWhiteSpace(char **ptr_buf)
 {
@@ -124,29 +125,25 @@ void	pars_checkUnitIntervalRange(double num)
 		return (pars_raiseError());
 }
 
-void	pars_parseLight(char **buf)
+void	pars_parseLight(t_light *light, char *buf)
 {
-	t_vec	src;
-	t_vec	color;
-	double	brightness;
+	std_assert(buf != 0);
 
-	std_assert(buf && *buf);
+	pars_skipWhiteSpace(&buf);
 
-	pars_skipWhiteSpace(buf);
+	pars_consume3Numbers(&light->src, &buf);
 
-	pars_consume3Numbers(&src, buf);
+	pars_consumeMandatoryWhiteSpace(&buf);
 
-	pars_consumeMandatoryWhiteSpace(buf);
+	pars_consumeNumber(&light->bright, &buf);
 
-	pars_consumeNumber(&brightness, buf);
+	pars_checkUnitIntervalRange(light->bright);
 
-	pars_checkUnitIntervalRange(brightness);
+	pars_consumeMandatoryWhiteSpace(&buf);
 
-	pars_consumeMandatoryWhiteSpace(buf);
+	pars_consume3Numbers(&light->color, &buf);
 
-	pars_consume3Numbers(&color, buf);
+	pars_checkColorRange(light->color);
 
-	pars_checkColorRange(color);
-
-	pars_skipWhiteSpace(buf);
+	pars_skipWhiteSpace(&buf);
 }
