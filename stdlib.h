@@ -25,6 +25,9 @@ int	std_isWhiteSpace(char c);
 
 int	std_isNum(char c);
 
-//no whitespace skipping, expects +number -number only. e.g. "+12.12.12" is 12.12 ".12" returns 1 (err). "--12" returns 1 err 
+//no whitespace skipping, expects +number -number only. returns nbytes consumed if return = 0 ->(err, no bytes consumed)
+///e.g. "+12.12.12" , out becomes 12.12 return is 5 
+///e.g. "+12." , out becomes 12 return is 3 ('+' '1' '2' are consumed) 
+//"12." returns 2 and out of 12       ".12" returns 0 .                         "--12" returns 0 
 int	std_atod(double *out, char *buf);
 #endif

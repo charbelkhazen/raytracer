@@ -1,4 +1,5 @@
 //TODO: MAKE atoid return the number of bytes used rather than 1-0 (bytes consumed)
+//TODO: 12. CONSUMES 3 NOT 2
 #include <unistd.h>
 #include <math.h>
 #include <signal.h>
@@ -152,59 +153,88 @@ int	std_isNum(char c)
 		return (0);
 }
 
-void	std_atodSignUtil(char **buf, double *sign)
+static int	std_atodSignUtil(char **buf, double *sign)
 {
+	int	bytes_consumed;
+	
+	bytes_consumed = 0;
 	*sign = 1.0;
 	if (**buf == '-' || **buf == '+')
 	{
 		if (**buf == '-')
 			*sign = -1.0;
 		(*buf)++;
+		bytes_consumed++;
 	}
+	return (bytes_consumed);
 }
 
-int	std_atodNumberUtil(char **buf, double *res)
+static int	std_atodNumberUtil(char **buf, double *res)
 {
 	double	frac;
 	int	hasDigit;
+	int	hasFrac;
+	int	bytes_consumed;
 
 	*res = 0.0;
 	frac = 0.1;
 	hasDigit = 0;
+	bytes_consumed = 0;
+	hasFrac = 0;
 
 	while (**buf >= '0' && **buf <= '9')
 	{
 		hasDigit = 1;
 		*res = *res * 10.0 + (*(*buf)++ - '0');
+		bytes_consumed++;
 	}
 	if (!hasDigit)
-		return (1);
+		return (0);
 	if (**buf == '.')
 	{
 		(*buf)++;
+		bytes_consumed++;
 		while (**buf >= '0' && **buf <= '9')
 		{
 			*res += (*(*buf)++ - '0') * frac;
+			bytes_consumed++;
+			hasFrac = 1;
 			frac *= 0.1;
 		}
+		if (!hasFrac)
+		{
+			(*buf)--;
+			bytes_consumed--;
+		}
 	}
-	return (0);
+	return (bytes_consumed);
 }
 
 int	std_atod(double *out, char *buf)
 {
 	double	sign;
 	double	res;
+	int	total_bytes_consumed;
+	int	bytes_consumed;	
 
 	if (!buf || !out)
-		return (1);
+		return (0);
 
-	std_atodSignUtil(&buf, &sign);
+	total_bytes_consumed = 0;
 
-	if (std_atodNumberUtil(&buf, &res))
-		return (1);
+	bytes_consumed = std_atodSignUtil(&buf, &sign);
+
+	total_bytes_consumed += bytes_consumed;
+
+	bytes_consumed = std_atodNumberUtil(&buf, &res);
+
+	//if no bytes consumed -> no number found -> return (0), i.e. consume nothing
+	if (bytes_consumed == 0)
+		return (0);
+	
+	total_bytes_consumed += bytes_consumed;
 
 	*out = res * sign;
 
-	return (0);
+	return (total_bytes_consumed);
 }

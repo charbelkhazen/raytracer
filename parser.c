@@ -48,18 +48,21 @@ void	pars_raiseError(void)
 
 void	pars_consumeNumber(double *num, char **buf)
 {
+	int	nbytes_consumed;
+
 	std_assert(num && buf && *buf); //review this, maybe useless
 
-	if (!(std_isNum(**buf) || **buf == '-' || **buf == '+'))
-		return (pars_raiseError()); 
+	nbytes_consumed = 0;
 
-	if (std_atod(num, *buf))
+	//if (!(std_isNum(**buf) || **buf == '-' || **buf == '+'))
+	//	return (pars_raiseError()); 
+
+	nbytes_consumed = std_atod(num, *buf);
+
+	if (!nbytes_consumed)
 		return (pars_raiseError());
 
-	if (**buf == '+' || **buf == '-')
-		(*buf)++;
-
-	while (**buf && (std_isNum(**buf) || **buf == '.'))
+	while (nbytes_consumed--)
 	{
 		(*buf)++;
 	}
