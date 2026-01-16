@@ -151,7 +151,7 @@ int	std_isNum(char c)
 		return (0);
 }
 
-int	std_atodSignUtil(char **buf, double *sign)
+void	std_atodSignUtil(char **buf, double *sign)
 {
 	*sign = 1.0;
 	if (**buf == '-' || **buf == '+')
@@ -160,7 +160,6 @@ int	std_atodSignUtil(char **buf, double *sign)
 			*sign = -1.0;
 		(*buf)++;
 	}
-	return (0);
 }
 
 int	std_atodNumberUtil(char **buf, double *res)
@@ -201,8 +200,9 @@ int	std_atod(double *out, char *buf)
 
 	while (std_isWhiteSpace(*buf))
 		buf++;
-	if (!std_atodSignUtil(&buf, &sign))
-		return (1);
+	
+	std_atodSignUtil(&buf, &sign);
+
 	if (!std_atodNumberUtil(&buf, &res))
 		return (1);
 

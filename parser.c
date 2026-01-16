@@ -118,7 +118,7 @@ void	pars_consumeNumber(double *num, char **buf)
 	pars_skipWhiteSpace(buf);	
 }
 
-void	consume_Comma(char **buf)
+void	pars_consumeComma(char **buf)
 {
 	std_assert(buf && *buf); // may be useless
 
@@ -129,16 +129,16 @@ void	consume_Comma(char **buf)
 }
 
 //SHOULD BE COMMA SEPERATED
-static void	pars_consume3Numbers(t_vec *vector, char **buf)
+void	pars_consume3Numbers(t_vec *vector, char **buf)
 {
 	double	x;
 	double	y;
 	double	z;
 
 	pars_consumeNumber(&x, buf);
-	consume_Comma(buf);
+	pars_consumeComma(buf);
 	pars_consumeNumber(&y, buf);
-	consume_Comma(buf);
+	pars_consumeComma(buf);
 	pars_consumeNumber(&z, buf);
 
 	vec_fillVec(vector, x, y, z);
@@ -195,9 +195,3 @@ void	pars_parseLight(char **buf)
 
 	pars_skipWhiteSpace(buf);
 }
-/*
-int main()
-{
-	char	*str = "hello how are you";
-}
-*/

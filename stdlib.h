@@ -25,5 +25,6 @@ int	std_isWhiteSpace(char c);
 
 int	std_isNum(char c);
 
+//skips whitespace and single sign at the begining
 int	std_atod(double *out, char *buf);
 #endif
