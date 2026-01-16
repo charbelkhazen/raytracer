@@ -117,12 +117,32 @@ void	consume_Comma(char **buf)
 	(*buf)++;
 	pars_skipWhiteSpace(buf);	
 }
-	
-void	pars_parseLight(char **buf)
+
+static void	pars_consume3Numbers(t_vec *vector, char **buf)
 {
 	double	x;
 	double	y;
 	double	z;
+
+	pars_consumeNumber(&x, buf);
+	consume_Comma(buf);
+	pars_consumeNumber(&y, buf);
+	consume_Comma(buf);
+	pars_consumeNumber(&z, buf);
+
+	vec_fillVec(vector, x, y, z);
+}
+
+void	pars_consumeMandatoryWhiteSpace(char **buf)
+{
+	if (!std_isWhiteSpace(**buf))
+		pars_raiseError();
+	pars_skipWhiteSpace(buf);
+}
+
+void	pars_parseLight(char **buf)
+{
+	t_vec	src;
 	double	brightness;
 	double	r;
 	double	g;
@@ -130,19 +150,11 @@ void	pars_parseLight(char **buf)
 
 	std_assert(buf && *buf);
 
-	/* position x,y,z */
-	pars_consumeNumber(&x, buf);
-	consume_Comma(buf);
-	pars_consumeNumber(&y, buf);
-	consume_Comma(buf);
-	pars_consumeNumber(&z, buf);
+	pars_ConsumeFirst3Numbers(&src, buf);
 
-	/* mandatory whitespace before brightness */
-	if (!std_isWhiteSpace(**buf))
-		pars_raiseError();
-	pars_skipWhiteSpace(buf);
+	pars_consumeMandatoryWhiteSpace(buf);
 
-	/* brightness */
+	//consume and fill brightness
 	pars_consumeNumber(&brightness, buf);
 
 	/* mandatory whitespace before color */
