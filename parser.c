@@ -37,7 +37,6 @@ int	pars_consumeType(char **ptr_buf)
 	    (*ptr_buf) ++;
 	else
 	    return (0);
-	pars_skipWhiteSpace(ptr_buf);
 	return (type);
 }
 
@@ -48,7 +47,7 @@ void	pars_raiseError(void)
 	exit(1);
 }
 
-void	pars_consumeNumber(double *num, char **buf)
+int	pars_consumeNumber(double *num, char **buf)
 {
 	int	nbytes_consumed;
 
@@ -56,56 +55,60 @@ void	pars_consumeNumber(double *num, char **buf)
 
 	nbytes_consumed = 0;
 
-	//if (!(std_isNum(**buf) || **buf == '-' || **buf == '+'))
-	//	return (pars_raiseError()); 
-
 	nbytes_consumed = std_atod(num, *buf);
 
 	if (!nbytes_consumed)
-		return (pars_raiseError());
+		return (1);
 
 	while (nbytes_consumed--)
-	{
 		(*buf)++;
-	}
 
-	pars_skipWhiteSpace(buf);	
+	return (0);
 }
 
-void	pars_consumeComma(char **buf)
+int	pars_consumeComma(char **buf)
 {
 	std_assert(buf && *buf); // may be useless
 
 	if (**buf != ',')
-		return (pars_raiseError());
+		return (1);
 	(*buf)++;
-	pars_skipWhiteSpace(buf);	
+
+	return (0);
 }
 
 //SHOULD BE COMMA SEPERATED
-void	pars_consume3Numbers(t_vec *vector, char **buf)
+int	pars_consume3Numbers(t_vec *vector, char **buf)
 {
 	double	x;
 	double	y;
 	double	z;
 
-	pars_consumeNumber(&x, buf);
-	pars_consumeComma(buf);
-	pars_consumeNumber(&y, buf);
-	pars_consumeComma(buf);
-	pars_consumeNumber(&z, buf);
+	if (pars_consumeNumber(&x, buf))
+		return (1);
+	if (pars_consumeComma(buf))
+		return (1);
+	if (pars_consumeNumber(&y, buf))
+		return (1);
+	if (pars_consumeComma(buf))
+		return (1);
+	if (pars_consumeNumber(&z, buf))
+		return (1);
 
 	vec_fillVec(vector, x, y, z);
+
+	return (0);
 }
 
-void	pars_consumeMandatoryWhiteSpace(char **buf)
+int	pars_consumeMandatoryWhiteSpace(char **buf)
 {
 	if (!std_isWhiteSpace(**buf))
-		pars_raiseError();
+		return (1);
 	pars_skipWhiteSpace(buf);
+	return (0);
 }
 
-void	pars_checkColorRange(t_vec color)
+int	pars_checkColorRange(t_vec color)
 {
 	double	x;
 	double	y;
@@ -116,34 +119,48 @@ void	pars_checkColorRange(t_vec color)
 	z =  color.z;
 
 	if (x < 0.0 || x > 255.0 || y < 0.0 || y > 255.0 || z < 0.0 || z > 255.0)
-		return (pars_raiseError());
+		return (1);
+	return (0);
 }
 
-void	pars_checkUnitIntervalRange(double num)
+int	pars_checkUnitIntervalRange(double num)
 {
 	if (num < 0.0 || num > 1.0)
-		return (pars_raiseError());
+		return (1);
+	return (0);
 }
 
-void	pars_parseLight(t_light *light, char *buf)
+#include <stdio.h>
+int	pars_parseLight(t_light *light, char *buf)
 {
 	std_assert(buf != 0);
 
 	pars_skipWhiteSpace(&buf);
+	printf("1:%s\n", buf);
+	if(pars_consume3Numbers(&light->src, &buf))
+		return (1);
+	printf("2:%s\n", buf);
+	if(pars_consumeMandatoryWhiteSpace(&buf))
+		return (2);
 
-	pars_consume3Numbers(&light->src, &buf);
+	printf("3:%s\n", buf);
 
-	pars_consumeMandatoryWhiteSpace(&buf);
+	if(pars_consumeNumber(&light->bright, &buf))
+		return (3);
 
-	pars_consumeNumber(&light->bright, &buf);
+	if(pars_checkUnitIntervalRange(light->bright))
+		return (4);
 
-	pars_checkUnitIntervalRange(light->bright);
+	if(pars_consumeMandatoryWhiteSpace(&buf))
+		return (5);
 
-	pars_consumeMandatoryWhiteSpace(&buf);
 
-	pars_consume3Numbers(&light->color, &buf);
-
-	pars_checkColorRange(light->color);
-
-	pars_skipWhiteSpace(&buf);
+	if(*buf)
+	{
+		if(pars_consume3Numbers(&light->color, &buf))
+			return (6);
+		if(pars_checkColorRange(light->color))
+			return (7);
+	}
+	return (0);
 }

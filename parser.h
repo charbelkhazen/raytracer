@@ -15,18 +15,18 @@ int	pars_consumeType(char **ptr_buf);
 void	pars_raiseError(void);
 
 //parses number then skips whitespace. exits on err
-void	pars_consumeNumber(double *num, char **buf);
+int	pars_consumeNumber(double *num, char **buf);
 
-void	pars_consumeComma(char **buf);
+int	pars_consumeComma(char **buf);
 
 //assumes comma seperation between them
-void	pars_consume3Numbers(t_vec *vector, char **buf);
+int	pars_consume3Numbers(t_vec *vector, char **buf);
 
-void	pars_consumeMandatoryWhiteSpace(char **buf);
+int	pars_consumeMandatoryWhiteSpace(char **buf);
 
-void	pars_checkColorRange(t_vec color);
+int	pars_checkColorRange(t_vec color);
 
-void	pars_checkUnitIntervalRange(double num);
+int	pars_checkUnitIntervalRange(double num);
 
-void	pars_parseLight(t_light *light, char *buf);
+int	pars_parseLight(t_light *light, char *buf);
 #endif
