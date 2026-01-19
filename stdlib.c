@@ -1,5 +1,5 @@
-//TODO: MAKE atoid return the number of bytes used rather than 1-0 (bytes consumed)
-//TODO: 12. CONSUMES 3 NOT 2
+//TODO: No overflow protection for atoi (and maybe atod) i.e. if number is bigger than intmax smaller than intmin
+
 #include <unistd.h>
 #include <math.h>
 #include <signal.h>

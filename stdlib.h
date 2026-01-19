@@ -31,5 +31,7 @@ int	std_isNum(char c);
 //"12." returns 2 and out of 12       ".12" returns 0 .                         "--12" returns 0 
 int	std_atod(double *out, char *buf);
 
+//same rules as before but for int
+//"12.12" -> out is 12 return is 2
 int	std_atoi(int *out, char *buf);
 #endif

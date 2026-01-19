@@ -192,8 +192,9 @@ int	pars_parseLight(t_light *light, char *buf)
 		return (1);
 	if(pars_checkUnitIntervalRange(light->bright))
 		return (1);
-	if(pars_consumeMandatoryWhiteSpace(&buf))
-		return (1);
+
+	pars_skipWhiteSpace(&buf);
+
 	if(*buf)
 	{
 		if(pars_consume3Integers(&light->color, &buf))
