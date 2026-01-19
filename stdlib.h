@@ -30,4 +30,6 @@ int	std_isNum(char c);
 ///e.g. "+12." , out becomes 12 return is 3 ('+' '1' '2' are consumed) 
 //"12." returns 2 and out of 12       ".12" returns 0 .                         "--12" returns 0 
 int	std_atod(double *out, char *buf);
+
+int	std_atoi(int *out, char *buf);
 #endif

@@ -4,6 +4,7 @@
 //TODO: if lower case letter type -> more than once if upper just once-> SHOULD BE HANDLED BY PARSER
 //TODO: SOME INFORMATION INSIDE ELEMTNS ARE NOT MANDATORY (E.G. COLOR FOR LIGHT) YET PARSER DOES CONSIDER THEM MANDATORY
 //TODO: what if buffer (line) passed to pase light is just a line having a null termiinating byte ""
+//TODO: need to explicitly skip white spaces when you can skip then (e.g. after parsing a single number) 
 
 
 #include "stdlib.h"
@@ -66,6 +67,25 @@ int	pars_consumeNumber(double *num, char **buf)
 	return (0);
 }
 
+int	pars_consumeInteger(int *num, char **buf)
+{
+	int	nbytes_consumed;
+
+	std_assert(num && buf && *buf); //review this, maybe useless
+
+	nbytes_consumed = 0;
+
+	nbytes_consumed = std_atoi(num, *buf);
+
+	if (!nbytes_consumed)
+		return (1);
+
+	while (nbytes_consumed--)
+		(*buf)++;
+
+	return (0);
+}
+
 int	pars_consumeComma(char **buf)
 {
 	std_assert(buf && *buf); // may be useless
@@ -86,12 +106,16 @@ int	pars_consume3Numbers(t_vec *vector, char **buf)
 
 	if (pars_consumeNumber(&x, buf))
 		return (1);
+	pars_skipWhiteSpace(buf);
 	if (pars_consumeComma(buf))
 		return (1);
+	pars_skipWhiteSpace(buf);
 	if (pars_consumeNumber(&y, buf))
 		return (1);
+	pars_skipWhiteSpace(buf);
 	if (pars_consumeComma(buf))
 		return (1);
+	pars_skipWhiteSpace(buf);
 	if (pars_consumeNumber(&z, buf))
 		return (1);
 
@@ -100,9 +124,34 @@ int	pars_consume3Numbers(t_vec *vector, char **buf)
 	return (0);
 }
 
+int	pars_consume3Integers(t_vec *vector, char **buf)
+{
+	int	x;
+	int	y;
+	int	z;
+
+	if (pars_consumeInteger(&x, buf))
+		return (1);
+	pars_skipWhiteSpace(buf);
+	if (pars_consumeComma(buf))
+		return (1);
+	pars_skipWhiteSpace(buf);
+	if (pars_consumeInteger(&y, buf))
+		return (1);
+	pars_skipWhiteSpace(buf);
+	if (pars_consumeComma(buf))
+		return (1);
+	pars_skipWhiteSpace(buf);
+	if (pars_consumeInteger(&z, buf))
+		return (1);
+
+	vec_fillVec(vector, x, y, z);
+
+	return (0);
+}
 int	pars_consumeMandatoryWhiteSpace(char **buf)
 {
-	if (!std_isWhiteSpace(**buf))
+	if (!**buf || !std_isWhiteSpace(**buf))
 		return (1);
 	pars_skipWhiteSpace(buf);
 	return (0);
@@ -130,37 +179,29 @@ int	pars_checkUnitIntervalRange(double num)
 	return (0);
 }
 
-#include <stdio.h>
 int	pars_parseLight(t_light *light, char *buf)
 {
 	std_assert(buf != 0);
 
 	pars_skipWhiteSpace(&buf);
-	printf("1:%s\n", buf);
 	if(pars_consume3Numbers(&light->src, &buf))
 		return (1);
-	printf("2:%s\n", buf);
 	if(pars_consumeMandatoryWhiteSpace(&buf))
-		return (2);
-
-	printf("3:%s\n", buf);
-
+		return (1);
 	if(pars_consumeNumber(&light->bright, &buf))
-		return (3);
-
+		return (1);
 	if(pars_checkUnitIntervalRange(light->bright))
-		return (4);
-
+		return (1);
 	if(pars_consumeMandatoryWhiteSpace(&buf))
-		return (5);
-
-
+		return (1);
 	if(*buf)
 	{
-		if(pars_consume3Numbers(&light->color, &buf))
-			return (6);
+		if(pars_consume3Integers(&light->color, &buf))
+			return (1);
 		if(pars_checkColorRange(light->color))
-			return (7);
+			return (1);
 	}
+	if (*buf)
+		return (1);
 	return (0);
 }

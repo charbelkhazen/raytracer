@@ -153,16 +153,16 @@ int	std_isNum(char c)
 		return (0);
 }
 
-static int	std_atodSignUtil(char **buf, double *sign)
+static int	std_signUtil(char **buf, int *sign)
 {
 	int	bytes_consumed;
 	
 	bytes_consumed = 0;
-	*sign = 1.0;
+	*sign = 1;
 	if (**buf == '-' || **buf == '+')
 	{
 		if (**buf == '-')
-			*sign = -1.0;
+			*sign = -1;
 		(*buf)++;
 		bytes_consumed++;
 	}
@@ -212,7 +212,7 @@ static int	std_atodNumberUtil(char **buf, double *res)
 
 int	std_atod(double *out, char *buf)
 {
-	double	sign;
+	int	sign;
 	double	res;
 	int	total_bytes_consumed;
 	int	bytes_consumed;	
@@ -222,7 +222,7 @@ int	std_atod(double *out, char *buf)
 
 	total_bytes_consumed = 0;
 
-	bytes_consumed = std_atodSignUtil(&buf, &sign);
+	bytes_consumed = std_signUtil(&buf, &sign);
 
 	total_bytes_consumed += bytes_consumed;
 
@@ -234,6 +234,51 @@ int	std_atod(double *out, char *buf)
 	
 	total_bytes_consumed += bytes_consumed;
 
+	*out = res * (double)sign;
+
+	return (total_bytes_consumed);
+}
+
+int	std_atoiNumberUtil(char **buf, int *res)
+{
+	int	hasDigit;
+	int	bytes_consumed;
+
+	*res = 0;
+	hasDigit = 0;
+	bytes_consumed = 0;
+	while (**buf >= '0' && **buf <= '9')
+	{
+		hasDigit = 1;
+		*res = *res * 10 + (**buf - '0');
+		(*buf)++;
+		bytes_consumed++;
+	}
+	if (!hasDigit)
+		return (0);
+	return (bytes_consumed);
+}
+
+int	std_atoi(int *out, char *buf)
+{
+	int	sign;
+	int	res;
+	int	total_bytes_consumed;
+	int	bytes_consumed;
+
+	if (!buf || !out)
+		return (0);
+
+	total_bytes_consumed = 0;
+
+	bytes_consumed = std_signUtil(&buf, &sign);
+	total_bytes_consumed += bytes_consumed;
+
+	bytes_consumed = std_atoiNumberUtil(&buf, &res);
+	if (bytes_consumed == 0)
+		return (0);
+
+	total_bytes_consumed += bytes_consumed;
 	*out = res * sign;
 
 	return (total_bytes_consumed);
