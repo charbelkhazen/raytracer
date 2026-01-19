@@ -11,25 +11,6 @@
 # include "viewer.h"
 # include "image.h"
 
-/*
-void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, double hfov)
-{
-	viewer->lookat = lookat;
-	viewer->lookfrom = lookfrom;
-	viewer->vup = vup;
-	viewer->hfov = hfov;
-}
-
-void	img_fill(t_img *img, int img_width, double img_ratio)
-{
-	img->img_width = img_width;
-	img->img_ratio = img_ratio;
-	img->img_height = (int)((double)img_width / img_ratio);
-	if (img->img_height < 1)
-		img->img_height = 1;
-}
-
-*/
 static void	geom_setLookAtFrom(t_geom *geom, t_viewer view)
 {
 	vec_subs(&geom->lookat_to_lookfrom, &view.lookfrom, &view.lookat); 

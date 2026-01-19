@@ -7,25 +7,6 @@
 # include "light.h"
 # include "viewer.h"
 # include "image.h"
-/*
-typedef struct s_viewer
-{
-	t_vec	lookfrom;
-	t_vec	lookat;
-	t_vec	vup; //vector that defines x and y on plane orth. to look_at dir
-	double	hfov;
-}	t_viewer;
-
-void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, double hfov);
-typedef	struct	s_img
-{
-	int	img_width;
-	int	img_height;
-	double	img_ratio;
-}	t_img;
-
-void	img_fill(t_img *img, int img_width, double img_ratio);
-*/
 
 typedef	struct s_geom
 {
