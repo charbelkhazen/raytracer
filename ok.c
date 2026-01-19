@@ -9,7 +9,7 @@ int main()
 	char colstr[100];
 	char srcstr[100];
 
-	printf("%d\n",pars_parseLight(&light,  "-40.0 ,50.0,0.0 0.6 10,0,255"));
+	printf("%d\n",pars_parseLight(&light,  "-40.0 ,50.0,0.0 0.6 10,          0.9,255"));
 
 	vec_toStr(colstr, &light.color, 1);
 	vec_toStr(srcstr, &light.src, 1);

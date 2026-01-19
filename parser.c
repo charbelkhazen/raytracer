@@ -41,12 +41,13 @@ int	pars_consumeType(char **ptr_buf)
 	return (type);
 }
 
-
+/*
 void	pars_raiseError(void)
 {
 	write(2, "Format Error .rt\n", 17);
 	exit(1);
 }
+*/
 
 int	pars_consumeNumber(double *num, char **buf)
 {
@@ -97,7 +98,6 @@ int	pars_consumeComma(char **buf)
 	return (0);
 }
 
-//SHOULD BE COMMA SEPERATED
 int	pars_consume3Numbers(t_vec *vector, char **buf)
 {
 	double	x;

@@ -8,19 +8,22 @@
 
 void	pars_skipWhiteSpace(char **ptr_buf);
 
-//consumes and returns type as int
+//consumes and returns type as int (which corresponds to first char of of type)
 int	pars_consumeType(char **ptr_buf);
 
-//uses io!!
-void	pars_raiseError(void);
-
-//parses number then skips whitespace. exits on err
+//assumes no whitespaces. Consume number and advances. double parsing relies on atod, returns 1 on err
 int	pars_consumeNumber(double *num, char **buf);
 
+//assumes no whitespaces. Consume int and advances. int parsing relies on atoi, returns 1 on err
+int	pars_consumeInteger(int *num, char **buf);
+
+//No whitespace assumptoin. consume comma. If no comma return (1) (parsin err)
 int	pars_consumeComma(char **buf);
 
-//assumes comma seperation between them
+//assumes comma seperation between them, allows for whitespace between numbers
 int	pars_consume3Numbers(t_vec *vector, char **buf);
+
+int	pars_consume3Integers(t_vec *vector, char **buf);
 
 int	pars_consumeMandatoryWhiteSpace(char **buf);
 
