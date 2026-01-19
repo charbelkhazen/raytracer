@@ -5,9 +5,9 @@
 # include "sphere.h"
 # include "universe.h"
 # include "light.h"
-//# include "viewer.h"
+# include "viewer.h"
 
-
+/*
 typedef struct s_viewer
 {
 	t_vec	lookfrom;
@@ -17,7 +17,7 @@ typedef struct s_viewer
 }	t_viewer;
 
 void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, double hfov);
-
+*/
 typedef	struct	s_img
 {
 	int	img_width;

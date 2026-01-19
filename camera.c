@@ -8,8 +8,8 @@
 #include "intersection.h"
 #include "lambertphong.h"
 # include <math.h>
-//# include "viewer.h"
-
+# include "viewer.h"
+/*
 void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, double hfov)
 {
 	viewer->lookat = lookat;
@@ -17,7 +17,7 @@ void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, doub
 	viewer->vup = vup;
 	viewer->hfov = hfov;
 }
-
+*/
 void	img_fill(t_img *img, int img_width, double img_ratio)
 {
 	img->img_width = img_width;
