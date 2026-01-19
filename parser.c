@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include "vector.h"
 #include "light.h"
+#include "ambientlight.h"
 
 void	pars_skipWhiteSpace(char **ptr_buf)
 {
@@ -206,3 +207,60 @@ int	pars_parseLight(t_light *light, char *buf)
 		return (1);
 	return (0);
 }
+
+int	pars_parseAmbient(t_ambientLight *ambient, char *buf)
+{
+	std_assert(buf != 0);
+
+	pars_skipWhiteSpace(&buf);
+
+	if(pars_consumeNumber(&ambient->ratio, &buf))
+		return (1);
+	if(pars_checkUnitIntervalRange(ambient->ratio))
+		return (1);
+
+	if(pars_consumeMandatoryWhiteSpace(&buf))
+		return (1);
+
+	if(pars_consume3Integers(&ambient->color, &buf))
+		return (1);
+	if(pars_checkColorRange(ambient->color))
+		return (1);
+
+	pars_skipWhiteSpace(&buf);
+
+	if (*buf)
+		return (1);
+
+	return (0);
+}
+
+/*
+int	pars_parseCamera(t_cam *cam, char *buf)
+{
+	std_assert(buf != 0);
+
+	pars_skipWhiteSpace(&buf);
+	if(pars_consume3Numbers(&light->src, &buf))
+		return (1);
+	if(pars_consumeMandatoryWhiteSpace(&buf))
+		return (1);
+	if(pars_consumeNumber(&light->bright, &buf))
+		return (1);
+	if(pars_checkUnitIntervalRange(light->bright))
+		return (1);
+
+	pars_skipWhiteSpace(&buf);
+
+	if(*buf)
+	{
+		if(pars_consume3Integers(&light->color, &buf))
+			return (1);
+		if(pars_checkColorRange(light->color))
+			return (1);
+	}
+	if (*buf)
+		return (1);
+	return (0);
+}
+*/

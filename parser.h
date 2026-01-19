@@ -5,6 +5,7 @@
 # define PARSER_H
 # include "vector.h"
 # include "light.h"
+# include "ambientlight.h"
 
 void	pars_skipWhiteSpace(char **ptr_buf);
 
@@ -32,4 +33,6 @@ int	pars_checkColorRange(t_vec color);
 int	pars_checkUnitIntervalRange(double num);
 
 int	pars_parseLight(t_light *light, char *buf);
+
+int	pars_parseAmbient(t_ambientLight *ambient, char *buf);
 #endif
