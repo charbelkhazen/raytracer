@@ -9,6 +9,8 @@
 #include "lambertphong.h"
 # include <math.h>
 # include "viewer.h"
+# include "image.h"
+
 /*
 void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, double hfov)
 {
@@ -17,7 +19,7 @@ void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, doub
 	viewer->vup = vup;
 	viewer->hfov = hfov;
 }
-*/
+
 void	img_fill(t_img *img, int img_width, double img_ratio)
 {
 	img->img_width = img_width;
@@ -27,6 +29,7 @@ void	img_fill(t_img *img, int img_width, double img_ratio)
 		img->img_height = 1;
 }
 
+*/
 static void	geom_setLookAtFrom(t_geom *geom, t_viewer view)
 {
 	vec_subs(&geom->lookat_to_lookfrom, &view.lookfrom, &view.lookat); 
