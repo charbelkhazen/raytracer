@@ -14,6 +14,7 @@
 #include "vector.h"
 #include "light.h"
 #include "ambientlight.h"
+#include "viewer.h"
 
 void	pars_skipWhiteSpace(char **ptr_buf)
 {
@@ -179,7 +180,7 @@ int	pars_checkUnitIntervalRange(double num)
 		return (1);
 	return (0);
 }
-
+//could have used fill light
 int	pars_parseLight(t_light *light, char *buf)
 {
 	std_assert(buf != 0);
@@ -207,7 +208,7 @@ int	pars_parseLight(t_light *light, char *buf)
 		return (1);
 	return (0);
 }
-
+//could have used fillAmbient
 int	pars_parseAmbient(t_ambientLight *ambient, char *buf)
 {
 	std_assert(buf != 0);
@@ -235,32 +236,31 @@ int	pars_parseAmbient(t_ambientLight *ambient, char *buf)
 	return (0);
 }
 
-/*
-int	pars_parseCamera(t_cam *cam, char *buf)
+int	pars_parseCamera(t_viewer *view, char *buf)
 {
+	t_vec	lookfrom;
+	t_vec	orientation_vector;
+	double	hfov; 
+
 	std_assert(buf != 0);
 
 	pars_skipWhiteSpace(&buf);
-	if(pars_consume3Numbers(&light->src, &buf))
+	if (pars_consume3Numbers(&lookfrom, &buf))
 		return (1);
-	if(pars_consumeMandatoryWhiteSpace(&buf))
+	if (pars_consumeMandatoryWhiteSpace(&buf))
 		return (1);
-	if(pars_consumeNumber(&light->bright, &buf))
+	if (pars_consume3Numbers(&orientation_vector, &buf))
 		return (1);
-	if(pars_checkUnitIntervalRange(light->bright))
+	if (pars_consumeMandatoryWhiteSpace(&buf))
 		return (1);
-
+	if (pars_consumeNumber(&hfov, &buf))
+		return (1);
 	pars_skipWhiteSpace(&buf);
-
-	if(*buf)
-	{
-		if(pars_consume3Integers(&light->color, &buf))
-			return (1);
-		if(pars_checkColorRange(light->color))
-			return (1);
-	}
-	if (*buf)
+	
+	if (vec_vectorLen(&orientation_vector) != 1 )
 		return (1);
+	if (hfov < 0 || hfov > 180.0)
+		return (1);
+	//viewer_fill(view, lookfrom, hfov);
 	return (0);
 }
-*/
