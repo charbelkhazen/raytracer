@@ -261,6 +261,6 @@ int	pars_parseCamera(t_viewer *view, char *buf)
 		return (1);
 	if (hfov < 0 || hfov > 180.0)
 		return (1);
-	//viewer_fill(view, lookfrom, hfov);
+	viewer_defaultFill(view, lookfrom, hfov, orientation_vector);
 	return (0);
 }
