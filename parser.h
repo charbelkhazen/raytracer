@@ -7,6 +7,9 @@
 # include "light.h"
 # include "ambientlight.h"
 # include "viewer.h"
+# include "object.h"
+# include "sphere.h"
+# include "material.h"
 
 void	pars_skipWhiteSpace(char **ptr_buf);
 
