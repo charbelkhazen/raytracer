@@ -33,3 +33,13 @@ IMPORTANT SHELL
 
 
 test code with improbable values: e.g. diameter = 0 for sphere
+
+
+PLANE AND CYLINDER PARSING USING CHATGPT
+give llm :
+- rule for sphere and how it was implemented (without the first character) 
+- same for camera
+- give the interface 
+- tell here about the syntax to respect for plane and cylinder( ! dont forget the optional parts to it)
+- generate using same logic
+

@@ -6,6 +6,7 @@
 //TODO: review parse light and ambient to match the same structure of camera parsing. CHECK BEFORE WITH CHAT GPT IF HE THINKS ITS A GOOD IDEA
 //TODO: m 'matte' M 'Metallic' make this explicit or fix to actually write matte and metallic IF THERE IS TIME ONLY
 //TODO:  I let user write a sphere with diameter == 0 , remove it if needed by changing the checking condition to diameter <= 0 not < 0
+//TODO: MAKE SURE CONSUME INTERGERS IS USED FOR COLORS (IN CAMERA - and double check all other parsers )!!!!!!!!!!!!!!!!!!!!
 #include "stdlib.h"
 #include "error.h"
 #include <stdlib.h>
