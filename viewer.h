@@ -6,13 +6,12 @@ typedef struct s_viewer
 {
 	t_vec	lookfrom;
 	t_vec	lookat;
-	t_vec	vup; //vector that defines x and y on plane orth. to look_at dir
-	t_vec	orthobasis_w;
-	t_vec	orthobasis_u;
-	t_vec	orthobasis_v;
+	t_vec	vup; //vector that defines x and y on plane orth. to lookat dir
 	double	hfov;
 }	t_viewer;
 
 void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, double hfov);
 
+//fill viewer under default parameters
+void	viewer_defaultFill(t_viewer *viewer, t_vec lookfrom, double hfov, t_vec orientation_vector);
 #endif
