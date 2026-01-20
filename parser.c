@@ -4,7 +4,7 @@
 //TODO: what if buffer (line) passed to pase light is just a line having a null termiinating byte ""
 //TODO: err message here is the same for all types of issues. You can define errors in a very granular way by passing a str to every parsing function, and fill it on err. ONLY IF YOU HAVE TIME DO IT. Note: there are many other methods.
 //TODO: review parse light and ambient to match the same structure of camera parsing. CHECK BEFORE WITH CHAT GPT IF HE THINKS ITS A GOOD IDEA
-
+//TODO: m 'matte' M 'Metallic' make this explicit or fix to actually write matte and metallic IF THERE IS TIME ONLY
 #include "stdlib.h"
 #include "error.h"
 #include <stdlib.h>
@@ -95,6 +95,18 @@ int	pars_consumeComma(char **buf)
 		return (1);
 	(*buf)++;
 
+	return (0);
+}
+
+int	pars_consumeMaterial(int *mat, char **buf)
+{
+	std_assert(buf && *buf); // may be useless
+
+	if (!(**buf == 'm' || **buf == 'M'))
+		return (1);
+
+	*mat = (**buf);
+	(*buf)++;
 	return (0);
 }
 
@@ -246,10 +258,8 @@ int	pars_parseCamera(t_viewer *view, char *buf)
 	//parsing and consuming
 	pars_skipWhiteSpace(&buf);
 	// see those as ordered steps in parsing. and if a step fails -> returns (1) -> func returns (1). I wrote it in one line for compactness
-	if (pars_consume3Numbers(&lookfrom, &buf)
-		|| pars_consumeMandatoryWhiteSpace(&buf)
-		|| pars_consume3Numbers(&orientation_vector, &buf)
-		|| pars_consumeMandatoryWhiteSpace(&buf)
+	if (pars_consume3Numbers(&lookfrom, &buf) || pars_consumeMandatoryWhiteSpace(&buf) 
+		|| pars_consume3Numbers(&orientation_vector, &buf) || pars_consumeMandatoryWhiteSpace(&buf)
 		|| pars_consumeNumber(&hfov, &buf))
 		return (1);
 	pars_skipWhiteSpace(&buf);
@@ -261,6 +271,38 @@ int	pars_parseCamera(t_viewer *view, char *buf)
 		|| (hfov < 0 || hfov > 180.0))
 		return (1);
 	
+	viewer_defaultFill(view, lookfrom, hfov, orientation_vector);
+	return (0);
+}
+
+int	pars_parseSphere(t_obj *obj, char *buf)
+{
+	t_vec	center;
+	t_vec	color;
+	double	diameter;
+	int	mat;
+
+	std_assert(buf != 0);
+
+	//default material is matte, if user inputs another then change (simulate default arg)
+	mat = 'm';
+
+	//parsing and consuming
+	pars_skipWhiteSpace(&buf);
+	// see those as ordered steps in parsing. and if a step fails -> returns (1) -> func returns (1). I wrote it in one line for compactness
+	if (pars_consume3Numbers(&center, &buf) || pars_consumeMandatoryWhiteSpace(&buf) 
+		|| pars_consumeNumber(&diameter, &buf) || pars_consumeMandatoryWhiteSpace(&buf)
+		|| pars_consume3Numbers(&color, &buf))
+		return (1);
+	pars_skipWhiteSpace(&buf);
+	//optional material : 'm' : matte , 'M' : metallic 
+	//see those as ordered sequence
+	if(*buf) || (pars_consumeMaterial(&material, &buf) || (*buf))
+		return (1);
+
+	//check if consumed match logic : only colors should be cheched
+	if (pars_checkColorRange(color))
+		return (1);
 	viewer_defaultFill(view, lookfrom, hfov, orientation_vector);
 	return (0);
 }
