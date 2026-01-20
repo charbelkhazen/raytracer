@@ -13,6 +13,7 @@
 #include "light.h"
 #include "ambientlight.h"
 #include "viewer.h"
+#include "object.h"
 
 void	pars_skipWhiteSpace(char **ptr_buf)
 {
@@ -280,12 +281,12 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	t_vec	center;
 	t_vec	color;
 	double	diameter;
-	int	mat;
+	int	material;
 
 	std_assert(buf != 0);
 
 	//default material is matte, if user inputs another then change (simulate default arg)
-	mat = 'm';
+	material = 'm';
 
 	//parsing and consuming
 	pars_skipWhiteSpace(&buf);
@@ -297,12 +298,12 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	pars_skipWhiteSpace(&buf);
 	//optional material : 'm' : matte , 'M' : metallic 
 	//see those as ordered sequence
-	if(*buf) || (pars_consumeMaterial(&material, &buf) || (*buf))
+	if((*buf) || (pars_consumeMaterial(&material, &buf)) || (*buf))
 		return (1);
 
 	//check if consumed match logic : only colors should be cheched
 	if (pars_checkColorRange(color))
 		return (1);
-	viewer_defaultFill(view, lookfrom, hfov, orientation_vector);
+	//viewer_defaultFill(view, lookfrom, hfov, orientation_vector);
 	return (0);
 }
