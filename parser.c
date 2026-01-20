@@ -1,12 +1,9 @@
 //TODO: shouldnt there be a range for x,y,z source coordinates
 //TODO: + or - alone parse as 0 , consume Number issue??
-//TODO: LIGHT PARSE SHOULD TAKE AS INPUT t_light and fill it , and no need for **buf as input , *buf works( we're working line by line)
 //TODO: if lower case letter type -> more than once if upper just once-> SHOULD BE HANDLED BY PARSER
-//TODO: SOME INFORMATION INSIDE ELEMTNS ARE NOT MANDATORY (E.G. COLOR FOR LIGHT) YET PARSER DOES CONSIDER THEM MANDATORY
 //TODO: what if buffer (line) passed to pase light is just a line having a null termiinating byte ""
-//TODO: need to explicitly skip white spaces when you can skip then (e.g. after parsing a single number) 
 //TODO: err message here is the same for all types of issues. You can define errors in a very granular way by passing a str to every parsing function, and fill it on err. ONLY IF YOU HAVE TIME DO IT. Note: there are many other methods.
-
+//TODO: review parse light and ambient to match the same structure of camera parsing. CHECK BEFORE WITH CHAT GPT IF HE THINKS ITS A GOOD IDEA
 
 #include "stdlib.h"
 #include "error.h"
@@ -209,7 +206,8 @@ int	pars_parseLight(t_light *light, char *buf)
 		return (1);
 	return (0);
 }
-//could have used fillAmbient
+
+//could have used fillAmbient 
 int	pars_parseAmbient(t_ambientLight *ambient, char *buf)
 {
 	std_assert(buf != 0);
