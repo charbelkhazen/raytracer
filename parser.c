@@ -14,6 +14,8 @@
 #include "ambientlight.h"
 #include "viewer.h"
 #include "object.h"
+#include "sphere.h"
+#include "material.h"
 
 void	pars_skipWhiteSpace(char **ptr_buf)
 {
@@ -276,17 +278,17 @@ int	pars_parseCamera(t_viewer *view, char *buf)
 	return (0);
 }
 
-int	pars_parseSphere(t_obj *obj, char *buf)
+int	pars_parseSphere(t_obj *obj, t_sph *sphere, t_mat *material, char *buf)
 {
 	t_vec	center;
 	t_vec	color;
 	double	diameter;
-	int	material;
+	int	mat_type;
 
 	std_assert(buf != 0);
 
 	//default material is matte, if user inputs another then change (simulate default arg)
-	material = 'm';
+	mat_type = 'm';
 
 	//parsing and consuming
 	pars_skipWhiteSpace(&buf);
@@ -298,12 +300,16 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	pars_skipWhiteSpace(&buf);
 	//optional material : 'm' : matte , 'M' : metallic 
 	//see those as ordered sequence
-	if((*buf) || (pars_consumeMaterial(&material, &buf)) || (*buf))
+	if((*buf) || (pars_consumeMaterial(&mat_type, &buf)) || (*buf))
 		return (1);
 
 	//check if consumed match logic : only colors should be cheched
 	if (pars_checkColorRange(color))
 		return (1);
-	//viewer_defaultFill(view, lookfrom, hfov, orientation_vector);
+	
+	sph_fillSph(sphere, center, diameter / 2.0);
+	mat_fillMaterial(material, mat_type, color);
+	obj_fillObj(obj, 's', (void *)sphere, 'm', (void*)material);
+
 	return (0);
 }
