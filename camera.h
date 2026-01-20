@@ -35,8 +35,6 @@ typedef	struct s_geom
 
 typedef struct s_cam
 {
-	t_vec	center; // rm
-	double	focal_dist; // rm
 	t_img	img;
 	t_viewer view;
 	t_geom	geom;
