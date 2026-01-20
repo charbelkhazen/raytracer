@@ -38,4 +38,6 @@ int	pars_parseLight(t_light *light, char *buf);
 int	pars_parseAmbient(t_ambientLight *ambient, char *buf);
 
 int	pars_parseCamera(t_viewer *view, char *buf);
+
+int	pars_parseSphere(t_obj *obj, t_sph *sphere, t_mat *material, char *buf);
 #endif

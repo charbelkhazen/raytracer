@@ -4,22 +4,22 @@
 #include "vector.h"
 #include "ambientlight.h"
 # include "viewer.h"
+#include "object.h"
+#include "sphere.h"
+#include "material.h"
 
 int main()
 {
-	t_viewer view;
-	char strlookfrom[100];
-	char strlookat[100];
-	char strorientation[100];
-	char strvup[100];
+	t_obj object;
+	t_mat material;
+	t_sph sphere;
 
-	printf("%d\n",pars_parseCamera(&view,  "-50.0,0,20 0,0,1 70"));
+	char str[100];
 
-	vec_toStr(strlookfrom, &view.lookfrom, 1);
-	vec_toStr(strlookat, &view.lookat, 1);
-	//vec_toStr(strorientation, &view.strorientation, 1);
-	vec_toStr(strvup, &view.vup, 1);
-
-
-	printf("ambient\nlookfom:%s\nlookat:%s\nvup:%s\nhfov:%f\n", strlookfrom, strlookat, strvup, view.hfov);
+	printf("%d\n",pars_parseCamera(&obj, &sphere, &material, "0.0,0.0,20.6 12.6 10,0,255"));
+	printf("shape type:%c\n", obj.obj_shapeType);
+	t_sphere sub;
+	sub = (t_sph *)obj.obj_shape;
+	vec_toStr(str, &sub.center, 1);
+	printf("center:%s\nradius:%f", str, sub.radius);
 }

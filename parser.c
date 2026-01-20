@@ -5,6 +5,7 @@
 //TODO: err message here is the same for all types of issues. You can define errors in a very granular way by passing a str to every parsing function, and fill it on err. ONLY IF YOU HAVE TIME DO IT. Note: there are many other methods.
 //TODO: review parse light and ambient to match the same structure of camera parsing. CHECK BEFORE WITH CHAT GPT IF HE THINKS ITS A GOOD IDEA
 //TODO: m 'matte' M 'Metallic' make this explicit or fix to actually write matte and metallic IF THERE IS TIME ONLY
+//TODO:  I let user write a sphere with diameter == 0 , remove it if needed by changing the checking condition to diameter <= 0 not < 0
 #include "stdlib.h"
 #include "error.h"
 #include <stdlib.h>
@@ -295,21 +296,27 @@ int	pars_parseSphere(t_obj *obj, t_sph *sphere, t_mat *material, char *buf)
 	// see those as ordered steps in parsing. and if a step fails -> returns (1) -> func returns (1). I wrote it in one line for compactness
 	if (pars_consume3Numbers(&center, &buf) || pars_consumeMandatoryWhiteSpace(&buf) 
 		|| pars_consumeNumber(&diameter, &buf) || pars_consumeMandatoryWhiteSpace(&buf)
-		|| pars_consume3Numbers(&color, &buf))
+		|| pars_consume3Integers(&color, &buf))
 		return (1);
 	pars_skipWhiteSpace(&buf);
 	//optional material : 'm' : matte , 'M' : metallic 
 	//see those as ordered sequence
-	if((*buf) || (pars_consumeMaterial(&mat_type, &buf)) || (*buf))
+	if(*buf)
+	{
+		if (pars_consumeMaterial(&mat_type, &buf)) 
+			return (1);
+		pars_skipWhiteSpace(&buf);
+	}
+	if(*buf)
 		return (1);
 
-	//check if consumed match logic : only colors should be cheched
-	if (pars_checkColorRange(color))
+	//check if consumed match logic
+	if (pars_checkColorRange(color) || diameter < 0)
 		return (1);
-	
+
 	sph_fillSph(sphere, center, diameter / 2.0);
 	mat_fillMaterial(material, mat_type, color);
-	obj_fillObj(obj, 's', (void *)sphere, 'm', (void*)material);
+	obj_fillObj(obj, 's', (void *)sphere, mat_type, (void*)material);
 
 	return (0);
 }

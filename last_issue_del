@@ -29,3 +29,7 @@ understand the alias command (specially the &(data + thing %h ....))
 alias note='echo "- [ ] $(date "+%F %T") — " >> TODO.md'
 can you build your own command without using alias (thinking of env vars) : e.g. grep -r "//TODO:" can it be summarized by an env var that I would call?
 IMPORTANT SHELL
+
+
+
+test code with improbable values: e.g. diameter = 0 for sphere
