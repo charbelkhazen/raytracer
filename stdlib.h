@@ -25,6 +25,9 @@ int	std_isWhiteSpace(char c);
 
 int	std_isNum(char c);
 
+// returns num1 == num2 assuming a 1e-6 epsilon
+int	std_cmpDoubles(double num1, double num2);
+
 //no whitespace skipping, expects +number -number only. returns nbytes consumed if return = 0 ->(err, no bytes consumed)
 ///e.g. "+12.12.12" , out becomes 12.12 return is 5 
 ///e.g. "+12." , out becomes 12 return is 3 ('+' '1' '2' are consumed) 

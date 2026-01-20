@@ -5,6 +5,7 @@
 //TODO: SOME INFORMATION INSIDE ELEMTNS ARE NOT MANDATORY (E.G. COLOR FOR LIGHT) YET PARSER DOES CONSIDER THEM MANDATORY
 //TODO: what if buffer (line) passed to pase light is just a line having a null termiinating byte ""
 //TODO: need to explicitly skip white spaces when you can skip then (e.g. after parsing a single number) 
+//TODO: err message here is the same for all types of issues. You can define errors in a very granular way by passing a str to every parsing function, and fill it on err. ONLY IF YOU HAVE TIME DO IT. Note: there are many other methods.
 
 
 #include "stdlib.h"
@@ -244,23 +245,24 @@ int	pars_parseCamera(t_viewer *view, char *buf)
 
 	std_assert(buf != 0);
 
+	//parsing and consuming
 	pars_skipWhiteSpace(&buf);
-	if (pars_consume3Numbers(&lookfrom, &buf))
-		return (1);
-	if (pars_consumeMandatoryWhiteSpace(&buf))
-		return (1);
-	if (pars_consume3Numbers(&orientation_vector, &buf))
-		return (1);
-	if (pars_consumeMandatoryWhiteSpace(&buf))
-		return (1);
-	if (pars_consumeNumber(&hfov, &buf))
+	// see those as ordered steps in parsing. and if a step fails -> returns (1) -> func returns (1). I wrote it in one line for compactness
+	if (pars_consume3Numbers(&lookfrom, &buf)
+		|| pars_consumeMandatoryWhiteSpace(&buf)
+		|| pars_consume3Numbers(&orientation_vector, &buf)
+		|| pars_consumeMandatoryWhiteSpace(&buf)
+		|| pars_consumeNumber(&hfov, &buf))
 		return (1);
 	pars_skipWhiteSpace(&buf);
+	if (*buf)
+		return (1);
+
+	//check if consumed match logic
+	if (!std_cmpDoubles(vec_vectorLen(&orientation_vector), 1)
+		|| (hfov < 0 || hfov > 180.0))
+		return (1);
 	
-	if (vec_vectorLen(&orientation_vector) != 1 )
-		return (1);
-	if (hfov < 0 || hfov > 180.0)
-		return (1);
 	viewer_defaultFill(view, lookfrom, hfov, orientation_vector);
 	return (0);
 }

@@ -283,3 +283,10 @@ int	std_atoi(int *out, char *buf)
 
 	return (total_bytes_consumed);
 }
+
+int	std_cmpDoubles(double num1, double num2)
+{
+	if (fabs(num1 - num2) > 1e-6)
+		return (0);
+	return (1);
+}
