@@ -1,6 +1,7 @@
 //TODO: riaseError() uses io (write !). how can I delegate this to client
 //TODO:  PARSE LIGHT () SHOULD FILL T_LIGHT THIS IS WRONG
 //TODO:  Change name of consumeNumber and Comma to parse (i.e. raises err too)
+//TODO:  Make it explicit that some of the parsers (e.g. parse light and camera ...) do take into consideration whitespace OR REMOVE THE WHITESPACE AND DELEGATE IT TO PARSELINE
 #ifndef PARSER_H
 # define PARSER_H
 # include "vector.h"

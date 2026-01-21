@@ -49,5 +49,4 @@ give llm :
 
 
 
-!!!!
-parse using getnext line -> main
+!!!!!//TODO:  Make it explicit that some of the parsers (e.g. parse light and camera ...) do take into consideration whitespace OR REMOVE THE WHITESPACE AND DELEGATE IT TO PARSELINE
