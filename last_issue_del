@@ -35,6 +35,9 @@ IMPORTANT SHELL
 test code with improbable values: e.g. diameter = 0 for sphere
 
 
+
+
+YOU CAN FIND INCOMPLEETE PROMPT THAT ODES THIS , BUT I PREFER DOING IT AFTER I HAVE BUILT A SOLID MODEL WITHTOUT CYLINDER AND PLANES and USING DIFFERENT MATERIALS
 PLANE AND CYLINDER PARSING USING CHATGPT
 give llm :
 - rule for sphere and how it was implemented (without the first character) 
@@ -43,3 +46,8 @@ give llm :
 - tell here about the syntax to respect for plane and cylinder( ! dont forget the optional parts to it)
 - generate using same logic
 
+
+
+
+!!!!
+parse using getnext line -> main

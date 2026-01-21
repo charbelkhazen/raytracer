@@ -26,7 +26,7 @@ void	pars_skipWhiteSpace(char **ptr_buf)
 	while (**ptr_buf && std_isWhiteSpace(**ptr_buf))
 		(*ptr_buf) ++;
 }
-
+/*
 int	pars_consumeType(char **ptr_buf)
 {
 	char	*buf;
@@ -45,14 +45,31 @@ int	pars_consumeType(char **ptr_buf)
 	    return (0);
 	return (type);
 }
-
-/*
-void	pars_raiseError(void)
-{
-	write(2, "Format Error .rt\n", 17);
-	exit(1);
-}
 */
+int	pars_consumeType(int *type, char **ptr_buf)
+{
+	char	first_char;
+	char	second_char;	
+
+	std_assert(ptr_buf && *ptr_buf);
+
+	//same as *type , but written again, so work with a char rather than always derferencing ptrchatr
+	first_char = **ptr_buf;
+
+	if (first_char)
+		second_char = *((*ptr_buf) + 1);
+
+	if (( first_char == 's' && second_char == 'p') || (first_char == 'p' && second_char == 'l') || (first_char == 'c' && second_char == 'y'))
+	    (*ptr_buf) += 2;
+	else if (first_char == 'A' || first_char == 'C' || first_char == 'L')
+	    (*ptr_buf) ++;
+	else
+	    return (1);
+
+	*type = first_char;
+
+	return (0);
+}
 
 int	pars_consumeNumber(double *num, char **buf)
 {
@@ -321,3 +338,36 @@ int	pars_parseSphere(t_obj *obj, t_sph *sphere, t_mat *material, char *buf)
 
 	return (0);
 }
+/*
+// line is either a command or empty
+int	pars_parseLine(char *buf)
+{
+	int	cmd_type;
+
+	pars_skipWhiteSpace(&buf);
+
+	//empty line -> exit with no err
+	if (!(*buf))
+		return (0);
+
+	if (!pars_consumeType(&cmd_type, &buf))
+		return (1);
+	
+	if (cmd_type == 's')
+		if (pars_parseSphere(&obj, &sphere, &material, buf))
+			return (1);
+	if (cmd_type == 'A')
+		if (pars_parseAmbient(&ambient, buf))
+			return (1);
+	if (cmd_type == 'C')
+		if (pars_parseCamera(&viewer, buf)) //NOT CAM
+			return (1);
+	if (cmd_type == 'L')
+		if (pars_parseLight(&light, buf))
+			return (1);
+	else
+		return (1);
+
+	return (0);
+}
+*/
