@@ -14,11 +14,11 @@ typedef struct s_sphere_list
 //gets an initialized undefined t_sph *list_of_spheres and its capacity 
 void	mngsph_sphere_list_init(t_sphere_list *list, t_sph *list_of_spheres, int capacity);
 
-//get last t_sph sphere in sphere and count ++
-void	mngsph_new_sphere(t_sph *sphere, t_sphere_list *list);
+//point to last available sphere in list and count ++
+void	mngsph_new_sphere(t_sph **sphere, t_sphere_list *list);
 
-//t_sph *sphere will point to sphere i is list
-void	mngsph_access_sphere_i(t_sph *sphere, t_sphere_list list, int i);
+//point to sphere i in list
+void	mngsph_access_sphere_i(t_sph **sphere, t_sphere_list *list, int i);
 
 
 #endif

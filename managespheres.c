@@ -9,14 +9,14 @@ void	mngsph_sphere_list_init(t_sphere_list *list, t_sph *data, int capacity)
 	list->count = 0;
 }
 
-void	mngsph_new_sphere(t_sph *sphere, t_sphere_list *list)
+void	mngsph_new_sphere(t_sph **sphere, t_sphere_list *list)
 {
-	*sphere = list->data[(list->count)++];
+	*sphere = &(list->data)[(list->count)++];
 }
 
-void	mngsph_access_sphere_i(t_sph *sphere, t_sphere_list *list, int i)
+void	mngsph_access_sphere_i(t_sph **sphere, t_sphere_list *list, int i)
 {
 	std_assert(i >= 0);
 
-	*sphere = list->data[i];
+	*sphere = &list->data[i];
 }
