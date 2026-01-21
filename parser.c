@@ -26,26 +26,7 @@ void	pars_skipWhiteSpace(char **ptr_buf)
 	while (**ptr_buf && std_isWhiteSpace(**ptr_buf))
 		(*ptr_buf) ++;
 }
-/*
-int	pars_consumeType(char **ptr_buf)
-{
-	char	*buf;
-	int	type;
 
-	std_assert(ptr_buf && *ptr_buf);
-
-	buf = *ptr_buf;
-	type = buf[0];
-
-	if ((type == 's' && buf[1] == 'p') || (type == 'p' && buf[1] == 'l') || (type == 'c' && buf[1] == 'y'))
-	    (*ptr_buf) += 2;
-	else if (type == 'A' || type == 'C' || type == 'L')
-	    (*ptr_buf) ++;
-	else
-	    return (0);
-	return (type);
-}
-*/
 int	pars_consumeType(int *type, char **ptr_buf)
 {
 	char	first_char;
@@ -53,9 +34,10 @@ int	pars_consumeType(int *type, char **ptr_buf)
 
 	std_assert(ptr_buf && *ptr_buf);
 
-	//same as *type , but written again, so work with a char rather than always derferencing ptrchatr
 	first_char = **ptr_buf;
 
+	//need to init second char anyways bcz of flags
+	second_char = 0;
 	if (first_char)
 		second_char = *((*ptr_buf) + 1);
 

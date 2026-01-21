@@ -13,11 +13,10 @@
 
 void	pars_skipWhiteSpace(char **ptr_buf);
 
-/*
-//consumes and returns type as int (which corresponds to first char of of type)
-int	pars_consumeType(char **ptr_buf);
-*/
-int	*pars_consumeType(int *type, char **ptr_buf);
+//STRICT CONTRACT: PTR_BUF MUST BE NUL TERMINATED
+//type is case sensitive : 'c' : cylinder != 'C' : camera
+//assumes no whitespace, consumes and advances the type
+int	pars_consumeType(int *type, char **ptr_buf);
 
 //assumes no whitespaces. Consume number and advances. double parsing relies on atod, returns 1 on err
 int	pars_consumeNumber(double *num, char **buf);
