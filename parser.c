@@ -323,7 +323,7 @@ int	pars_parseSphere(t_obj *obj, t_sph *sphere, t_mat *material, char *buf)
 
 /*
 // line is either a command or empty
-int	pars_parseLine(char *buf)
+int	pars_parseLine(char *buf, t_light *light, t_cam *cam, t_ambientLight *amb, t_)
 {
 	int	cmd_type;
 
