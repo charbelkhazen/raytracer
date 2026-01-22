@@ -1,0 +1,116 @@
+You are a veteran SWE with expertise in C programming, software design and practical large projet building
+
+here is my concern:
+
+I am building a project in C where I have different objects
+have ing different shapes : spheres, cylinders, planes...
+and different materials: matte, plastic, glass...
+
+I did the following 
+
+#ifndef HIT_RECORD_H
+#define HIT_RECORD_H
+
+typedef struct s_obj {
+	int	obj_shapeType;
+	void	*obj_shape;
+	int	obj_matType;
+	void	*obj_mat;
+}	t_obj;
+
+#endif
+
+
+i.e. I created an object struct that actually serves as a representation of the object I am creating ( whether it is a sphere , cylinder or plane, a metal sphere, or a matte sphere)
+
+
+I am concerned with this object asit has a different lifetime than the shape and material it refers too.
+it is a concern for me bcz the code does not convey an accurate representation of an object: An object IS a shape and a material , it does not point to them.
+
+I opted however for this approach as it permits encapsulating any type of shape or material
+
+typedef struct s_obj {
+	int	obj_shapeType;
+	t_sh	sphere;
+	t_cyl	cylinder;
+	t_pl	plane;
+	t_mat	matte;
+	t_plas	plastic;
+}
+
+I could have done this to solve the lifetime issue, 
+but it does not solve it, it adds incoherence. An object cannot be a sphere and a cylinder, matte and plastic....
+
+
+There is however a method that solves the lifetime issue which is writing
+
+typedef struct s_obj {
+	int	obj_shapeType;
+	int	obj_matType;
+}	t_obj;
+given that shapes contains obj_shapeType and obj_matType
+
+e.g. 
+
+typedef struct sphere
+{
+	int	obj_shapeType;
+	int	obj_matType;
+	t_vec	center;
+	double radius;
+}t_sphere;
+
+typedef struct matte
+{
+	int	obj_shapeType;
+	int	obj_matType;
+	double	roughness;
+}t_matte;
+
+here, I can cast simply cast object to sphere when would like to sphere or to material
+
+but here too , there is an issue
+this assumes that material has a defined shapetype and that shapetype has a defined material
+
+
+GIVEN ALL OF THIS INFORMATION
+COULD YOU HELP ME FIND AN OPTIMAL DISPOSITION.
+IS THERE ANY MIDDLE GROUND SOLUTION
+YOUR ANSWER SHOULD BE ROOTED IN LOGIC AND CLEAR REASONING 
+BE BRIEF
+
+
+
+
+
+
+SOLUTION IS IN USING ENUM
+
+
+
+typedef enum e_shape_type { SH_SPH, SH_CYL, SH_PL } t_shape_type;
+typedef enum e_mat_type   { MAT_MATTE, MAT_PLASTIC, MAT_GLASS } t_mat_type;
+
+typedef struct s_sphere { t_vec center; double radius; } t_sphere;
+typedef struct s_cyl    { t_vec center; t_vec axis; double r, h; } t_cyl;
+typedef struct s_plane  { t_vec point;  t_vec normal; } t_plane;
+
+typedef struct s_matte   { double roughness; } t_matte;
+typedef struct s_plastic { double ior; double roughness; } t_plastic;
+typedef struct s_glass   { double ior; } t_glass;
+
+typedef struct s_shape {
+    t_shape_type type;
+    union { t_sphere sph; t_cyl cyl; t_plane pl; } as;
+} t_shape;
+
+typedef struct s_material {
+    t_mat_type type;
+    union { t_matte matte; t_plastic plastic; t_glass glass; } as;
+} t_material;
+
+typedef struct s_obj {
+    t_shape    shape;     // owned, no lifetime mismatch
+    t_material mat;       // owned, no lifetime mismatch
+} t_obj;
+
