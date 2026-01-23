@@ -6,7 +6,7 @@
 
 typedef enum
 {
-	SPHERE_TYPE;
+	SPHERE_TYPE
 	//CYLINDER_TYPE;
 	//PLANE_TYPE;
 }	shape_type;

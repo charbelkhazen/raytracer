@@ -1,11 +1,11 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "matte.h" // uncomment when fixed
+#include "matte.h"
 
 typedef enum
 {
-	MATTE_TYPE;
+	MATTE_TYPE
 	//METALLIC_TYPE;
 	//GLASS_TYPE;
 }	material_type;
@@ -22,5 +22,5 @@ typedef struct s_material
 	} as;
 }	t_mat;
 
-void	mat_fillMat(t_mat *mat, int type);
+void	mat_fillMat(t_mat *mat, material_type type);
 #endif

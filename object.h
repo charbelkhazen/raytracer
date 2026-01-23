@@ -1,13 +1,15 @@
-#include "vector.h"
+#ifndef OBJECT_H
+#define OBJECT_H
+
 #include "material.h"
 #include "shape.h"
 
 typedef struct s_obj
 {
 	t_shape		shape;
-	t_material	material;
+	t_mat		mat;
 	t_vec		color;
 }	t_obj;
 
-//need to add material after
-void	obj_fillObj(t_obj *obj, t_shape shape, t_material mat, t_vec color);
+void	obj_fillObj(t_obj *obj, t_shape shape, t_mat mat, t_vec color);
+#endif
