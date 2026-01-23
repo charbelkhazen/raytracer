@@ -1,11 +1,9 @@
 #ifndef MATTE_H
 #define MATTE_H
-# include "material.h"
 
 typedef struct s_matte
 {
-	t_material	*material;	
-	t_vec	color;
+	int	type;
 }	t_matte;
 
 #endif

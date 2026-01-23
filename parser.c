@@ -321,6 +321,50 @@ int	pars_parseSphere(t_obj *obj, t_sph *sphere, t_mat *material, char *buf)
 	return (0);
 }
 */
+int	pars_parseSphere(t_obj *obj, char *buf)
+{
+	t_vec	center;
+	t_vec	color;
+	double	diameter;
+	int	mat_type;
+
+	std_assert(buf != 0);
+
+	//default material is matte, if user inputs another then change (simulate default arg)
+	mat_type = 'm';
+
+	//parsing and consuming
+	pars_skipWhiteSpace(&buf);
+	// see those as ordered steps in parsing. and if a step fails -> returns (1) -> func returns (1). I wrote it in one line for compactness
+	if (pars_consume3Numbers(&center, &buf) || pars_consumeMandatoryWhiteSpace(&buf) 
+		|| pars_consumeNumber(&diameter, &buf) || pars_consumeMandatoryWhiteSpace(&buf)
+		|| pars_consume3Integers(&color, &buf))
+		return (1);
+	pars_skipWhiteSpace(&buf);
+	//optional material : 'm' : matte , 'M' : metallic 
+	//see those as ordered sequence
+	if(*buf)
+	{
+		if (pars_consumeMaterial(&mat_type, &buf)) 
+			return (1);
+		pars_skipWhiteSpace(&buf);
+	}
+	if(*buf)
+		return (1);
+
+	//check if consumed match logic
+	if (pars_checkColorRange(color) || diameter < 0)
+		return (1);
+
+	//now I have validated : center, diameter, materialtype, color
+	
+	//we now fill
+	sph_fillSph(&obj->shape, center, diameter / 2.0);
+	mat_fillMaterial(&obj->mat, mat_type, color);
+	obj_fillObj(obj, 's', (void *)sphere, mat_type, (void*)material);
+
+	return (0);
+}
 
 /*
 // line is either a command or empty
