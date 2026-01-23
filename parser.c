@@ -278,7 +278,7 @@ int	pars_parseCamera(t_viewer *view, char *buf)
 	viewer_defaultFill(view, lookfrom, hfov, orientation_vector);
 	return (0);
 }
-
+/*
 int	pars_parseSphere(t_obj *obj, t_sph *sphere, t_mat *material, char *buf)
 {
 	t_vec	center;
@@ -320,6 +320,7 @@ int	pars_parseSphere(t_obj *obj, t_sph *sphere, t_mat *material, char *buf)
 
 	return (0);
 }
+*/
 
 /*
 // line is either a command or empty
