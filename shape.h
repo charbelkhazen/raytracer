@@ -22,6 +22,4 @@ typedef struct s_shape
 	} as;
 }	t_shape;
 
-
-void	shape_fillShape(t_shape *shape, shape_type type);
 #endif
