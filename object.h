@@ -1,17 +1,6 @@
 #include "vector.h"
-#include "sphere.h"
-#include "matte.h" // uncomment when fixed
-
-typedef struct s_material
-{
-	int	type;
-	union
-	{
-		t_mat matte;
-		//t_met metallic;
-		//t_gl  glass;
-	} as;
-}	t_material;
+#include "material.h"
+#include "shape.h"
 
 typedef struct s_obj
 {
