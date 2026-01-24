@@ -3,6 +3,7 @@
 
 #include "object.h"
 #include "ray.h"
+#include "ray.h"
 #include "vector.h"
 #include "intersection.h"
 

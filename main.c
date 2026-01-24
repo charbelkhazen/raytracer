@@ -36,24 +36,22 @@ int main(void)
 	vec_fillVec(&center3, 2.5, 0.3, -9);
 	sph_fillSph(&sphere3, center3, 1.6);
 
-	t_mat mat;
+	t_matte matte;
 	t_vec mat_color;
 
 	vec_fillVec(&mat_color, 1, 1, 0);
-	mat_fillMaterial(&mat, 'm', mat_color);
 
 	t_obj obj1;
 	t_obj obj2;
 	t_obj obj3;
 
-	obj_fillObj(&obj1, 's', (void *)&sphere1, 'm', (void *)&mat);
-	obj_fillObj(&obj2, 's', (void *)&sphere2, 'm', (void *)&mat);
-	obj_fillObj(&obj3, 's', (void *)&sphere3, 'm', (void *)&mat);
+	obj_fillObj(&obj1, sphere1, matte, mat_color);
+	obj_fillObj(&obj2, sphere2, matte, mat_color);
+	obj_fillObj(&obj3, sphere3, matte, mat_color);
 
 	t_univ	univ;
-	t_obj	obj_lst[NUM_OBJ];
-	
-	univ_init(&univ, obj_lst, NUM_OBJ);
+
+	univ_init(&univ);
 
 	univ_add(&univ, &obj1);
 	univ_add(&univ, &obj2);

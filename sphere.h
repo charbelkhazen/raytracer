@@ -2,7 +2,6 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "object.h"
 #include "ray.h"
 #include "intersection.h"
 

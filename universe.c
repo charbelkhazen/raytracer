@@ -1,4 +1,5 @@
 #include "universe.h"
+#include "ray.h"
 #include "sphere.h"
 #include "intersection.h"
 #include <stdlib.h> //for exit(139) line 52
