@@ -20,7 +20,9 @@ int	univ_addObj(t_univ *univ, t_obj obj)
 
 void	univ_pointLastObj(t_obj **obj, t_univ *univ)
 {
-	*obj = &(univ->obj_lst[(univ->count)]);
+	std_assert(univ->count > 0);
+
+	*obj = &(univ->obj_lst[(univ->count) - 1]);
 }
 
 static void	univ_obj_apply_material(t_obj obj, t_hitRec *rec)
@@ -31,23 +33,23 @@ static void	univ_obj_apply_material(t_obj obj, t_hitRec *rec)
 		exit(139);
 }
 
-static int	univ_obj_hit_sphere(t_obj obj, t_ray ray, t_hitRec rec, double tmin, double *tmax)
+static int	univ_obj_hit_sphere(t_obj obj, t_ray ray, t_hitRec *rec, double tmin, double *tmax)
 {
-	if (!sph_hit(obj.as.sphere, ray, tmin, *tmax, rec))
+	if (!sph_hit(obj.shape.as.sphere, ray, tmin, *tmax, rec))
 		return (0);
 	*tmax = rec->t;
 	univ_obj_apply_material(obj, rec);
 	return (1);
 }
 
-static int	univ_obj_try_hit(t_obj obj, t_ray ray, t_hitRec rec, double tmin, double *tmax)
+static int	univ_obj_try_hit(t_obj obj, t_ray ray, t_hitRec *rec, double tmin, double *tmax)
 {
 	if (obj.shape.type == SPHERE_TYPE)
 		return (univ_obj_hit_sphere(obj, ray, rec, tmin, tmax));
 	return (0);
 }
 
-static int	univ_iterate_hits(t_ray ray, t_univ univ, t_hitRec rec, double tmin, double *tmax)
+static int	univ_iterate_hits(t_ray ray, t_univ univ, t_hitRec *rec, double tmin, double *tmax)
 {
 	int	i;
 	int	hit;
@@ -56,7 +58,7 @@ static int	univ_iterate_hits(t_ray ray, t_univ univ, t_hitRec rec, double tmin, 
 	hit = 0;
 	while (i < univ.count)
 	{
-		if (univ_obj_try_hit(univ->obj_lst[i], ray, rec, tmin, tmax))
+		if (univ_obj_try_hit(univ.obj_lst[i], ray, rec, tmin, tmax))
 			hit = 1;
 		i++;
 	}
