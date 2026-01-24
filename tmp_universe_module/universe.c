@@ -3,6 +3,13 @@
 #include "intersection.h"
 #include <stdlib.h> //for exit(139) line 52
 
+void	univ_init(t_univ *univ, t_obj *obj_lst, int cap)
+{
+	univ->obj_lst = obj_lst;
+	univ->len = 0;
+	univ->cap = cap;
+}
+
 int	univ_add(t_univ *univ, t_obj *object)
 {
 	if (univ->len == univ->cap)

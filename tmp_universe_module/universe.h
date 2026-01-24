@@ -6,13 +6,14 @@
 #include "universe.h"
 #include "intersection.h"
 
-#define OBJLST_CAP 100
-
 typedef struct s_univ
 {
-	t_obj	obj_lst[OBJLST_CAP];
-	int	count;
+	t_obj	*obj_lst; //if requires alloc, refactor to univ[100]
+	int	len;
+	int	cap;
 }	t_univ;
+
+void	univ_init(t_univ *univ, t_obj *empty_lst_objects, int lst_capacity);
 
 // by value not reference. manipulating object from univ will not change the orig obj
 int	univ_add(t_univ *univ, t_obj *object);
