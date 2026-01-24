@@ -22,5 +22,4 @@ typedef struct s_material
 	} as;
 }	t_mat;
 
-void	mat_fillMat(t_mat *mat, material_type type);
 #endif

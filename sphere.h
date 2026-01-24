@@ -1,3 +1,4 @@
+//TODO:should remove obj_type from sphere ultimately
 #ifndef SPHERE_H
 #define SPHERE_H
 
