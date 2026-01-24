@@ -59,3 +59,7 @@ material
 object
 matte
 
+
+
+
+!! univ_hit -> rec should be passed by reference

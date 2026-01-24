@@ -14,12 +14,17 @@ typedef struct s_univ
 	int	count;
 }	t_univ;
 
-// by value not reference. manipulating object from univ will not change the orig obj
-int	univ_add(t_univ *univ, t_obj *object);
+//mandatory initialization - sets count to 0
+void	univ_init(t_univ *univ);
 
-void	univ_clear(t_univ *univ);
+//adds obj to univ at last index - returns 1 on err (exceeded capacity)
+int	univ_addObj(t_univ *univ, t_obj obj);
 
-//change name to hit ? or ishit?
-int	univ_hit(t_ray *ray, t_univ *univ, t_hitRec *rec); //does it make sense to have rec as input here -> review where exactly is rec used. see render
+//point to last added obj
+void	univ_pointLastObj(t_obj **obj, t_univ univ);
+
+//FUNCTION HERE HAS TWO ROLES
+//returns 1 if hit 0 otherwise. Fills Record at hit
+int	univ_hit(t_ray ray, t_univ univ, t_hitRec *rec); //does it make sense to have rec as input here -> review where exactly is rec used. see render
 
 #endif
