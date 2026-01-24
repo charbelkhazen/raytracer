@@ -8,6 +8,10 @@
 //TODO:  I let user write a sphere with diameter == 0 , remove it if needed by changing the checking condition to diameter <= 0 not < 0
 //TODO: MAKE SURE CONSUME INTERGERS IS USED FOR COLORS (IN CAMERA - and double check all other parsers )!!!!!!!!!!!!!!!!!!!!
 //TODO: PARSE MATERIAL IS COMPLETELY WRONG - ONLY WORKS FOR MATTE TYPE (FILLS ONLY WITH MATTE_TYPE"
+//TODO: FORBIDDEN FUNCTION MEMSET!!!
+
+#include <string.h> // FORBIDDEN FUNCTIONMEMESET - REMOVE LATER
+
 #include "stdlib.h"
 #include "error.h"
 #include <stdlib.h>
@@ -362,8 +366,10 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	
 	//we now fill
 	obj->shape.type = SPHERE_TYPE;
+	memset(&obj->shape.as, 0, sizeof(obj->shape.as)); //FORBIDDEN FUNCTION
 	sph_fillSph(&(obj->shape.as.sphere), center, diameter / 2.0);
 	obj->mat.type = mat_type; // FIX LATER
+	memset(&obj->mat.as, 0, sizeof(obj->mat.as));
 	//I do not fill material because until now the specific material struct (matte) has no elements
 	obj->color = color;
 	return (0);
