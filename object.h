@@ -1,6 +1,6 @@
 #ifndef OBJECT_H
 #define OBJECT_H
-
+#include "vector.h"
 #include "material.h"
 #include "shape.h"
 

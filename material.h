@@ -16,7 +16,7 @@ typedef struct s_material
 	material_type type;
 	union
 	{
-		t_mat matte;
+		t_matte matte;
 		//t_met metallic;
 		//t_gl  glass;
 	} as;
