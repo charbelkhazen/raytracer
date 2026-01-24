@@ -50,9 +50,8 @@ int main(void)
 	obj_fillObj(&obj3, sphere3, matte, mat_color);
 
 	t_univ	univ;
-	t_obj	obj_lst[NUM_OBJ];
-	
-	univ_init(&univ, obj_lst, NUM_OBJ);
+
+	univ_init(&univ);
 
 	univ_add(&univ, &obj1);
 	univ_add(&univ, &obj2);

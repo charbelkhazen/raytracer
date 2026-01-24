@@ -5,6 +5,7 @@
 # include "sphere.h"
 # include "universe.h"
 # include "light.h"
+
 static void render_remLinesErrMsg(int remaining_lines)
 {
 	char	str[100];
