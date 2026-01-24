@@ -7,6 +7,7 @@
 //TODO: m 'matte' M 'Metallic' make this explicit or fix to actually write matte and metallic IF THERE IS TIME ONLY
 //TODO:  I let user write a sphere with diameter == 0 , remove it if needed by changing the checking condition to diameter <= 0 not < 0
 //TODO: MAKE SURE CONSUME INTERGERS IS USED FOR COLORS (IN CAMERA - and double check all other parsers )!!!!!!!!!!!!!!!!!!!!
+//TODO: PARSE MATERIAL IS COMPLETELY WRONG - ONLY WORKS FOR MATTE TYPE (FILLS ONLY WITH MATTE_TYPE"
 #include "stdlib.h"
 #include "error.h"
 #include <stdlib.h>
@@ -101,15 +102,15 @@ int	pars_consumeComma(char **buf)
 
 	return (0);
 }
-
+//WRONG FUNCTION!! ONLY CONSUMES MATTE - FIX LATER - ADD IFS 
 int	pars_consumeMaterial(int *mat, char **buf)
 {
 	std_assert(buf && *buf); // may be useless
 
-	if (!(**buf == 'm' || **buf == 'M'))
+	if (!(**buf == 'm' || **buf == 'M')) //matte or metallic - change later
 		return (1);
 
-	*mat = (**buf);
+	*mat = MATTE_TYPE;
 	(*buf)++;
 	return (0);
 }
@@ -321,6 +322,7 @@ int	pars_parseSphere(t_obj *obj, t_sph *sphere, t_mat *material, char *buf)
 	return (0);
 }
 */
+//implementation using new obj struct
 int	pars_parseSphere(t_obj *obj, char *buf)
 {
 	t_vec	center;
@@ -331,7 +333,7 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	std_assert(buf != 0);
 
 	//default material is matte, if user inputs another then change (simulate default arg)
-	mat_type = 'm';
+	mat_type = MATTE_TYPE;
 
 	//parsing and consuming
 	pars_skipWhiteSpace(&buf);
@@ -359,10 +361,11 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	//now I have validated : center, diameter, materialtype, color
 	
 	//we now fill
-	sph_fillSph(&obj->shape, center, diameter / 2.0);
-	mat_fillMaterial(&obj->mat, mat_type, color);
-	obj_fillObj(obj, 's', (void *)sphere, mat_type, (void*)material);
-
+	obj->shape.type = SPHERE_TYPE;
+	sph_fillSph(&(obj->shape.as.sphere), center, diameter / 2.0);
+	obj->mat.type = mat_type; // FIX LATER
+	//I do not fill material because until now the specific material struct (matte) has no elements
+	obj->color = color;
 	return (0);
 }
 

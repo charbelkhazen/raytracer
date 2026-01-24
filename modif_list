@@ -1,8 +1,0 @@
-material.c .h
-shape.h
-object.c object.h
-
-parser.c -> sphere parsing function
-
-matte.c .h
-

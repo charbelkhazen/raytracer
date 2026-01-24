@@ -50,3 +50,12 @@ give llm :
 
 
 !!!!!//TODO:  Make it explicit that some of the parsers (e.g. parse light and camera ...) do take into consideration whitespace OR REMOVE THE WHITESPACE AND DELEGATE IT TO PARSELINE
+
+
+REFACTORING: 
+SEE ALL DEPENDENCIES WRT TO:
+
+material
+object
+matte
+
