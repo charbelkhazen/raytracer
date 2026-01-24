@@ -18,7 +18,7 @@ int	univ_addObj(t_univ *univ, t_obj obj)
 	return (0);
 }
 
-void	univ_pointLastObj(t_obj **obj, t_univ univ)
+void	univ_pointLastObj(t_obj **obj, t_univ *univ)
 {
 	*obj = &(univ->obj_lst[(univ->count)]);
 }

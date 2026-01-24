@@ -1,9 +1,9 @@
 #ifndef UNIVERSE_H
 #define UNIVERSE_H
+
 #include "object.h"
 #include "ray.h"
 #include "vector.h"
-#include "universe.h"
 #include "intersection.h"
 
 #define OBJLST_CAP 100
@@ -21,10 +21,10 @@ void	univ_init(t_univ *univ);
 int	univ_addObj(t_univ *univ, t_obj obj);
 
 //point to last added obj
-void	univ_pointLastObj(t_obj **obj, t_univ univ);
+void	univ_pointLastObj(t_obj **obj, t_univ *univ);
 
 //FUNCTION HERE HAS TWO ROLES
-//returns 1 if hit 0 otherwise. Fills Record at hit
+//returns 1 if hit 0 otherwise. Fills Record if hit
 int	univ_hit(t_ray ray, t_univ univ, t_hitRec *rec); //does it make sense to have rec as input here -> review where exactly is rec used. see render
 
 #endif
