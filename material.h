@@ -22,4 +22,6 @@ typedef struct s_material
 	} as;
 }	t_mat;
 
+void	mat_fillMatte(t_mat *mat, int onoff);
+
 #endif
