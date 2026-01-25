@@ -45,7 +45,7 @@ int main(void)
 	t_obj obj2;
 	t_obj obj3;
 
-	obj_fillObj(&obj1, sphere1, matte, mat_color);
+	obj_fillObj(&obj1, sphere1, matte, mat_color); //should be t_shape and t_matte
 	obj_fillObj(&obj2, sphere2, matte, mat_color);
 	obj_fillObj(&obj3, sphere3, matte, mat_color);
 

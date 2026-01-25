@@ -62,4 +62,6 @@ matte
 
 
 
-!! univ_hit -> rec should be passed by reference
+
+
+!!!  obj_fillObj in main is clearly WRONG!!
