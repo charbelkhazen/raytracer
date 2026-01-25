@@ -18,44 +18,25 @@
 int main(void)
 {
 	/*adding universe*/
-	t_sph sphere1;
-	t_vec	center1;
-
-	vec_fillVec(&center1, 0, 0, -5);
-	sph_fillSph(&sphere1, center1, 1);
-
-	t_sph sphere2;
-	t_vec	center2;
-
-	vec_fillVec(&center2, -2.2, -0.5, -4);
-	sph_fillSph(&sphere2, center2, 0.7);
-	
-	t_sph sphere3;
-	t_vec	center3;
-
-	vec_fillVec(&center3, 2.5, 0.3, -9);
-	sph_fillSph(&sphere3, center3, 1.6);
-
-	t_matte matte;
-	t_vec mat_color;
-
-	vec_fillVec(&mat_color, 1, 1, 0);
-
-	t_obj obj1;
-	t_obj obj2;
-	t_obj obj3;
-
-	obj_fillObj(&obj1, sphere1, matte, mat_color); //should be t_shape and t_matte
-	obj_fillObj(&obj2, sphere2, matte, mat_color);
-	obj_fillObj(&obj3, sphere3, matte, mat_color);
-
 	t_univ	univ;
-
 	univ_init(&univ);
 
+	t_obj   obj1;
+	t_shape shape1;
+	t_vec	center1;
+	t_mat   mat1;
+	int	radius;
+	t_vec	color;
+
+	radius = 1;
+	vec_fillVec(&center1, 0, 0, -5);
+	shape_fillSphere(&shape1, center, radius);
+	mat_fillMatte(&mat1, onoff);
+	vec_fillVec(&color, 1, 1, 0);
+	obj_fillObj(&obj1, shape1, mat1, color);
+
+
 	univ_add(&univ, &obj1);
-	univ_add(&univ, &obj2);
-	univ_add(&univ, &obj3);
 
 	t_light	light;
 	t_vec	lightcoord;
