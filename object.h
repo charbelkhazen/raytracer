@@ -13,6 +13,9 @@ typedef struct s_obj
 }	t_obj;
 
 void	obj_fillObj(t_obj *obj, t_shape shape, t_mat mat, t_vec color);
+
+int	obj_hit(t_obj *obj, t_ray *ray, double t_min, double t_max, t_hitRec *rec);
+
 #endif
 
 

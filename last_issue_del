@@ -84,3 +84,10 @@ int	lp_attenuationFactor(t_ray ray_to_light, t_univ univ);
 void	lp_shade(t_vec *color, t_hitRec rec, t_light light, t_univ univ, t_ray ray);
 int	univ_addObj(t_univ *univ, t_obj obj);
 int	univ_hit(t_ray ray, t_univ univ, t_hitRec *rec); //does it make sense to have rec as input here -> review where exactly is rec used. see render
+
+(need to implement a hit object : hit sphere is done, hit universe too)
+
+
+
+universe -> univ_hit univ should be a pointer : CHANGE THIS
+
