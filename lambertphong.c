@@ -10,7 +10,7 @@ int	lp_attenuationFactor(t_ray ray_to_light, t_univ univ)
 {
 	t_hitRec	rec;
 
-	if (univ_hit(ray_to_light, univ, &rec))
+	if (univ_hit(&ray_to_light, &univ, &rec))
 		return (0);
 	return (1);
 }

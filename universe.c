@@ -27,47 +27,40 @@ void	univ_pointLastObj(t_obj **obj, t_univ *univ)
 	*obj = &(univ->obj_lst[(univ->count) - 1]);
 }
 
-static void	univ_obj_apply_material(t_obj obj, t_hitRec *rec)
+//fill rec with obj related properties (rec's other fields are filled)
+static void	univ_fillRecObj(t_obj *obj, t_hitRec *rec)
 {
-	if (obj.mat.type == MATTE_TYPE)
-		rec->material = obj.mat;
-	else
-		exit(139);
+	rec->color = obj->color;
+	rec->shape = obj->shape.type;
+	rec->mat = obj->mat.type;
 }
 
-static int	univ_obj_hit_sphere(t_obj obj, t_ray ray, t_hitRec *rec, double tmin, double *tmax)
+static int	univ_obj_hit_and_rec(t_obj *obj, t_ray *ray, t_hitRec *rec, double tmin, double *tmax)
 {
-	if (!sph_hit(&obj.shape.as.sphere, &ray, tmin, *tmax, rec))
+	if (!obj_hit(obj, ray, tmin, *tmax, rec))
 		return (0);
 	*tmax = rec->t;
-	univ_obj_apply_material(obj, rec);
+	univ_fillRecObj(obj, rec);
 	return (1);
 }
 
-static int	univ_obj_try_hit(t_obj obj, t_ray ray, t_hitRec *rec, double tmin, double *tmax)
-{
-	if (obj.shape.type == SPHERE_TYPE)
-		return (univ_obj_hit_sphere(obj, ray, rec, tmin, tmax));
-	return (0);
-}
-
-static int	univ_iterate_hits(t_ray ray, t_univ univ, t_hitRec *rec, double tmin, double *tmax)
+static int	univ_iterate_hits(t_ray *ray, t_univ *univ, t_hitRec *rec, double tmin, double *tmax)
 {
 	int	i;
 	int	hit;
 
 	i = 0;
 	hit = 0;
-	while (i < univ.count)
+	while (i < univ->count)
 	{
-		if (univ_obj_try_hit(univ.obj_lst[i], ray, rec, tmin, tmax))
+		if (univ_obj_hit_and_rec(&univ->obj_lst[i], ray, rec, tmin, tmax))
 			hit = 1;
 		i++;
 	}
 	return (hit);
 }
 
-int	univ_hit(t_ray ray, t_univ univ, t_hitRec *rec)
+int	univ_hit(t_ray *ray, t_univ *univ, t_hitRec *rec)
 {
 	double	tmin;
 	double	tmax;

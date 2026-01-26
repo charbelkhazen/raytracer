@@ -3,11 +3,10 @@
 
 #include "object.h"
 #include "ray.h"
-#include "ray.h"
-#include "vector.h"
-#include "intersection.h"
 
 #define OBJLST_CAP 100
+
+typedef struct s_hitRec t_hitRec;
 
 typedef struct s_univ
 {
@@ -26,6 +25,7 @@ void	univ_pointLastObj(t_obj **obj, t_univ *univ);
 
 //FUNCTION HERE HAS TWO ROLES
 //returns 1 if hit 0 otherwise. Fills Record if hit
-int	univ_hit(t_ray ray, t_univ univ, t_hitRec *rec); //does it make sense to have rec as input here -> review where exactly is rec used. see render
+int	univ_hit(t_ray *ray, t_univ *univ, t_hitRec *rec);
+//does it make sense to have rec as input here -> review where exactly is rec used. see render
 
 #endif
