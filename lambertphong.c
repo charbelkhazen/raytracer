@@ -5,94 +5,102 @@
 # include <math.h>
 # include "ambientlight.h"
 
-//very naive : assumes all objects are opaque !!
-int	lp_attenuationFactor(t_ray ray_to_light, t_univ univ)
+/*
+** very naive : assumes all objects are opaque !!
+*/
+int	lp_attenuationFactor(t_ray *ray_to_light, t_univ *univ)
 {
 	t_hitRec	rec;
 
-	if (univ_hit(&ray_to_light, &univ, &rec))
+	if (univ_hit(ray_to_light, univ, &rec))
 		return (0);
 	return (1);
 }
 
-void	lp_specular(t_vec *color, t_ray ray, t_hitRec rec, t_light light, t_ray rayToLight)
+void	lp_specular(
+	t_vec *color,
+	t_ray *ray,
+	t_hitRec *rec,
+	t_light *light,
+	t_ray *rayToLight
+)
 {
-	//Blinn-Phong reflection
+	// Blinn-Phong reflection
 	t_vec	halfwayVector;
 	double	color_scalar;
 	t_vec	white_color;
 	double	shininess;
 
-	shininess = 50.0; // MUST BE PASSED AS PARAMETER ULTIMATELY
+	shininess = 50.0; // TODO: parameterize later
 
-	vec_subs(&halfwayVector, &rayToLight.dir, &ray.dir);
+	vec_subs(&halfwayVector, &rayToLight->dir, &ray->dir);
 	vec_unitVector(&halfwayVector, &halfwayVector);
 
 	vec_fillVec(&white_color, 1, 1, 1);
-	color_scalar = pow(fmax(vec_dot(&halfwayVector, &rec.normal), 0.0), shininess) * light.bright;
-	vec_scale(color, color_scalar, &white_color); 
+	color_scalar = pow(
+		fmax(vec_dot(&halfwayVector, &rec->normal), 0.0),
+		shininess
+	) * light->bright;
+
+	vec_scale(color, color_scalar, &white_color);
 }
 
-//add to it ambient effect
-//you can remove univ when isolating into lambert and phong , then use it only when you combine them
-void	lp_lambert(t_vec *color, t_hitRec rec, t_light light, t_ray rayToLight)
+void	lp_lambert(
+	t_vec *color,
+	t_hitRec *rec,
+	t_light *light,
+	t_ray *rayToLight
+)
 {
-	t_vec	obj_color;
-	t_vec	normal;
-	double	light_brightness;
-	double color_scalar;
-	
-	
-	obj_color = rec.color;
-	normal = rec.normal;
-	light_brightness = light.bright;
+	double	color_scalar;
 
+	color_scalar = light->bright * vec_dot(&rec->normal, &rayToLight->dir);
 
-	color_scalar = light_brightness * vec_dot(&normal, &rayToLight.dir);
-	//light behind surface or brightness negative
 	if (color_scalar < 0)
 		color_scalar = 0;
-	vec_scale(color, color_scalar, &obj_color);
+
+	vec_scale(color, color_scalar, &rec->color);
 }
 
-static void lp_capColorToOne(t_vec *color)
+static void	lp_capColorToOne(t_vec *color)
 {
-	if (color->x > 1)
-		color->x = 1;
-	if (color->y > 1)
-		color->y = 1;
-	if (color->z > 1)
-		color->z = 1;
-
+	if (color->x > 1) color->x = 1;
+	if (color->y > 1) color->y = 1;
+	if (color->z > 1) color->z = 1;
 }
 
-void	lp_shade(t_vec *color, t_hitRec rec, t_light light, t_univ univ, t_ray ray)
+void	lp_shade(
+	t_vec *color,
+	t_hitRec *rec,
+	t_light *light,
+	t_univ *univ,
+	t_ray *ray
+)
 {
 	t_ray	rayToLight;
-	int	att_factor;
+	int		att_factor;
 	t_vec	specular_color;
 	t_vec	lambert_color;
 
-	light_rayToLight(&rayToLight, &rec.p, &light.src);
-	att_factor = lp_attenuationFactor(rayToLight, univ);
+	light_rayToLight(&rayToLight, &rec->p, &light->src);
+	att_factor = lp_attenuationFactor(&rayToLight, univ);
 
-	lp_lambert(&lambert_color, rec, light, rayToLight);
+	lp_lambert(&lambert_color, rec, light, &rayToLight);
+	lp_specular(&specular_color, ray, rec, light, &rayToLight);
 
-	lp_specular(&specular_color, ray, rec, light, rayToLight);
 	vec_add(color, &specular_color, &lambert_color);
 	vec_scale(color, att_factor, color);
-
 	lp_capColorToOne(color);
 
-	t_ambientLight alight;
-	t_vec	alight_color;
-	
+	// ambient
+	t_ambientLight	alight;
+	t_vec			ambient_color;
+	t_vec			alight_color;
+
 	vec_fillVec(&alight_color, 1, 1, 1);
 	al_fill(&alight, 0.1, alight_color);
 
-	t_vec ambient_color;
-
-	vec_scale(&ambient_color, alight.ratio, &(alight.color));
+	vec_scale(&ambient_color, alight.ratio, &alight.color);
 	vec_add(color, color, &ambient_color);
 	lp_capColorToOne(color);
 }
