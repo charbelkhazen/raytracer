@@ -7,3 +7,10 @@ void	shape_fillSphere(t_shape *shape, t_vec center, double radius)
 	shape->type = SPHERE_TYPE;
 	sph_fillSph(&shape->as.sphere, center, radius);
 }
+
+int	shape_hit(t_shape *shape, t_ray *ray, double t_min, double t_max, t_hitRec *rec)
+{
+	if (shape->type == SPHERE_TYPE)
+		return (sph_hit(&shape->as.sphere, ray, t_min, t_max, rec)); 
+	return (0);
+}

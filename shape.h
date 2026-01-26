@@ -4,6 +4,8 @@
 #include "vector.h"
 #include "sphere.h"
 
+typedef struct s_hitRec t_hitRec;
+
 typedef enum
 {
 	SPHERE_TYPE
@@ -24,4 +26,5 @@ typedef struct s_shape
 
 void	shape_fillSphere(t_shape *shape, t_vec center, double radius);
 
+int	shape_hit(t_shape *shape, t_ray *ray, double t_min, double t_max, t_hitRec *rec);
 #endif

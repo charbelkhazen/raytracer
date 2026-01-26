@@ -5,6 +5,8 @@
 #include "material.h"
 #include "shape.h"
 
+typedef struct s_hitRec t_hitRec;
+
 typedef struct s_obj
 {
 	t_shape		shape;
