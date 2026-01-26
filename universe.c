@@ -3,6 +3,7 @@
 #include "sphere.h"
 #include "intersection.h"
 #include <stdlib.h> //for exit(139) line 52
+#include "stdlib.h"
 
 #include "shape.h"
 
@@ -36,7 +37,7 @@ static void	univ_obj_apply_material(t_obj obj, t_hitRec *rec)
 
 static int	univ_obj_hit_sphere(t_obj obj, t_ray ray, t_hitRec *rec, double tmin, double *tmax)
 {
-	if (!sph_hit(obj.shape.as.sphere, ray, tmin, *tmax, rec))
+	if (!sph_hit(&obj.shape.as.sphere, &ray, tmin, *tmax, rec))
 		return (0);
 	*tmax = rec->t;
 	univ_obj_apply_material(obj, rec);

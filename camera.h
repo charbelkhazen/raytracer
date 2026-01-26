@@ -1,10 +1,11 @@
 #ifndef CAMERA_H
 #define CAMERA_H
+
 # include "vector.h"
 # include "ray.h"
-# include "sphere.h"
-# include "universe.h"
-# include "light.h"
+# include "sphere.h" // remove when cam_rayCOlor is moved
+# include "universe.h"// remove when cam_rayCOlor is moved
+# include "light.h"// remove when cam_rayCOlor is moved
 # include "viewer.h"
 # include "image.h"
 
@@ -40,6 +41,7 @@ typedef struct s_cam
 	t_geom	geom;
 }	t_cam;
 
+//assumes img and view are already filled. Dot not pass undefined view and img
 void	cam_fillCam(t_cam *cam, t_img img, t_viewer view);
 
 void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j);
