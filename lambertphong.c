@@ -43,7 +43,7 @@ void	lp_lambert(t_vec *color, t_hitRec rec, t_light light, t_ray rayToLight)
 	double color_scalar;
 	
 	
-	obj_color = rec.material.color;
+	obj_color = rec.color;
 	normal = rec.normal;
 	light_brightness = light.bright;
 
