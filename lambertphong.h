@@ -5,8 +5,8 @@
 # include "universe.h"
 
 //naive needs change
-int	lp_attenuationFactor(t_ray ray_to_light, t_univ univ);
+int	lp_attenuationFactor(t_ray *ray_to_light, t_univ *univ);
 
 //all directions should be normalized
-void	lp_shade(t_vec *color, t_hitRec rec, t_light light, t_univ univ, t_ray ray);
+void	lp_shade(t_vec *color, t_hitRec *rec, t_light *light, t_univ *univ, t_ray *ray);
 #endif

@@ -89,5 +89,8 @@ int	univ_hit(t_ray ray, t_univ univ, t_hitRec *rec); //does it make sense to hav
 
 
 
-universe -> univ_hit univ should be a pointer : CHANGE THIS
+universe -> SHOULD BE ALWAYS PASSED AS A POINTER (E.G. IN LAMBERTPHONG IT IS NOT)
+
+
+
 
