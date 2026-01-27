@@ -41,12 +41,12 @@ static int	pars_checkDuplicates(t_cmd_type type)
 void	pars_fillScene(t_scene *scene, t_parsables *parsables, t_cmd_type cmdtype)
 {
 	if (cmdtype == CAMERA_CMD)
-	{
-		scene->cam = ...
+		cam_fillCam(&scene->cam, scene->img, parsables->view);
 
 
-
-//STILL NEED TO COUNT FOR A C L (USE FUNCTION WITH STATIC VARS AS COUNTERS)
+// Parses program and fills scene with all its field
+// Assumes Scene already has a t_img img element already filled!
+//Because img is an important part upon which scene's cam element depends but which is not set by parsing
 int	pars_parseProgram(int fd, t_scene *scene)
 {
 	t_parsables	parsables;
