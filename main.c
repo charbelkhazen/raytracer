@@ -1,6 +1,9 @@
 //TODO: change render function. should take as input scene
 
 #include "scene.h"
+#include "ui.h"
+#include "error.h"
+#include "render.h"
 
 int main(void)
 {
@@ -62,6 +65,15 @@ int main(void)
 
 	cam_fillCam(&scene.cam, img, view);
 
+	//depends on initalizing img dimensions (img struct)	
+	ui_mlxParams_t	mlx_params;
+
+	if (ui_initMlx(&mlx_params, img_ratio, img_width, "MiniRT")) // take advantage of setting img struct
+        	return err_msgReturnOne("MLX init failed");
+	
+	render_logicToMlx(&mlx_params, &scene.cam, &scene.univ, &scene.light);
+
+	ui_mlxRender(&mlx_params);
 	return (0);
 }
 
