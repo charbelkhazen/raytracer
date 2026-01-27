@@ -76,15 +76,3 @@ int main(void)
 	ui_mlxRender(&mlx_params);
 	return (0);
 }
-
-/*
-ui_mlxParams_t mlx_params;
-
-
-if (ui_initMlx(&mlx_params, img_ratio, img_width, "MiniRT")) // take advantage of setting img struct
-	return err_msgReturnOne("MLX init failed");
-
-render_logicToMlx(&mlx_params, &scene);
-
-ui_mlxRender(&mlx_params);
-*/
