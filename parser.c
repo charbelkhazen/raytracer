@@ -106,15 +106,21 @@ int	pars_consumeComma(char **buf)
 
 	return (0);
 }
-//WRONG FUNCTION!! ONLY CONSUMES MATTE - FIX LATER - ADD IFS 
-int	pars_consumeMaterial(int *mat, char **buf)
+//TODO : CONTAINS UNDERLYING ASSUMPTIONS THAT MAY CHANGE
+// 1 - ASSUMES USER WRITES M or m for metallix and matte -> you can choose later to let user write the whole material type rather than first letter
+// 2 - Assumes onlyu matte and Material
+int	pars_consumeMaterial(material_type *mat_type, char **buf)
 {
 	std_assert(buf && *buf); // may be useless
 
 	if (!(**buf == 'm' || **buf == 'M')) //matte or metallic - change later
 		return (1);
-
-	*mat = MATTE_TYPE;
+	if (**buf == 'm')
+		*mat_type = MATTE_TYPE;
+	else if (**buf == 'M')
+		*mat_type = METALLIC_TYPE;
+	else
+		return (1);
 	(*buf)++;
 	return (0);
 }
@@ -199,7 +205,7 @@ int	pars_checkUnitIntervalRange(double num)
 		return (1);
 	return (0);
 }
-//could have used fill light
+
 int	pars_parseLight(t_light *light, char *buf)
 {
 	std_assert(buf != 0);
@@ -228,7 +234,6 @@ int	pars_parseLight(t_light *light, char *buf)
 	return (0);
 }
 
-//could have used fillAmbient 
 int	pars_parseAmbient(t_ambientLight *ambient, char *buf)
 {
 	std_assert(buf != 0);
@@ -332,7 +337,7 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	t_vec	center;
 	t_vec	color;
 	double	diameter;
-	int	mat_type;
+	material_type	mat_type;
 
 	std_assert(buf != 0);
 
