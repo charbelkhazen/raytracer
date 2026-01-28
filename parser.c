@@ -288,49 +288,7 @@ int	pars_parseCamera(t_viewer *view, char *buf)
 	viewer_defaultFill(view, lookfrom, hfov, orientation_vector);
 	return (0);
 }
-/*
-int	pars_parseSphere(t_obj *obj, t_sph *sphere, t_mat *material, char *buf)
-{
-	t_vec	center;
-	t_vec	color;
-	double	diameter;
-	int	mat_type;
 
-	std_assert(buf != 0);
-
-	//default material is matte, if user inputs another then change (simulate default arg)
-	mat_type = 'm';
-
-	//parsing and consuming
-	pars_skipWhiteSpace(&buf);
-	// see those as ordered steps in parsing. and if a step fails -> returns (1) -> func returns (1). I wrote it in one line for compactness
-	if (pars_consume3Numbers(&center, &buf) || pars_consumeMandatoryWhiteSpace(&buf) 
-		|| pars_consumeNumber(&diameter, &buf) || pars_consumeMandatoryWhiteSpace(&buf)
-		|| pars_consume3Integers(&color, &buf))
-		return (1);
-	pars_skipWhiteSpace(&buf);
-	//optional material : 'm' : matte , 'M' : metallic 
-	//see those as ordered sequence
-	if(*buf)
-	{
-		if (pars_consumeMaterial(&mat_type, &buf)) 
-			return (1);
-		pars_skipWhiteSpace(&buf);
-	}
-	if(*buf)
-		return (1);
-
-	//check if consumed match logic
-	if (pars_checkColorRange(color) || diameter < 0)
-		return (1);
-
-	sph_fillSph(sphere, center, diameter / 2.0);
-	mat_fillMaterial(material, mat_type, color);
-	obj_fillObj(obj, 's', (void *)sphere, mat_type, (void*)material);
-
-	return (0);
-}
-*/
 //implementation using new obj struct
 int	pars_parseSphere(t_obj *obj, char *buf)
 {
@@ -371,10 +329,10 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	
 	//we now fill
 	obj->shape.type = SPHERE_TYPE;
-	memset(&obj->shape.as, 0, sizeof(obj->shape.as)); //FORBIDDEN FUNCTION
+	memset(&obj->shape.as, 0, sizeof(obj->shape.as)); //TODO:FORBIDDEN FUNCTION
 	sph_fillSph(&(obj->shape.as.sphere), center, diameter / 2.0);
-	obj->mat.type = mat_type; // FIX LATER
-	memset(&obj->mat.as, 0, sizeof(obj->mat.as));
+	obj->mat.type = mat_type; // FIX LATER 
+	memset(&obj->mat.as, 0, sizeof(obj->mat.as)); //TODO:FORBIDDEN FUNCTION
 	//I do not fill material because until now the specific material struct (matte) has no elements
 	obj->color = color;
 	return (0);
