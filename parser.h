@@ -27,7 +27,9 @@ typedef enum
 	CAMERA_CMD;
 	LIGHT_CMD;
 	AMBIENT_CMD;
-	OBJECT_CMD;
+	SPHERE_CMD;
+	CYLINDER_CMD;
+	PLANE_CMD; //NOTE: cyl and plane already implemented here
 }	t_cmd_type;
 
 void	pars_skipWhiteSpace(char **ptr_buf);

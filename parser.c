@@ -43,8 +43,9 @@ static int pars_associateTypeToLetter(t_cmd_type *type, int first_char)
 		*type = LIGHT_CMD;
 	else if (first_char == 'C')
 		*type = CAMERA_CMD;
-	else if (first_char == 's' || first_char == 'c' || first_char == 'p')
-		*type == OBJECT_CMD;
+	else if (first_char == 's')
+		*type == SPHERE_CMD;
+	//TODO: else if for plane and cylinder!!!
 	else
 		return (1); //NOTE: SHOULD NEVER HAPPEN.
 	return (0);

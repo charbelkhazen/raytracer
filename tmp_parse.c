@@ -3,22 +3,6 @@
 #include "get_next_line.h"
 // parse program
 
-//single elements that you can parse from user
-typedef struct s_parsables
-{
-	t_light light;
-	t_amb	amb;
-	t_view	view;
-	t_obj	obj;
-}	t_parsables;
-
-typedef enum
-{
-	CAMERA_CMD;
-	LIGHT_CMD;
-	AMBIENT_CMD;
-	OBJECT_CMD;
-}	t_cmd_type;
 
 //has two modes : check duplicates mode (mode 0) and check basic setup (mode 1)
 // on mode = 0 returns 1 if count light or camera or ambient > 1 and 0 otherwise
@@ -36,7 +20,7 @@ static int	pars_checkCounts(t_cmd_type type, int mode)
 		count_ambient++;
 	else if (type == LIGHT_CMD)
 		count_light++;
-	else if (type == OBJECT_CMD)
+	else if (type == SPHERE_CMD || type == PLANE_CMD || type == CYLINDER_CMD)
 		count_obj++;
 	
 	//mode = 0 -> Check duplicates
@@ -70,7 +54,7 @@ int	pars_fillScene(t_scene *scene, t_parsables *parsables, t_cmd_type cmdtype)
 		pars_setDefaultImg(scene);
 		cam_fillCam(&scene->cam, scene->img, parsables->view);
 	}
-	else if (cmdtype == OBJECT_CMD)
+	else if (cmdtype == SPHERE_CMD) // TODO : DO THE SAME WITH CYL AND PLANE
 	{
 		univ_init(&scene.univ);
 		univ_addObj(&scene.univ, parsables->obj);
