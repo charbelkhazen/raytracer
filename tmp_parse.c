@@ -20,11 +20,15 @@ typedef enum
 	OBJECT_CMD;
 }	t_cmd_type;
 
-static int	pars_checkDuplicates(t_cmd_type type)
+//has two modes : check duplicates mode (mode 0) and check basic setup (mode 1)
+// on mode = 0 returns 1 if count light or camera or ambient > 1 and 0 otherwise
+//on mode = 1 returns 1 if NOT COMPLETE. in mode1 , inputing type has no sense, you can thus write anything in the type field, For cleanness input "type = 0"
+static int	pars_checkCounts(t_cmd_type type, int mode)
 {
 	static int	count_camera = 0;
 	static int	count_light = 0;
 	static int	count_ambient = 0;
+	static int	count_obj = 0;
 
 	if (type == CAMERA_CMD)
 		count_camera++;
@@ -32,10 +36,21 @@ static int	pars_checkDuplicates(t_cmd_type type)
 		count_ambient++;
 	else if (type == LIGHT_CMD)
 		count_light++;
-
-	if (count_light > 1 || count_camera > 1 || count_ambient > 1)
-		return (1)
+	else if (type == OBJECT_CMD)
+		count_obj++;
+	
+	//mode = 0 -> Check duplicates
+	if (!mode)
+	{
+		if (count_light > 1 || count_camera > 1 || count_ambient > 1)
+			return (1)
+		return (0);
+	}
+	//mode == 1 -> Basic setup completeness check
+	if (!count_light || !count_camera || !count_ambient || !count_obj)
+		return (1);
 	return (0);
+	
 }
 
 static void	pars_setDefaultImg(t_scene *scene)
@@ -70,8 +85,6 @@ int	pars_fillScene(t_scene *scene, t_parsables *parsables, t_cmd_type cmdtype)
 }
 
 // Parses program and fills scene with all its field
-// Assumes Scene already has a t_img img element already filled!
-//Because img is an important part upon which scene's cam element depends but which is not set by parsing
 int	pars_parseProgram(int fd, t_scene *scene)
 {
 	t_parsables	parsables;
@@ -82,12 +95,14 @@ int	pars_parseProgram(int fd, t_scene *scene)
 	while (line)
 	{
 		pars_parseLine(&parsables, line, &cmdtype);
-		if (pars_checkDuplicates(cmdtype))
+		if (pars_checkCounts(cmdtype, 0))
 			return (1);
 		pars_fillScene(scene, &parsables, cmdtype);
 		line = get_next_line(fd);
 	}
-	//TODO: check if at least light , ambient , cam AND AT LEAST ONE OTHER TYPE is present
+	if (pars_checkCounts(0, 1))
+		return (1);
+	return (0);
 }
 
 #include <stdio.h>

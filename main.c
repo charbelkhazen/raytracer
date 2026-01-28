@@ -1,4 +1,5 @@
 //TODO: change render function. should take as input scene
+//NOTE: Code assummes only 1 scene: because of pars_checkCounts() function 
 
 #include "scene.h"
 #include "ui.h"
