@@ -13,8 +13,6 @@ typedef struct s_scene
 	t_univ		univ;
 	t_light		light;
 	t_ambientLight ambient;
-	t_img		img;
-
 }	t_scene;
 	
 #endif

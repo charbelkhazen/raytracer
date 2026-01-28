@@ -68,7 +68,7 @@ int main(void)
 	//depends on initalizing img dimensions (img struct)	
 	ui_mlxParams_t	mlx_params;
 
-	if (ui_initMlx(&mlx_params, img_ratio, img_width, "MiniRT")) // take advantage of setting img struct
+	if (ui_initMlx(&mlx_params, scene.cam.img.img_ratio, scene.cam.img.img_width, "MiniRT"))
         	return err_msgReturnOne("MLX init failed");
 	
 	render_logicToMlx(&mlx_params, &scene.cam, &scene.univ, &scene.light);
