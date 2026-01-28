@@ -323,7 +323,8 @@ static int pars_fillMaterial(t_mat *mat)
 	return (0);
 }
 
-//implementation using new obj struct
+//fills an OBJECT not a sphere
+//returns 1 on err
 int	pars_parseSphere(t_obj *obj, char *buf)
 {
 	t_vec	center;
@@ -366,6 +367,7 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	shape_fillSphere(&shape, center, diameter / 2.0);
 	//assumes material type has been added to mat
 	pars_fillMaterial(&mat);
+	obj_fillObj(obj, shape, mat, color);
 	return (0);
 }
 
