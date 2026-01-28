@@ -12,6 +12,8 @@
 
 #include <string.h> // FORBIDDEN FUNCTIONMEMESET - REMOVE LATER
 
+
+#include "parser.h"
 #include "stdlib.h"
 #include "error.h"
 #include <stdlib.h>
@@ -32,7 +34,23 @@ void	pars_skipWhiteSpace(char **ptr_buf)
 		(*ptr_buf) ++;
 }
 
-int	pars_consumeType(int *type, char **ptr_buf)
+//first letter alone does reveal the type
+static int pars_associateTypeToLetter(t_cmd_type *type, int first_char)
+{
+	if (first_char == 'A')
+		*type = AMBIENT_CMD;
+	else if (first_char == 'L')
+		*type = LIGHT_CMD;
+	else if (first_char == 'C')
+		*type = CAMERA_CMD;
+	else if (first_char == 's' || first_char == 'c' || first_char == 'p')
+		*type == OBJECT_CMD;
+	else
+		return (1); //NOTE: SHOULD NEVER HAPPEN.
+	return (0);
+}
+
+int	pars_consumeType(t_cmd_type *type, char **ptr_buf)
 {
 	char	first_char;
 	char	second_char;	
@@ -53,7 +71,9 @@ int	pars_consumeType(int *type, char **ptr_buf)
 	else
 	    return (1);
 
-	*type = first_char;
+	//fill type
+	if (pars_associateTypeToLetter(type, first_char))
+		return (1);
 
 	return (0);
 }
@@ -344,13 +364,13 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	
 	//we now fill
 	shape_fillSphere(&shape, center, diameter / 2.0);
+	//assumes material type has been added to mat
 	pars_fillMaterial(&mat);
 	return (0);
 }
 
-/*
 // line is either a command or empty
-int	pars_parseLine(char *buf, t_light *light, t_cam *cam, t_ambientLight *amb, t_)
+int	pars_parseLine(t_parsables *parsables, char *buf, t_cmd_type *cmdtype)
 {
 	int	cmd_type;
 
@@ -380,4 +400,3 @@ int	pars_parseLine(char *buf, t_light *light, t_cam *cam, t_ambientLight *amb, t
 
 	return (0);
 }
-*/

@@ -12,6 +12,24 @@
 # include "sphere.h"
 # include "material.h"
 
+// these are the fields that user can fill through .rt
+// they generalize to t_scene
+typedef struct s_parsables
+{
+	t_light light;
+	t_amb	amb;
+	t_view	view;
+	t_obj	obj;
+}	t_parsables;
+
+typedef enum
+{
+	CAMERA_CMD;
+	LIGHT_CMD;
+	AMBIENT_CMD;
+	OBJECT_CMD;
+}	t_cmd_type;
+
 void	pars_skipWhiteSpace(char **ptr_buf);
 
 //STRICT CONTRACT: PTR_BUF MUST BE NUL TERMINATED
