@@ -1,11 +1,9 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include "ui.h"
-#include "camera.h"
-#include "universe.h"
-#include "light.h"
+# include "ui.h"
+# include "scene.h"
 
-void	render_logicToMlx(ui_mlxParams_t *params, t_cam *camera, t_univ *universe, t_light *light);
+void	render_logicToMlx(ui_mlxParams_t *params, t_scene *scene);
 
 #endif

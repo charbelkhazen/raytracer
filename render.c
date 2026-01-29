@@ -1,10 +1,7 @@
 #include "ui.h"
-#include "camera.h"
 #include "stdlib.h"
 # include "error.h"
-# include "sphere.h"
-# include "universe.h"
-# include "light.h"
+#include "scene.h"
 
 static void render_remLinesErrMsg(int remaining_lines)
 {
@@ -48,15 +45,15 @@ static void	render_throwThenColor(ui_mlxParams_t *p, t_cam *cam, t_univ *univ, i
 }
 
 //render_throwThenColor needs refactoring
-void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam, t_univ *univ, t_light *light)
+void	render_logicToMlx(ui_mlxParams_t *p, t_scene *scene) //t_cam *cam, t_univ *univ, t_light *light)
 {
 	int	y;
 	int	x;
 	int	height;
 	int	width;
 
-	height = cam->img.img_height;
-	width = cam->img.img_width;
+	height = scene->cam.img.img_height;
+	width = scene->cam.img.img_width;
 	y = 0;
 	while (y < height)
 	{
@@ -64,7 +61,7 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_cam *cam, t_univ *univ, t_light *lig
 		x = 0;
 		while (x < width)
 		{
-			render_throwThenColor(p, cam, univ, x, y, light);
+			render_throwThenColor(p, &scene->cam, &scene->univ, x, y, &scene->light);
 			x ++;
 		}
 		y ++;
