@@ -44,7 +44,7 @@ static int pars_associateTypeToLetter(t_cmd_type *type, int first_char)
 	else if (first_char == 'C')
 		*type = CAMERA_CMD;
 	else if (first_char == 's')
-		*type == SPHERE_CMD;
+		*type = SPHERE_CMD;
 	//TODO: else if for plane and cylinder!!!
 	else
 		return (1); //NOTE: SHOULD NEVER HAPPEN.
@@ -134,14 +134,16 @@ int	pars_consumeMaterial(material_type *mat_type, char **buf)
 {
 	std_assert(buf && *buf); // may be useless
 
-	if (!(**buf == 'm' || **buf == 'M')) //matte or metallic - change later
+	if (!(**buf == 'm')) //TODO: ADD || **buf == 'M' , 'P' for plastic etc..
 		return (1);
 	if (**buf == 'm')
 		*mat_type = MATTE_TYPE;
-	else if (**buf == 'M')
-		*mat_type = METALLIC_TYPE;
 	else
 		return (1);
+
+	//else if (**buf == 'M')
+	//*mat_type = METALLIC_TYPE;  //TODO: add mettalic and other textures 
+
 	(*buf)++;
 	return (0);
 }
@@ -375,31 +377,29 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 // line is either a command or empty
 int	pars_parseLine(t_parsables *parsables, char *buf, t_cmd_type *cmdtype)
 {
-	int	cmd_type;
-
 	pars_skipWhiteSpace(&buf);
 
 	//empty line -> exit with no err
 	if (!(*buf))
 		return (0);
 
-	if (!pars_consumeType(&cmd_type, &buf))
+	if (pars_consumeType(cmdtype, &buf))
 		return (1);
 	
-	if (cmd_type == 's')
-		if (pars_parseSphere(&obj, &sphere, &material, buf))
+	if (*cmdtype == SPHERE_CMD)
+		if (pars_parseSphere(&parsables->obj, buf))
 			return (1);
-	if (cmd_type == 'A')
-		if (pars_parseAmbient(&ambient, buf))
+	else if (*cmdtype == AMBIENT_CMD)
+		if (pars_parseAmbient(&parsables->ambient, buf))
 			return (1);
-	if (cmd_type == 'C')
-		if (pars_parseCamera(&viewer, buf)) //NOT CAM
+	else if (*cmdtype == CAMERA_CMD)
+		if (pars_parseCamera(&parsables->view, buf)) //NOT CAM
 			return (1);
-	if (cmd_type == 'L')
-		if (pars_parseLight(&light, buf))
+	else if (*cmdtype == LIGHT_CMD)
+		if (pars_parseLight(&parsables->light, buf))
 			return (1);
 	else
 		return (1);
-
+	//TODO: missing plane and cyl
 	return (0);
 }

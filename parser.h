@@ -24,12 +24,12 @@ typedef struct s_parsables
 
 typedef enum
 {
-	CAMERA_CMD;
-	LIGHT_CMD;
-	AMBIENT_CMD;
-	SPHERE_CMD;
-	CYLINDER_CMD;
-	PLANE_CMD; //NOTE: cyl and plane already implemented here
+	CAMERA_CMD,
+	LIGHT_CMD,
+	AMBIENT_CMD,
+	SPHERE_CMD,
+	CYLINDER_CMD,
+	PLANE_CMD, //NOTE: cyl and plane already implemented here
 }	t_cmd_type;
 
 void	pars_skipWhiteSpace(char **ptr_buf);
@@ -37,7 +37,7 @@ void	pars_skipWhiteSpace(char **ptr_buf);
 //STRICT CONTRACT: PTR_BUF MUST BE NUL TERMINATED
 //type is case sensitive : 'c' : cylinder != 'C' : camera
 //assumes no whitespace, consumes and advances the type
-int	pars_consumeType(int *type, char **ptr_buf);
+int	pars_consumeType(t_cmd_type *type, char **ptr_buf);
 
 //assumes no whitespaces. Consume number and advances. double parsing relies on atod, returns 1 on err
 int	pars_consumeNumber(double *num, char **buf);
