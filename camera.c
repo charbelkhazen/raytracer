@@ -131,15 +131,3 @@ void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j)
 	cam_choosePixel(&chosen_pixel, cam, pixel_i, pixel_j);
 	cam_throwRayOnPixel(ray, &chosen_pixel, cam);
 }
-
-//naive color function - sphere hit other
-#include <stdio.h>
-void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ, t_light *light)
-{
-	t_hitRec	rec;
-
-	if (univ_hit(ray, univ, &rec)) //assumes tmin/max defined in throwray only
-		lp_shade(color, &rec, light, univ, ray);
-	else
-		vec_fillVec(color, 0, 0, 0);
-}

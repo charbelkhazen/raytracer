@@ -45,8 +45,4 @@ typedef struct s_cam
 void	cam_fillCam(t_cam *cam, t_img img, t_viewer view);
 
 void	cam_throwRay(t_ray *ray, t_cam *cam, int pixel_i, int pixel_j);
-
-//sould be in render!!!
-//temporary function - needs modif
-void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ, t_light *light); // hit record should  be part of ray? 
 #endif
