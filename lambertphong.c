@@ -69,13 +69,7 @@ static void	lp_capColorToOne(t_vec *color)
 	if (color->z > 1) color->z = 1;
 }
 
-void	lp_shade(
-	t_vec *color,
-	t_hitRec *rec,
-	t_light *light,
-	t_univ *univ,
-	t_ray *ray
-)
+void	lp_shade(t_vec *color, t_hitRec *rec, t_light *light, t_univ *univ, t_ray *ray)
 {
 	t_ray	rayToLight;
 	int		att_factor;

@@ -139,11 +139,7 @@ void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ, t_light *light)
 	t_hitRec	rec;
 
 	if (univ_hit(ray, univ, &rec)) //assumes tmin/max defined in throwray only
-	{
-		//*color = rec.material.color;
-		//*color = rec.normal;
 		lp_shade(color, &rec, light, univ, ray);
-	}
 	else
 		vec_fillVec(color, 0, 0, 0);
 }
