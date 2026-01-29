@@ -246,14 +246,14 @@ int	pars_parseLight(t_light *light, char *buf)
 
 	pars_skipWhiteSpace(&buf);
 
-	if(*buf)
+	if (*buf != '\n')
 	{
 		if(pars_consume3Integers(&light->color, &buf))
 			return (1);
 		if(pars_checkColorRange(light->color))
 			return (1);
 	}
-	if (*buf)
+	if (*buf != '\n')
 		return (1);
 	return (0);
 }
@@ -279,7 +279,7 @@ int	pars_parseAmbient(t_ambientLight *ambient, char *buf)
 
 	pars_skipWhiteSpace(&buf);
 
-	if (*buf)
+	if (*buf != '\n')
 		return (1);
 
 	return (0);
@@ -301,7 +301,7 @@ int	pars_parseCamera(t_viewer *view, char *buf)
 		|| pars_consumeNumber(&hfov, &buf))
 		return (1);
 	pars_skipWhiteSpace(&buf);
-	if (*buf)
+	if (*buf != '\n')
 		return (1);
 
 	//check if consumed match logic
@@ -352,13 +352,13 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	pars_skipWhiteSpace(&buf);
 	//optional material : 'm' : matte , 'M' : metallic 
 	//see those as ordered sequence
-	if(*buf)
+	if (*buf != '\n')
 	{
 		if (pars_consumeMaterial(&mat.type, &buf)) 
 			return (1);
 		pars_skipWhiteSpace(&buf);
 	}
-	if(*buf)
+	if (*buf != '\n')
 		return (1);
 
 	//check if consumed match logic
