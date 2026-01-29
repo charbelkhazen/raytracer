@@ -318,7 +318,7 @@ int	pars_parseCamera(t_viewer *view, char *buf)
 // I choose to fill it with 0
 static int pars_fillMaterial(t_mat *mat)
 {
-	if (mat.type == MATTE_TYPE)
+	if (mat->type == MATTE_TYPE)
 		mat_fillMatte(mat, 0);
 	//TODO:implement else if for all other materials
 	else
@@ -387,17 +387,25 @@ int	pars_parseLine(t_parsables *parsables, char *buf, t_cmd_type *cmdtype)
 		return (1);
 	
 	if (*cmdtype == SPHERE_CMD)
+	{
 		if (pars_parseSphere(&parsables->obj, buf))
 			return (1);
+	}
 	else if (*cmdtype == AMBIENT_CMD)
-		if (pars_parseAmbient(&parsables->ambient, buf))
+	{
+		if (pars_parseAmbient(&parsables->amb, buf))
 			return (1);
+	}
 	else if (*cmdtype == CAMERA_CMD)
+	{
 		if (pars_parseCamera(&parsables->view, buf)) //NOT CAM
 			return (1);
+	}
 	else if (*cmdtype == LIGHT_CMD)
+	{
 		if (pars_parseLight(&parsables->light, buf))
 			return (1);
+	}
 	else
 		return (1);
 	//TODO: missing plane and cyl

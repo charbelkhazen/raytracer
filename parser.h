@@ -17,8 +17,8 @@
 typedef struct s_parsables
 {
 	t_light light;
-	t_amb	amb;
-	t_view	view;
+	t_ambientLight	amb;
+	t_viewer	view;
 	t_obj	obj;
 }	t_parsables;
 
@@ -65,5 +65,5 @@ int	pars_parseAmbient(t_ambientLight *ambient, char *buf);
 
 int	pars_parseCamera(t_viewer *view, char *buf);
 
-int	pars_parseSphere(t_obj *obj, t_sph *sphere, t_mat *material, char *buf);
+int	pars_parseSphere(t_obj *obj, char *buf);
 #endif
