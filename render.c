@@ -32,15 +32,15 @@ static void render_drawpixel(ui_mlxParams_t *p, t_vec *pixel, int x, int y)
 //then after finding the color of ray at (x,y):
 //use ui_drawpixel (move it here as a static function) : takes mlx param, pixel color and x and y (all good)
 
-static void	render_throwThenColor(ui_mlxParams_t *p, t_cam *cam, t_univ *univ, int pixel_i, int pixel_j, t_light *light)
+static void	render_throwThenColor(ui_mlxParams_t *p, t_scene *scene, int pixel_i, int pixel_j) // t_cam *cam, t_univ *univ, int pixel_i, int pixel_j, t_light *light)
 {
 	t_ray	ray;
 	t_vec	color;
 
 	//get ray for (i,j)
-	cam_throwRay(&ray, cam, pixel_i, pixel_j);
+	cam_throwRay(&ray, &scene->cam, pixel_i, pixel_j);
 	//get color for the ray
-	cam_rayColor(&color, &ray, univ, light); // needs to be modified, here, its naive
+	cam_rayColor(&color, &ray, &scene->univ, &scene->light); // needs to be modified, here, its naive
 	render_drawpixel(p, &color, pixel_i, pixel_j);
 }
 
@@ -61,7 +61,7 @@ void	render_logicToMlx(ui_mlxParams_t *p, t_scene *scene) //t_cam *cam, t_univ *
 		x = 0;
 		while (x < width)
 		{
-			render_throwThenColor(p, &scene->cam, &scene->univ, x, y, &scene->light);
+			render_throwThenColor(p, scene, x, y);//&scene->cam, &scene->univ, x, y, &scene->light);
 			x ++;
 		}
 		y ++;
