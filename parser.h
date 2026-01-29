@@ -11,6 +11,7 @@
 # include "object.h"
 # include "sphere.h"
 # include "material.h"
+# include "scene.h"
 
 // these are the fields that user can fill through .rt
 // they generalize to t_scene
@@ -66,4 +67,6 @@ int	pars_parseAmbient(t_ambientLight *ambient, char *buf);
 int	pars_parseCamera(t_viewer *view, char *buf);
 
 int	pars_parseSphere(t_obj *obj, char *buf);
+
+int	pars_parseProgram(int fd, t_scene *scene);
 #endif

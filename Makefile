@@ -9,4 +9,5 @@ vec:
 	cc vector.c stdlib.c -lm
 
 test:
-	cc test.c  vector.c sphere.c universe.c stdlib.c ray.c  -lm
+	cc parser.c viewer.c shape.c object.c image.c vector.c stdlib.c material.c  matte.c sphere.c ray.c camera.c get_next_line.c get_next_line_utils.c -lm lambertphong.c light.c ambientlight.c  universe.c testparse.c 
+

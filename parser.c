@@ -26,7 +26,6 @@
 #include "sphere.h"
 #include "material.h"
 #include "get_next_line.h"
-#include "scene.h"
 
 void	pars_skipWhiteSpace(char **ptr_buf)
 {
@@ -457,7 +456,7 @@ static void	pars_setDefaultImg(t_scene *scene)
 	img_fill(&scene->cam.img, img_width, img_ratio);
 }
 
-int	pars_fillScene(t_scene *scene, t_parsables *parsables, t_cmd_type cmdtype)
+static int	pars_fillScene(t_scene *scene, t_parsables *parsables, t_cmd_type cmdtype)
 {
 	if (cmdtype == CAMERA_CMD)
 	{
