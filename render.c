@@ -4,7 +4,7 @@
 #include "scene.h"
 #include "lambertphong.h"
 
-void	cam_rayColor(t_vec *color, t_ray *ray, t_univ *univ, t_light *light)
+void	render_rayColor(t_vec *color, t_ray *ray, t_univ *univ, t_light *light)
 {
 	t_hitRec	rec;
 
@@ -51,7 +51,7 @@ static void	render_throwThenColor(ui_mlxParams_t *p, t_scene *scene, int pixel_i
 	//get ray for (i,j)
 	cam_throwRay(&ray, &scene->cam, pixel_i, pixel_j);
 	//get color for the ray
-	cam_rayColor(&color, &ray, &scene->univ, &scene->light); // needs to be modified, here, its naive
+	render_rayColor(&color, &ray, &scene->univ, &scene->light); // needs to be modified, here, its naive
 	render_drawpixel(p, &color, pixel_i, pixel_j);
 }
 
