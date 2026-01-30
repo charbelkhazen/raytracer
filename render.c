@@ -9,7 +9,7 @@ void	render_rayColor(t_vec *color, t_ray *ray, t_scene *scene)  //t_univ *univ, 
 	t_hitRec	rec;
 
 	if (univ_hit(ray, &scene->univ, &rec)) //assumes tmin/max defined in throwray only
-		lp_shade(color, &rec, &scene->light, &scene->univ, ray);
+		lp_shade(color, &rec, ray, scene);
 	else
 		vec_fillVec(color, 0, 0, 0);
 }

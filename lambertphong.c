@@ -4,7 +4,7 @@
 # include "light.h"
 # include <math.h>
 # include "ambientlight.h"
-
+# include "scene.h"
 /*
 ** very naive : assumes all objects are opaque !!
 */
@@ -69,18 +69,18 @@ static void	lp_capColorToOne(t_vec *color)
 	if (color->z > 1) color->z = 1;
 }
 
-void	lp_shade(t_vec *color, t_hitRec *rec, t_light *light, t_univ *univ, t_ray *ray)
+void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 {
 	t_ray	rayToLight;
 	int		att_factor;
 	t_vec	specular_color;
 	t_vec	lambert_color;
 
-	light_rayToLight(&rayToLight, &rec->p, &light->src);
-	att_factor = lp_attenuationFactor(&rayToLight, univ);
+	light_rayToLight(&rayToLight, &rec->p, &scene->light.src);
+	att_factor = lp_attenuationFactor(&rayToLight, &scene->univ);
 
-	lp_lambert(&lambert_color, rec, light, &rayToLight);
-	lp_specular(&specular_color, ray, rec, light, &rayToLight);
+	lp_lambert(&lambert_color, rec, &scene->light, &rayToLight);
+	lp_specular(&specular_color, ray, rec, &scene->light, &rayToLight);
 
 	vec_add(color, &specular_color, &lambert_color);
 	vec_scale(color, att_factor, color);
