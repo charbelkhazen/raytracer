@@ -75,6 +75,7 @@ void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 	int		att_factor;
 	t_vec	specular_color;
 	t_vec	lambert_color;
+	t_vec			ambient_color;
 
 	light_rayToLight(&rayToLight, &rec->p, &scene->light.src);
 	att_factor = lp_attenuationFactor(&rayToLight, &scene->univ);
@@ -87,14 +88,9 @@ void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 	lp_capColorToOne(color);
 
 	// ambient
-	t_ambientLight	alight;
-	t_vec			ambient_color;
-	t_vec			alight_color;
+	// find exact ambient color (color * ratio) and cap Color (> 255 -> 1 and < 0 -> 0)
 
-	vec_fillVec(&alight_color, 1, 1, 1);
-	al_fill(&alight, 0.1, alight_color);
-
-	vec_scale(&ambient_color, alight.ratio, &alight.color);
+	vec_scale(&ambient_color, scene->ambient.ratio, &scene->ambient.color);
 	vec_add(color, color, &ambient_color);
 	lp_capColorToOne(color);
 }
