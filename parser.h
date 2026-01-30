@@ -2,6 +2,7 @@
 //TODO:  PARSE LIGHT () SHOULD FILL T_LIGHT THIS IS WRONG
 //TODO:  Change name of consumeNumber and Comma to parse (i.e. raises err too)
 //TODO:  Make it explicit that some of the parsers (e.g. parse light and camera ...) do take into consideration whitespace OR REMOVE THE WHITESPACE AND DELEGATE IT TO PARSELINE
+//TODO:  Assumes default image parametr which influences the viewport !! take this into consideration
 #ifndef PARSER_H
 # define PARSER_H
 # include "vector.h"

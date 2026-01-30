@@ -17,8 +17,8 @@ int main(void)
 	//TODO: HANDLE FD CLOSURE!!!!!!!
 
 	//TODO: parseProgram fils scene -> let scene be its first parameter 
-	while (pars_parseProgram(file_descriptor, &scene))
-		err_writeStdErr("Wrong Format in .rt file", 1);
+	if (pars_parseProgram(file_descriptor, &scene))
+		return (err_msgReturnOne("Wrong Format in .rt file"));
 	if (ui_initMlx(&mlx_params, scene.cam.img.img_ratio, scene.cam.img.img_width, "MiniRT"))
         	return err_msgReturnOne("MLX init failed");
 	render_logicToMlx(&mlx_params, &scene);
