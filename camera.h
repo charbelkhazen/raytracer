@@ -1,3 +1,4 @@
+//camera module refers to everything set by camera : camera location, viewport, ortho basis.
 #ifndef CAMERA_H
 #define CAMERA_H
 

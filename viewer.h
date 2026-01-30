@@ -13,5 +13,6 @@ typedef struct s_viewer
 void	viewer_fill(t_viewer *viewer, t_vec vup, t_vec lookfrom, t_vec lookat, double hfov);
 
 //fill viewer under default parameters
+// TAKES ORIENTATION VECTOR AS PARAMETER AND FINDS LOOKAT FROM IT
 void	viewer_defaultFill(t_viewer *viewer, t_vec lookfrom, double hfov, t_vec orientation_vector);
 #endif
