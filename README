@@ -8,3 +8,7 @@ cool trick with std_assert : when using a function macro , input can be both int
 leverage actual mechanics of post and pre inc/decrement : ATOD is a good exercise (uses precedence and post increment subtle tricks)
 use union+enum: best solution to keep lifetime of t_obj coherent (all other methods fail to stay coherent with general logic (i.e .casting or using ptrs)) - I DONT USE ENUMS TO STAY CONSISTENT WITH MY TYPE TO INT MAPPING (sphere -> 's')
 Subject has an error : the proposed .rt file has a sphere position wrt to camera that makes it invisible (I am sure of it)
+requires dot and cross product algebra
+requires basic reflection physics concepts : specular vs diffuse reflection.
+differs from raytracing in one weekend famous course : this is a raytracer, other one is a path tracer
+
