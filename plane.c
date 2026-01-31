@@ -1,10 +1,17 @@
 #include "plane.h"
+#include <math.h>
 
 void	plane_fillPlane(t_plane *plane, t_vec point, t_vec normalized_normal, t_vec color)
 {	
 	plane->point = point;
 	plane->normalized_normal = normalized_normal;
 	plane->color = color;
+}
+
+static	void	plane_normalPointOut(t_vec *normal, t_ray *ray)
+{
+	if (vec_dot(normal, &ray->dir) > 0)
+		vec_scale(normal, -1, normal);
 }
 
 static void	plane_fillRecord(t_plane *plane, t_hitRec *rec, double t, t_ray *ray)
@@ -14,6 +21,7 @@ static void	plane_fillRecord(t_plane *plane, t_hitRec *rec, double t, t_ray *ray
 	ray_at(&rec->p, ray, t);
 
 	rec->normal = plane->normalized_normal;
+	plane_normalPointOut(&rec->normal, ray);
 
 	//TODO: in sphere rec spots here : i.e. fills t and p and normal . FORGETS ABOUT SHAPE AND MATERIAL AND COLOR -> DELEGATES IT TO ANOTHRE FUNCTION . DOESNT IT NEED REFACTORING??
 }
@@ -26,7 +34,7 @@ int	plane_hit(t_ray *ray, t_plane *plane, double t_min, double t_max, t_hitRec *
 	double	t; // t  of ray. Remember : ray equation : p + dt
 
 	denominator = vec_dot(&plane->normalized_normal, &ray->dir);
-	if (!denominator)
+	if (!denominator || fabs(denominator) < 1e-6)
 		return (0);
 	offset = vec_dot(&plane->normalized_normal, &plane->point);
 	numerator = offset - vec_dot(&plane->normalized_normal, &ray->orig);
