@@ -412,7 +412,7 @@ int	pars_parseCylinder(t_obj *obj, char *buf)
 		return (1);
 
 	//check if consumed match logic
-	if ((!std_cmpDoubles(vec_vectorLen(&normalized_axis), 1) || pars_checkColorRange(color) || diameter < 0))
+	if (!std_cmpDoubles(vec_vectorLen(&normalized_axis), 1) || pars_checkColorRange(color) || diameter < 0 || height < 0)
 		return (1);
 	
 	//now I have validated : center, diameter, materialtype, color
@@ -454,6 +454,11 @@ int	pars_parseLine(t_parsables *parsables, char *buf, t_cmd_type *cmdtype)
 	else if (*cmdtype == LIGHT_CMD)
 	{
 		if (pars_parseLight(&parsables->light, buf))
+			return (1);
+	}
+	else if (*cmdtype == CYLINDER_CMD)
+	{
+		if (pars_parseCylinder(&parsables->obj, buf))
 			return (1);
 	}
 	else
