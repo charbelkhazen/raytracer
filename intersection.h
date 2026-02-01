@@ -6,8 +6,7 @@
 
 typedef struct s_hitRec { //seperate it  (other module - intersection != object definition)
 	t_vec	p;
-	t_vec	normal; // NEED TO SEE HOW
-	//t_mat	material;
+	t_vec	normal;
 	t_vec	color;
 	int	shape;
 	int	mat;

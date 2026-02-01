@@ -11,14 +11,31 @@ void	cyl_fillCyl(t_cylinder *cyl, t_vec center, t_vec normalized_axis, t_vec col
 	cyl->height = height;
 }
 
+static	void	cyl_normalPointOut(t_vec *normal, t_ray *ray)
+{
+	if (vec_dot(normal, &ray->dir) > 0)
+		vec_scale(normal, -1, normal);
+}
+
 static void	cyl_fillRecord(t_cylinder *cyl, t_hitRec *rec, double t, t_ray *ray)
 {
 	rec->t = t;
 
 	ray_at(&rec->p, ray, t);
 
-	// TODO: NORMAL !!! HOW TO FIND NORMAL HERE
-	//TODO: in sphere rec spots here : i.e. fills t and p and normal . FORGETS ABOUT SHAPE AND MATERIAL AND COLOR -> DELEGATES IT TO ANOTHRE FUNCTION . DOESNT IT NEED REFACTORING??
+	t_vec	center_to_intersection;
+	t_vec	point_of_projection;
+	t_vec	tmp;
+	double	projection_scale;
+
+	vec_subs(&center_to_intersection, &rec->p, &cyl->center);
+	projection_scale = vec_dot(&cyl->normalized_axis, &center_to_intersection);
+	vec_scale(&tmp, projection_scale, &cyl->normalized_axis);
+	vec_add(&point_of_projection, &cyl->center, &tmp);
+	vec_subs(&rec->normal, &rec->p, &point_of_projection);
+	cyl_normalPointOut(&rec->normal, ray);
+	
+	//TODO: in sphere, rec stops here : i.e. fills t and p and normal . FORGETS ABOUT SHAPE AND MATERIAL AND COLOR -> DELEGATES IT TO ANOTHRE FUNCTION . DOESNT IT NEED REFACTORING??
 }
 
 int	cyl_hit(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hitRec *rec)
