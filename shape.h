@@ -27,6 +27,10 @@ typedef struct s_shape
 }	t_shape;
 
 void	shape_fillSphere(t_shape *shape, t_vec center, double radius);
+void	shape_fillPlane(t_shape *shape, t_vec point, t_vec normalized_normal, t_vec color);
+void	shape_fillCylinder(t_shape *shape, t_vec center, t_vec normalized_axis, t_vec color, double diameter, double height);
+
 
 int	shape_hit(t_shape *shape, t_ray *ray, double t_min, double t_max, t_hitRec *rec);
+
 #endif
