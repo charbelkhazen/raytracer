@@ -418,10 +418,10 @@ int	pars_parseCylinder(t_obj *obj, char *buf)
 	//now I have validated : center, diameter, materialtype, color
 	
 	//we now fill
-	//shape_fillSphere(&shape, center, diameter / 2.0);
+	shape_fillCylinder(&shape, center, normalized_axis, color, diameter, height);
 	//assumes material type has been added to mat
-	//pars_fillMaterial(&mat);
-	//obj_fillObj(obj, shape, mat, color);
+	pars_fillMaterial(&mat);
+	obj_fillObj(obj, shape, mat, color);
 	return (0);
 }
 // line is either a command or empty
