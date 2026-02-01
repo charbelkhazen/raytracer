@@ -34,6 +34,7 @@ static void	cyl_fillRecord(t_cylinder *cyl, t_hitRec *rec, double t, t_ray *ray)
 	vec_add(&point_of_projection, &cyl->center, &tmp);
 	vec_subs(&rec->normal, &rec->p, &point_of_projection);
 	cyl_normalPointOut(&rec->normal, ray);
+	vec_unitVector(&rec->normal, &rec->normal);
 	
 	//TODO: in sphere, rec stops here : i.e. fills t and p and normal . FORGETS ABOUT SHAPE AND MATERIAL AND COLOR -> DELEGATES IT TO ANOTHRE FUNCTION . DOESNT IT NEED REFACTORING??
 }
