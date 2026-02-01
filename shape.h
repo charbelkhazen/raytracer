@@ -3,14 +3,16 @@
 
 #include "vector.h"
 #include "sphere.h"
+#include "cylinder.h"
+#include "plane.h"
 
 typedef struct s_hitRec t_hitRec;
 
 typedef enum
 {
-	SPHERE_TYPE
-	//CYLINDER_TYPE;
-	//PLANE_TYPE;
+	SPHERE_TYPE,
+	CYLINDER_TYPE,
+	PLANE_TYPE,
 }	shape_type;
 
 typedef struct s_shape
@@ -19,8 +21,8 @@ typedef struct s_shape
 	union
 	{
 		t_sph sphere;
-		//t_cyl cylinder;
-		//t_pl plane;
+		t_cylinder cylinder;
+		t_plane plane;
 	} as;
 }	t_shape;
 
