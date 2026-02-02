@@ -85,7 +85,6 @@ void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 
 	vec_add(color, &specular_color, &lambert_color);
 	vec_scale(color, att_factor, color);
-	lp_capColorToOne(color);
 
 	// ambient lightninig //TODO: isolate for norminette
 	t_vec	tmp;
