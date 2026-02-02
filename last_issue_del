@@ -72,3 +72,7 @@ matte
 
 
 review : parse.c -> objfill should be reconsidered
+
+
+
+clear issue with ambient light implementation: IT IS WRONG!!!!

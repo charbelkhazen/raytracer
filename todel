@@ -1,208 +1,63 @@
-given these interfaces:
-object.h
+on the same note,
 
-#ifndef OBJECT_H
-#define OBJECT_H
+I have a plane command which needs to be implemented too
 
-#include "vector.h"
-#include "material.h"
-#include "shape.h"
+the plane command should be parsed as such
+Plane:
 
-typedef struct s_hitRec t_hitRec;
+0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225
 
-typedef struct s_obj
+∗ x, y, z coordinates of a point in the plane: 0.0,0.0,-10.0
+∗ 3D normalized normal vector, in the range [-1,1] for each x, y, z axis:
+0.0,1.0,0.0
+∗ R,G,B colors in the range [0-255]: 0,0,225
+
+
+is my implementation correct
+
+
+int	pars_parsePlane(t_obj *obj, char *buf)
 {
-	t_shape		shape;
-	t_mat		mat;
-	t_vec		color;
-}	t_obj;
-
-void	obj_fillObj(t_obj *obj, t_shape shape, t_mat mat, t_vec color);
-
-int	obj_hit(t_obj *obj, t_ray *ray, double t_min, double t_max, t_hitRec *rec);
-
-#endif
-
-and shape.h
-
-#ifndef SHAPE_H
-#define SHAPE_H
-
-#include "vector.h"
-#include "sphere.h"
-#include "cylinder.h"
-#include "plane.h"
-
-typedef struct s_hitRec t_hitRec;
-
-typedef enum
-{
-	SPHERE_TYPE,
-	CYLINDER_TYPE,
-	PLANE_TYPE,
-}	shape_type;
-
-typedef struct s_shape
-{
-	shape_type	type;
-	union
-	{
-		t_sph sphere;
-		t_cylinder cylinder;
-		t_plane plane;
-	} as;
-}	t_shape;
-
-void	shape_fillSphere(t_shape *shape, t_vec center, double radius);
-void	shape_fillPlane(t_shape *shape, t_vec point, t_vec normalized_normal, t_vec color);
-void	shape_fillCylinder(t_shape *shape, t_vec center, t_vec normalized_axis, t_vec color, double diameter, double height);
-
-
-int	shape_hit(t_shape *shape, t_ray *ray, double t_min, double t_max, t_hitRec *rec);
-
-#endif
-
-and cylinder.h
-#ifndef CYLINDER_H
-# define CYLINDER_H
-
-#include "intersection.h"
-#include "ray.h"
-
-typedef struct s_cylinder
-{
-	t_vec	center;
-	t_vec	normalized_axis;
+	t_vec	point;
 	t_vec	color;
-	double	diameter;
-	double 	radius;
-	double	height;
-}	t_cylinder;
+	t_vec	normalized_normal;
+	t_shape shape;
+	t_mat	mat;
 
-void	cyl_fillCyl(t_cylinder *cyl, t_vec center, t_vec normalized_axis, t_vec color, double diameter, double height);
+	std_assert(buf != 0);
 
-//returns bool AND if hit fills hitRec
-//Refer to my note on line cylinder intersection to understand logic
-int	cyl_hit(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hitRec *rec);
+	//default material is matte, if user inputs another then change (simulate default arg)
+	mat.type = MATTE_TYPE;
 
-#endif
-and vector.h
-#ifndef VECTOR_H
-#define VECTOR_H
-
-typedef struct vector_s
-{
-	double	x;
-	double	y;
-	double	z;
-}	t_vec;
-
-void	vec_centerVec(t_vec *vec);
-
-void	vec_fillVec(t_vec *vec, double x, double y, double z);
-
-//vec1 - vec2
-void	vec_subs(t_vec *result, t_vec *vec1, t_vec *vec2);
-
-void	vec_add(t_vec *result, t_vec *vec1, t_vec *vec2);
-
-void	vec_scale(t_vec *result, double factor, t_vec *vec);
-
-double	vec_squaredLen(t_vec *v);
-
-#ifndef VECTOR_H
-#define VECTOR_H
-
-typedef struct vector_s
-{
-	double	x;
-	double	y;
-	double	z;
-}	t_vec;
-
-void	vec_centerVec(t_vec *vec);
-
-void	vec_fillVec(t_vec *vec, double x, double y, double z);
-
-//vec1 - vec2
-void	vec_subs(t_vec *result, t_vec *vec1, t_vec *vec2);
-
-void	vec_add(t_vec *result, t_vec *vec1, t_vec *vec2);
-
-void	vec_scale(t_vec *result, double factor, t_vec *vec);
-
-double	vec_squaredLen(t_vec *v);
-
-double	vec_vectorLen(t_vec *v);
-
-void	vec_unitVector(t_vec *res, t_vec *v);
-
-void	vec_cross(t_vec *result, t_vec *v1, t_vec *v2);
-
-double	vec_dot(t_vec *v1, t_vec *v2);
-
-/*string should be at least vec_strLen(t_vec, int) bytes*/
-int	vec_strLen(t_vec *vector, int precision);
-void	vec_toStr(char *string, t_vec *vector, int precision);
-
-#endif
-double	vec_vectorLen(t_vec *v);
-
-void	vec_unitVector(t_vec *res, t_vec *v);
-
-void	vec_cross(t_vec *result, t_vec *v1, t_vec *v2);
-
-double	vec_dot(t_vec *v1, t_vec *v2);
-
-/*string should be at least vec_strLen(t_vec, int) bytes*/
-int	vec_strLen(t_vec *vector, int precision);
-void	vec_toStr(char *string, t_vec *vector, int precision);
-
-#endif
-
-and material.h
-#ifndef MATERIAL_H
-#define MATERIAL_H
-
-#include "matte.h"
-
-typedef enum
-{
-	MATTE_TYPE
-	//METALLIC_TYPE;
-	//GLASS_TYPE;
-}	material_type;
-
-
-typedef struct s_material
-{
-	material_type type;
-	union
+	//parsing and consuming
+	pars_skipWhiteSpace(&buf);
+	// see those as ordered steps in parsing. and if a step fails -> returns (1) -> func returns (1). I wrote it in one line for compactness
+	if (pars_consume3Numbers(&point, &buf) || pars_consumeMandatoryWhiteSpace(&buf) 
+		|| pars_consume3Numbers(&normalized_normal, &buf) || pars_consumeMandatoryWhiteSpace(&buf)
+		|| pars_consume3Integers(&color, &buf))
+		return (1);
+	pars_skipWhiteSpace(&buf);
+	//optional material : 'm' : matte , 'M' : metallic 
+	//see those as ordered sequence
+	if (*buf != '\n')
 	{
-		t_matte matte;
-		//t_met metallic;
-		//t_gl  glass;
-	} as;
-}	t_mat;
+		if (pars_consumeMaterial(&mat.type, &buf)) 
+			return (1);
+		pars_skipWhiteSpace(&buf);
+	}
+	if (*buf != '\n')
+		return (1);
 
-void	mat_fillMatte(t_mat *mat, int onoff);
-
-#endif
-
-
-
-
-can you please print the elements of object here 
-#include "parser.h"
-#include <stdio.h>
-int main()
-{
-	t_obj obj;
-	char *buf;
-
-	buf = "50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255";
-
-	pars_parseCylinder(&obj, buf);
+	//check if consumed match logic
+	if (!std_cmpDoubles(vec_vectorLen(&normalized_normal), 1) || pars_checkColorRange(color))
+		return (1);
+	
+	//now I have validated : center, diameter, materialtype, color
+	
+	//we now fill
+	shape_fillPlane(&shape, point, normalized_normal, color);
+	//assumes material type has been added to mat
+	pars_fillMaterial(&mat);
+	obj_fillObj(obj, shape, mat, color);
+	return (0);
 }
-
-

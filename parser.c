@@ -427,6 +427,53 @@ int	pars_parseCylinder(t_obj *obj, char *buf)
 	obj_fillObj(obj, shape, mat, color);
 	return (0);
 }
+
+int	pars_parsePlane(t_obj *obj, char *buf)
+{
+	t_vec	point;
+	t_vec	color;
+	t_vec	normalized_normal;
+	t_shape shape;
+	t_mat	mat;
+
+	std_assert(buf != 0);
+
+	//default material is matte, if user inputs another then change (simulate default arg)
+	mat.type = MATTE_TYPE;
+
+	//parsing and consuming
+	pars_skipWhiteSpace(&buf);
+	// see those as ordered steps in parsing. and if a step fails -> returns (1) -> func returns (1). I wrote it in one line for compactness
+	if (pars_consume3Numbers(&point, &buf) || pars_consumeMandatoryWhiteSpace(&buf) 
+		|| pars_consume3Numbers(&normalized_normal, &buf) || pars_consumeMandatoryWhiteSpace(&buf)
+		|| pars_consume3Integers(&color, &buf))
+		return (1);
+	pars_skipWhiteSpace(&buf);
+	//optional material : 'm' : matte , 'M' : metallic 
+	//see those as ordered sequence
+	if (*buf != '\n')
+	{
+		if (pars_consumeMaterial(&mat.type, &buf)) 
+			return (1);
+		pars_skipWhiteSpace(&buf);
+	}
+	if (*buf != '\n')
+		return (1);
+
+	//check if consumed match logic
+	if (!std_cmpDoubles(vec_vectorLen(&normalized_normal), 1) || pars_checkColorRange(color))
+		return (1);
+	
+	//now I have validated plane parameters
+	
+	//we now fill
+	shape_fillPlane(&shape, point, normalized_normal, color);
+	//assumes material type has been added to mat
+	pars_fillMaterial(&mat);
+	obj_fillObj(obj, shape, mat, color);
+	return (0);
+}
+// line is either a command or empty
 // line is either a command or empty
 int	pars_parseLine(t_parsables *parsables, char *buf, t_cmd_type *cmdtype)
 {
@@ -462,6 +509,11 @@ int	pars_parseLine(t_parsables *parsables, char *buf, t_cmd_type *cmdtype)
 	else if (*cmdtype == CYLINDER_CMD)
 	{
 		if (pars_parseCylinder(&parsables->obj, buf))
+			return (1);
+	}
+	else if (*cmdtype == PLANE_CMD)
+	{
+		if (pars_parsePlane(&parsables->obj, buf))
 			return (1);
 	}
 	else
