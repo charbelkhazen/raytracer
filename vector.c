@@ -85,3 +85,10 @@ void	vec_toStr(char *str, t_vec *v, int p)
 	std_fillThenNull(str + std_strlen(str), ' ');
 	std_dtoa(str + std_strlen(str), v->z, p);
 }
+
+void	vec_componentWiseMultiplication(t_vec *result, t_vec *v1, t_vec *v2)
+{
+	result->x = v1->x * v2->x;
+	result->y = v1->y * v2->y;
+	result->z = v1->z * v2->z;
+}

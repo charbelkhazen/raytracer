@@ -33,4 +33,6 @@ double	vec_dot(t_vec *v1, t_vec *v2);
 int	vec_strLen(t_vec *vector, int precision);
 void	vec_toStr(char *string, t_vec *vector, int precision);
 
+void	vec_componentWiseMultiplication(t_vec *result, t_vec *v1, t_vec *v2);
+
 #endif
