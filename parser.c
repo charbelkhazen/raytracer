@@ -46,7 +46,10 @@ static int pars_associateTypeToLetter(t_cmd_type *type, int first_char)
 		*type = CAMERA_CMD;
 	else if (first_char == 's')
 		*type = SPHERE_CMD;
-	//TODO: else if for plane and cylinder!!!
+	else if (first_char == 'c')
+		*type = CYLINDER_CMD;
+	else if (first_char == 'p')
+		*type = PLANE_CMD;
 	else
 		return (1); //NOTE: SHOULD NEVER HAPPEN.
 	return (0);
@@ -517,10 +520,8 @@ static int	pars_fillScene(t_scene *scene, t_parsables *parsables, t_cmd_type cmd
 		pars_setDefaultImg(scene);
 		cam_fillCam(&scene->cam, scene->cam.img, parsables->view);
 	}
-	else if (cmdtype == SPHERE_CMD) // TODO : DO THE SAME WITH CYL AND PLANE
-	{
+	else if (cmdtype == SPHERE_CMD || cmdtype == CYLINDER_CMD || cmdtype == PLANE_CMD)
 		univ_addObj(&scene->univ, parsables->obj);
-	}
 	else if (cmdtype == LIGHT_CMD)
 		scene->light = parsables->light;
 	else if (cmdtype == AMBIENT_CMD)
@@ -533,6 +534,7 @@ static int	pars_fillScene(t_scene *scene, t_parsables *parsables, t_cmd_type cmd
 //TODO: REFACTOR IF YOU HAVE TIME responsibabilities are not clear : checking + filling + initialzing init + initializing img - All this in one fnuction
 //FUNCTION INITIALIZES UNIV BEFORE STARTING THE PARSING
 // Parses program and fills scene with all its field
+#include <stdio.h> //TODO:REMOVE THIS
 int	pars_parseProgram(int fd, t_scene *scene)
 {
 	t_parsables	parsables;
