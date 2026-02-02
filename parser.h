@@ -71,5 +71,7 @@ int	pars_parseSphere(t_obj *obj, char *buf);
 
 int	pars_parseCylinder(t_obj *obj, char *buf);
 
+int	pars_parsePlane(t_obj *obj, char *buf);
+
 int	pars_parseProgram(int fd, t_scene *scene);
 #endif
