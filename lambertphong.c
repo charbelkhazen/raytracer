@@ -87,10 +87,10 @@ void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 	vec_scale(color, att_factor, color);
 	lp_capColorToOne(color);
 
-	// ambient
-	// find exact ambient color (color * ratio) and cap Color (> 255 -> 1 and < 0 -> 0)
-
-	vec_scale(&ambient_color, scene->ambient.ratio, &scene->ambient.color);
+	// ambient lightninig //TODO: isolate for norminette
+	t_vec	tmp;
+	vec_scale(&tmp, scene->ambient.ratio, &scene->ambient.color);
+	vec_componentWiseMultiplication(&ambient_color,  &tmp, &rec->color);
 	vec_add(color, color, &ambient_color);
 	lp_capColorToOne(color);
 }
