@@ -72,7 +72,23 @@ int	cyl_hit(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hitRec *r
 	
 	if (t < t_min || t > t_max)
 		return (0);
-	
+
+	//until now I worked with infinite cylinder, let's impose closedness
+	// 0 <= a . (p - b) <= h on wikipedia
+	// now replace b by c -> -h/2 <= a.(p - c) <= h/2
+	//then replace p by dt + p for t = root found above
+	// essentially p is ray at time t
+	double	axial_projection;
+	t_vec	ray_at_t;
+	t_vec	center_to_point;
+
+	ray_at(&ray_at_t, ray, t);
+	vec_subs(&center_to_point, &ray_at_t, &cyl->center);
+	axial_projection = vec_dot(&cyl->normalized_axis, &center_to_point);
+	if (axial_projection > cyl->height / 2.0 || axial_projection < -cyl->height / 2.0)
+		return (0);
+
+	//now fill since all good
 	cyl_fillRecord(cyl, rec, t, ray);
 	return (1);
 }

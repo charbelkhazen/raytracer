@@ -91,5 +91,7 @@ void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 	vec_scale(&tmp, scene->ambient.ratio, &scene->ambient.color);
 	vec_componentWiseMultiplication(&ambient_color,  &tmp, &rec->color);
 	vec_add(color, color, &ambient_color);
+
+	//cap to one if > 1 
 	lp_capColorToOne(color);
 }
