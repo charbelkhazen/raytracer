@@ -1,0 +1,4 @@
+
+// substitute todel.c with the name of the parsing file
+test:
+	cc ambientlight.c error.c image.c material.c parser.c render.c stdlib.c universe.c cylinder.c camera.c get_next_line_utils.c get_next_line.c light.c lambertphong.c matte.c plane.c ray.c shape.c todel.c vector.c viewer.c sphere.c object.c -lm

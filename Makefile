@@ -9,5 +9,4 @@ vec:
 	cc vector.c stdlib.c -lm
 
 test:
-	cc -Wall -Wextra -Werror parser.c viewer.c shape.c object.c image.c vector.c stdlib.c material.c  matte.c sphere.c ray.c camera.c get_next_line.c get_next_line_utils.c -lm lambertphong.c light.c ambientlight.c  universe.c testparse.c -g
-
+	cc ambientlight.c error.c image.c material.c parser.c render.c stdlib.c universe.c cylinder.c camera.c get_next_line_utils.c get_next_line.c light.c lambertphong.c matte.c plane.c ray.c shape.c todel.c vector.c viewer.c sphere.c object.c -lm

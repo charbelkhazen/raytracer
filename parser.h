@@ -69,5 +69,7 @@ int	pars_parseCamera(t_viewer *view, char *buf);
 
 int	pars_parseSphere(t_obj *obj, char *buf);
 
+int	pars_parseCylinder(t_obj *obj, char *buf);
+
 int	pars_parseProgram(int fd, t_scene *scene);
 #endif

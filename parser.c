@@ -9,7 +9,7 @@
 //TODO: MAKE SURE CONSUME INTERGERS IS USED FOR COLORS (IN CAMERA - and double check all other parsers )!!!!!!!!!!!!!!!!!!!!
 //TODO: PARSE MATERIAL IS COMPLETELY WRONG - ONLY WORKS FOR MATTE TYPE (FILLS ONLY WITH MATTE_TYPE"
 //TODO: FORBIDDEN FUNCTION MEMSET!!!
-
+//TODO: Parser logic is very dependent on the idea that a line is ended by \n. Make this an explicit contract
 #include <string.h> // FORBIDDEN FUNCTIONMEMESET - REMOVE LATER
 
 
