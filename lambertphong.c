@@ -69,7 +69,7 @@ static void	lp_capColorToOne(t_vec *color)
 	if (color->z > 1) color->z = 1;
 }
 
-void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+void	lp_shade_matte(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 {
 	t_ray	rayToLight;
 	int		att_factor;
@@ -94,4 +94,12 @@ void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 
 	//cap to one if > 1 
 	lp_capColorToOne(color);
+}
+
+
+void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+{
+	if (rec->mat == MATTE_TYPE)
+		lp_shade_matte(color, rec, ray, scene);
+	
 }
