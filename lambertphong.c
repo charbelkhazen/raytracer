@@ -69,7 +69,7 @@ static void	lp_capColorToOne(t_vec *color)
 	if (color->z > 1) color->z = 1;
 }
 
-void	lp_shade_matte(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+void	lp_lambertPhong(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, double diffuse_ratio) // diffuse ratio + specular ratio = 1 , and 0<= both ratios <= 1
 {
 	t_ray	rayToLight;
 	int		att_factor;
@@ -85,9 +85,6 @@ void	lp_shade_matte(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 
 
 	//weightening specular and diffuse effects
-	double	diffuse_ratio; // diffuse ratio + specular ratio = 1 , and 0<= both ratios <= 1
-
-	diffuse_ratio = 0.9;
 	vec_scale(&lambert_color, diffuse_ratio, &lambert_color);
 	vec_scale(&specular_color, (1.0 - diffuse_ratio), &specular_color);
 	vec_add(color, &specular_color, &lambert_color);
@@ -106,9 +103,25 @@ void	lp_shade_matte(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 }
 
 
+void	lp_shade_matte(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+{
+	lp_lambertPhong(color, rec, ray, scene, 1.0);
+}
+
+//0.6 chosen here is heuristics
+void	lp_shade_plastic(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+{
+	lp_lambertPhong(color, rec, ray, scene, 0.6);
+}
+
+void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+{
+	
+	lp_lambertPhong(color, rec, ray, scene, 0.6);
+}
+
 void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 {
 	if (rec->mat == MATTE_TYPE)
-		lp_shade_matte(color, rec, ray, scene);
-	
+		lp_shade_plastic(color, rec, ray, scene);
 }
