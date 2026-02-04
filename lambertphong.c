@@ -117,15 +117,17 @@ void	lp_shade_plastic(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 
 void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 {
-	t_vec	reflection;
+	t_vec	reflection_dir;
+	t_ray	reflection_ray;
 	t_vec	tmp;	
 
 	// r = d - 2(d.n)n
 	vec_scale(&tmp, vec_dot(&ray->dir, &rec->normal) * 2.0, &rec->normal);
-	vec_subs(&reflection, &ray->dir, &tmp);
+	vec_subs(&reflection_dir, &ray->dir, &tmp);
+	ray_fillRay(&reflection_ray, rec->p, reflection_dir);
 
 	//recursive call
-	render_rayColor(color, ray, scene); 
+	render_rayColor(color, &reflection_ray, scene); 
 }
 
 void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
