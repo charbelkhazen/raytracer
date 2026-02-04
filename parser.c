@@ -138,16 +138,14 @@ int	pars_consumeMaterial(material_type *mat_type, char **buf)
 {
 	std_assert(buf && *buf); // may be useless
 
-	if (!(**buf == 'm')) //TODO: ADD || **buf == 'M' , 'P' for plastic etc..
-		return (1);
 	if (**buf == 'm')
 		*mat_type = MATTE_TYPE;
+	else if (**buf == 'M')
+		*mat_type = MIRROR_TYPE;
+	else if (**buf == 'P')
+		*mat_type = PLASTIC_TYPE;
 	else
 		return (1);
-
-	//else if (**buf == 'M')
-	//*mat_type = METALLIC_TYPE;  //TODO: add mettalic and other textures 
-
 	(*buf)++;
 	return (0);
 }
@@ -518,7 +516,6 @@ int	pars_parseLine(t_parsables *parsables, char *buf, t_cmd_type *cmdtype)
 	}
 	else
 		return (1);
-	//TODO: missing plane and cyl
 	return (0);
 }
 

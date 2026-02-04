@@ -21,8 +21,8 @@ typedef enum
 
 typedef enum
 {
-	MATTE_TYPE
-	//METALLIC_TYPE;
-	//GLASS_TYPE;
+	MATTE_TYPE,
+	MIRROR_TYPE,
+	PLASTIC_TYPE,
 }	material_type;
 #endif
