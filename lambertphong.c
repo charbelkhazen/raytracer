@@ -5,6 +5,7 @@
 # include <math.h>
 # include "ambientlight.h"
 # include "scene.h"
+# include "render.h"
 /*
 ** very naive : assumes all objects are opaque !!
 */
@@ -116,8 +117,15 @@ void	lp_shade_plastic(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 
 void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 {
-	
-	lp_lambertPhong(color, rec, ray, scene, 0.6);
+	t_vec	reflection;
+	t_vec	tmp;	
+
+	// r = d - 2(d.n)n
+	vec_scale(&tmp, vec_dot(&ray->dir, &rec->normal) * 2.0, &rec->normal);
+	vec_subs(&reflection, &ray->dir, &tmp);
+
+	//recursive call
+	render_rayColor(color, ray, scene); 
 }
 
 void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
