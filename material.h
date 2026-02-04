@@ -2,14 +2,7 @@
 #define MATERIAL_H
 
 #include "matte.h"
-
-typedef enum
-{
-	MATTE_TYPE
-	//METALLIC_TYPE;
-	//GLASS_TYPE;
-}	material_type;
-
+#include "types.h"
 
 typedef struct s_material
 {

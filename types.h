@@ -2,7 +2,6 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-
 typedef enum
 {
 	CAMERA_CMD,
@@ -13,4 +12,17 @@ typedef enum
 	PLANE_CMD, //NOTE: cyl and plane already implemented here
 }	t_cmd_type;
 
+typedef enum
+{
+	SPHERE_TYPE,
+	CYLINDER_TYPE,
+	PLANE_TYPE,
+}	shape_type;
+
+typedef enum
+{
+	MATTE_TYPE
+	//METALLIC_TYPE;
+	//GLASS_TYPE;
+}	material_type;
 #endif

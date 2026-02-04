@@ -5,15 +5,9 @@
 #include "sphere.h"
 #include "cylinder.h"
 #include "plane.h"
+#include "types.h"
 
 typedef struct s_hitRec t_hitRec;
-
-typedef enum
-{
-	SPHERE_TYPE,
-	CYLINDER_TYPE,
-	PLANE_TYPE,
-}	shape_type;
 
 typedef struct s_shape
 {
