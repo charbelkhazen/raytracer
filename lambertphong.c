@@ -83,7 +83,16 @@ void	lp_shade_matte(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 	lp_lambert(&lambert_color, rec, &scene->light, &rayToLight);
 	lp_specular(&specular_color, ray, rec, &scene->light, &rayToLight);
 
+
+	//weightening specular and diffuse effects
+	double	diffuse_ratio; // diffuse ratio + specular ratio = 1 , and 0<= both ratios <= 1
+
+	diffuse_ratio = 0.9;
+	vec_scale(&lambert_color, diffuse_ratio, &lambert_color);
+	vec_scale(&specular_color, (1.0 - diffuse_ratio), &specular_color);
 	vec_add(color, &specular_color, &lambert_color);
+
+	// Multiply diffuse and specular effect by ATTENUATION FACTOR
 	vec_scale(color, att_factor, color);
 
 	// ambient lightninig //TODO: isolate for norminette
