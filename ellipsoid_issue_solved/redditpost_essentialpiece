@@ -1,0 +1,133 @@
+https://www.reddit.com/r/raytracing/comments/1ct3vrp/sphere_rendering_issue_in_ray_tracer_deformation/
+
+
+
+Skip to main content
+Sphere Rendering Issue in Ray Tracer: Deformation When Off-Center : r/raytracing
+
+Open menu
+
+r/raytracing
+Search in r/raytracing
+
+Open chat
+Create
+Create post
+Open inbox
+1
+
+User Avatar
+Expand user menu
+Go to raytracing
+r/raytracing
+•
+2y ago
+New_Culture_2360
+
+Sphere Rendering Issue in Ray Tracer: Deformation When Off-Center
+r/raytracing - Sphere Rendering Issue in Ray Tracer: Deformation When Off-Center
+
+Upvote
+14
+
+Downvote
+
+10
+Go to comments
+
+
+Share
+Join the conversation
+Sort by:
+
+Best
+
+Search Comments
+Expand comment search
+Comments Section
+u/Ok-Sherbert-6569 avatar
+Ok-Sherbert-6569
+•
+2y ago
+That’s just the result of perspective projection that naturally occurs since you are shooting days from a virtual camera . Nothing to fix here
+
+
+Upvote
+8
+
+Downvote
+
+Reply
+
+MrTroll420
+•
+2y ago
+your field of view might be a bit too big
+
+
+Upvote
+8
+
+Downvote
+
+Reply
+
+u/New_Culture_2360 avatar
+New_Culture_2360
+OP
+•
+2y ago
+I'm encountering an issue with my ray tracing implementation where spheres appear deformed when they are not positioned at the center of the world. When the sphere is centered, it renders correctly, but any offset from the center leads to this strange warping effect, I'd be very grateful if someone could help me with this.
+
+
+
+Upvote
+3
+
+Downvote
+
+Reply
+
+u/Phildutre avatar
+Phildutre
+•
+2y ago
+•
+Edited 2y ago
+It’s very normal, it’s perspective distortion. A sphere in perspective is not a circle, it’s an ellipse (think about the cone with the apex in the camera, surrounding the sphere, and the image plane cuts that cone, resulting in al ellipse). The reason you don’t see it with a centered sphere is that the image plane is perpendicular to the cone in this case, and the ellipse becomes a circle.
+
+The closer your camera is to the sphere, and the wider your viewing angle, the larger the distortion effect.
+
+Try moving your camera backwards and choose a more narrow viewing angle and the effect decreases.
+
+
+Upvote
+6
+
+Downvote
+
+Reply
+
+
+Lou-Saydus
+•
+2y ago
+FirewolfTheBrave
+•
+2y ago
+This kind of distorsion will always happen simply due to the geometry of the perspective projection, it just becomes less noticable with a smaller FOV. Try it with an FOV around 60, it should look a lot better that way!
+
+
+Upvote
+1
+
+Downvote
+
+Reply
+
+Reddit Rules
+Privacy Policy
+User Agreement
+Accessibility
+Reddit, Inc. © 2026. All rights reserved.
+
