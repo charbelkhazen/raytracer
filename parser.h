@@ -13,6 +13,7 @@
 # include "sphere.h"
 # include "material.h"
 # include "scene.h"
+# include "types.h"
 
 // these are the fields that user can fill through .rt
 // they generalize to t_scene
@@ -23,16 +24,6 @@ typedef struct s_parsables
 	t_viewer	view;
 	t_obj	obj;
 }	t_parsables;
-
-typedef enum
-{
-	CAMERA_CMD,
-	LIGHT_CMD,
-	AMBIENT_CMD,
-	SPHERE_CMD,
-	CYLINDER_CMD,
-	PLANE_CMD, //NOTE: cyl and plane already implemented here
-}	t_cmd_type;
 
 void	pars_skipWhiteSpace(char **ptr_buf);
 
