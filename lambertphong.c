@@ -115,17 +115,23 @@ void	lp_shade_plastic(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 	lp_lambertPhong(color, rec, ray, scene, 0.6);
 }
 
-void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)
+// r = d - 2(d.n)n
+static void	lp_getReflectionRay(t_ray *reflection_ray, t_ray *ray, t_hitRec *rec)
 {
+	t_vec	tmp;
 	t_vec	reflection_dir;
-	t_ray	reflection_ray;
-	t_vec	tmp;	
 
-	// r = d - 2(d.n)n
 	vec_scale(&tmp, vec_dot(&ray->dir, &rec->normal) * 2.0, &rec->normal);
 	vec_subs(&reflection_dir, &ray->dir, &tmp);
-	ray_fillRay(&reflection_ray, rec->p, reflection_dir);
+	ray_fillRay(reflection_ray, rec->p, reflection_dir);
+}
 
+void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)
+{
+	t_ray	reflection_ray;
+
+	//get reflection ray
+	lp_getReflectionRay(&reflection_ray, ray, rec);
 	//recursive call
 	render_rayColor(color, &reflection_ray, scene, recursion_depth - 1); 
 }
