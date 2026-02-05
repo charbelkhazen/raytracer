@@ -133,5 +133,9 @@ void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 {
 	if (rec->mat == MATTE_TYPE)
+		lp_shade_matte(color, rec, ray, scene);
+	if (rec->mat == MIRROR_TYPE)
+		lp_shade_mirror(color, rec, ray, scene);
+	if (rec->mat == PLASTIC_TYPE)
 		lp_shade_plastic(color, rec, ray, scene);
 }
