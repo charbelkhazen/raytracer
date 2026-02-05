@@ -3,6 +3,8 @@
 
 #include "matte.h"
 #include "types.h"
+#include "plastic.h"
+#include "mirror.h"
 
 typedef struct s_material
 {
@@ -10,11 +12,14 @@ typedef struct s_material
 	union
 	{
 		t_matte matte;
-		//t_met metallic;
-		//t_gl  glass;
+		t_plastic plastic;
+		t_mirror mirror;
 	} as;
 }	t_mat;
 
 void	mat_fillMatte(t_mat *mat, int onoff);
 
+void	mat_fillPlastic(t_mat *mat, int onoff);
+
+void	mat_fillMirror(t_mat *mat, int onoff);
 #endif

@@ -322,7 +322,10 @@ static int pars_fillMaterial(t_mat *mat)
 {
 	if (mat->type == MATTE_TYPE)
 		mat_fillMatte(mat, 0);
-	//TODO:implement else if for all other materials
+	else if (mat->type == PLASTIC_TYPE)
+		mat_fillPlastic(mat, 0);
+	else if (mat->type == MIRROR_TYPE)
+		mat_fillMirror(mat, 0);
 	else
 		return (1); // should never fall here
 	return (0);

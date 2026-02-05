@@ -1,63 +1,83 @@
-on the same note,
-
-I have a plane command which needs to be implemented too
-
-the plane command should be parsed as such
-Plane:
-
-0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225
-
-∗ x, y, z coordinates of a point in the plane: 0.0,0.0,-10.0
-∗ 3D normalized normal vector, in the range [-1,1] for each x, y, z axis:
-0.0,1.0,0.0
-∗ R,G,B colors in the range [0-255]: 0,0,225
-
-
-is my implementation correct
-
-
-int	pars_parsePlane(t_obj *obj, char *buf)
-{
-	t_vec	point;
-	t_vec	color;
-	t_vec	normalized_normal;
-	t_shape shape;
-	t_mat	mat;
-
-	std_assert(buf != 0);
-
-	//default material is matte, if user inputs another then change (simulate default arg)
-	mat.type = MATTE_TYPE;
-
-	//parsing and consuming
-	pars_skipWhiteSpace(&buf);
-	// see those as ordered steps in parsing. and if a step fails -> returns (1) -> func returns (1). I wrote it in one line for compactness
-	if (pars_consume3Numbers(&point, &buf) || pars_consumeMandatoryWhiteSpace(&buf) 
-		|| pars_consume3Numbers(&normalized_normal, &buf) || pars_consumeMandatoryWhiteSpace(&buf)
-		|| pars_consume3Integers(&color, &buf))
-		return (1);
-	pars_skipWhiteSpace(&buf);
-	//optional material : 'm' : matte , 'M' : metallic 
-	//see those as ordered sequence
-	if (*buf != '\n')
-	{
-		if (pars_consumeMaterial(&mat.type, &buf)) 
-			return (1);
-		pars_skipWhiteSpace(&buf);
-	}
-	if (*buf != '\n')
-		return (1);
-
-	//check if consumed match logic
-	if (!std_cmpDoubles(vec_vectorLen(&normalized_normal), 1) || pars_checkColorRange(color))
-		return (1);
-	
-	//now I have validated : center, diameter, materialtype, color
-	
-	//we now fill
-	shape_fillPlane(&shape, point, normalized_normal, color);
-	//assumes material type has been added to mat
-	pars_fillMaterial(&mat);
-	obj_fillObj(obj, shape, mat, color);
-	return (0);
-}
+cd minilibx-linux ; make; cd ..
+make[1]: Entering directory '/home/charbel/code/raytracer/minilibx-linux'
+./configure
+[96m[1mconfigure[0m [[92minfo[0m] : Found X11 include path directory: /usr/include
+[96m[1mconfigure[0m [[92minfo[0m] : Generate "makefile.gen" from template "makefile.mk"
+[96m[1mconfigure[0m [[92minfo[0m] : Generate "test/makefile.gen" from template "test/makefile.mk"
+[96m[1mconfigure[0m [[92minfo[0m] : Execute "make all" from file "makefile.gen"
+make[2]: Entering directory '/home/charbel/code/raytracer/minilibx-linux'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/charbel/code/raytracer/minilibx-linux'
+[96m[1mconfigure[0m [[92minfo[0m] : Execute "make all" from file "test/makefile.gen"
+make[2]: Entering directory '/home/charbel/code/raytracer/minilibx-linux/test'
+gcc -o mlx-test main.o -L.. -lmlx -L/usr/include/../lib -lXext -lX11 -lm -lbsd
+/usr/bin/ld: cannot find -lbsd: No such file or directory
+collect2: error: ld returned 1 exit status
+make[2]: *** [Makefile.gen:31: mlx-test] Error 1
+make[2]: Leaving directory '/home/charbel/code/raytracer/minilibx-linux/test'
+make[1]: *** [Makefile:17: do_configure] Error 2
+make[1]: Leaving directory '/home/charbel/code/raytracer/minilibx-linux'
+cc -Wall -Wextra -Werror *.c libft.a -Iminilibx-linux -Lminilibx-linux -lmlx -lX11 -lXext -lm
+In file included from object.h:5,
+                 from universe.h:4,
+                 from camera.h:8,
+                 from camera.c:1:
+material.h:16:17: error: unknown type name ‘t_mirror’
+   16 |                 t_mirror mirror;
+      |                 ^~~~~~~~
+In file included from object.h:5,
+                 from universe.h:4,
+                 from lambertphong.c:2:
+material.h:16:17: error: unknown type name ‘t_mirror’
+   16 |                 t_mirror mirror;
+      |                 ^~~~~~~~
+In file included from object.h:5,
+                 from parser.h:12,
+                 from main.c:3:
+material.h:16:17: error: unknown type name ‘t_mirror’
+   16 |                 t_mirror mirror;
+      |                 ^~~~~~~~
+In file included from managematerials.h:5,
+                 from managematerials.c:1:
+material.h:16:17: error: unknown type name ‘t_mirror’
+   16 |                 t_mirror mirror;
+      |                 ^~~~~~~~
+In file included from material.c:1:
+material.h:16:17: error: unknown type name ‘t_mirror’
+   16 |                 t_mirror mirror;
+      |                 ^~~~~~~~
+material.c: In function ‘mat_fillMirror’:
+material.c:22:9: error: implicit declaration of function ‘mirror_fillMirror’; did you mean ‘mat_fillMirror’? [-Werror=implicit-function-declaration]
+   22 |         mirror_fillMirror(&mat->as.mirror, onoff);
+      |         ^~~~~~~~~~~~~~~~~
+      |         mat_fillMirror
+cc1: all warnings being treated as errors
+In file included from object.h:5,
+                 from object.c:1:
+material.h:16:17: error: unknown type name ‘t_mirror’
+   16 |                 t_mirror mirror;
+      |                 ^~~~~~~~
+In file included from object.h:5,
+                 from parser.h:12,
+                 from parser.c:16:
+material.h:16:17: error: unknown type name ‘t_mirror’
+   16 |                 t_mirror mirror;
+      |                 ^~~~~~~~
+parser.c: In function ‘pars_fillMaterial’:
+parser.c:326:17: error: implicit declaration of function ‘mat_fillPlastic’; did you mean ‘mat_fillMatte’? [-Werror=implicit-function-declaration]
+  326 |                 mat_fillPlastic(mat, 0);
+      |                 ^~~~~~~~~~~~~~~
+      |                 mat_fillMatte
+parser.c:328:17: error: implicit declaration of function ‘mat_fillMirror’ [-Werror=implicit-function-declaration]
+  328 |                 mat_fillMirror(mat, 0);
+      |                 ^~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
+In file included from object.h:5,
+                 from universe.h:4,
+                 from camera.h:8,
+                 from scene.h:4,
+                 from render.c:4:
+material.h:16:17: error: unknown type name ‘t_mirror’
+   16 |                 t_mirror mirror;
+      |                 ^~~~~~~~
+make: *** [Makefile:3: app] Error 1

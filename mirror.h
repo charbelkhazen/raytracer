@@ -1,5 +1,5 @@
-#ifndef MATTE_H
-#define MATTE_H
+#ifndef MIRROR_H
+#define MIRROR_H
 
 typedef struct s_mirror
 {
