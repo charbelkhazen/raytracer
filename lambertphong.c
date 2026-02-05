@@ -115,7 +115,7 @@ void	lp_shade_plastic(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 	lp_lambertPhong(color, rec, ray, scene, 0.6);
 }
 
-void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)
 {
 	t_vec	reflection_dir;
 	t_ray	reflection_ray;
@@ -127,15 +127,15 @@ void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 	ray_fillRay(&reflection_ray, rec->p, reflection_dir);
 
 	//recursive call
-	render_rayColor(color, &reflection_ray, scene); 
+	render_rayColor(color, &reflection_ray, scene, --recursion_depth); 
 }
 
-void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)
 {
 	if (rec->mat == MATTE_TYPE)
 		lp_shade_matte(color, rec, ray, scene);
 	if (rec->mat == MIRROR_TYPE)
-		lp_shade_mirror(color, rec, ray, scene);
+		lp_shade_mirror(color, rec, ray, scene, recursion_depth);
 	if (rec->mat == PLASTIC_TYPE)
 		lp_shade_plastic(color, rec, ray, scene);
 }

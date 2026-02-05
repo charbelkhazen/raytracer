@@ -1,83 +1,72 @@
-cd minilibx-linux ; make; cd ..
-make[1]: Entering directory '/home/charbel/code/raytracer/minilibx-linux'
-./configure
-[96m[1mconfigure[0m [[92minfo[0m] : Found X11 include path directory: /usr/include
-[96m[1mconfigure[0m [[92minfo[0m] : Generate "makefile.gen" from template "makefile.mk"
-[96m[1mconfigure[0m [[92minfo[0m] : Generate "test/makefile.gen" from template "test/makefile.mk"
-[96m[1mconfigure[0m [[92minfo[0m] : Execute "make all" from file "makefile.gen"
-make[2]: Entering directory '/home/charbel/code/raytracer/minilibx-linux'
-make[2]: Nothing to be done for 'all'.
-make[2]: Leaving directory '/home/charbel/code/raytracer/minilibx-linux'
-[96m[1mconfigure[0m [[92minfo[0m] : Execute "make all" from file "test/makefile.gen"
-make[2]: Entering directory '/home/charbel/code/raytracer/minilibx-linux/test'
-gcc -o mlx-test main.o -L.. -lmlx -L/usr/include/../lib -lXext -lX11 -lm -lbsd
-/usr/bin/ld: cannot find -lbsd: No such file or directory
-collect2: error: ld returned 1 exit status
-make[2]: *** [Makefile.gen:31: mlx-test] Error 1
-make[2]: Leaving directory '/home/charbel/code/raytracer/minilibx-linux/test'
-make[1]: *** [Makefile:17: do_configure] Error 2
-make[1]: Leaving directory '/home/charbel/code/raytracer/minilibx-linux'
-cc -Wall -Wextra -Werror *.c libft.a -Iminilibx-linux -Lminilibx-linux -lmlx -lX11 -lXext -lm
-In file included from object.h:5,
-                 from universe.h:4,
-                 from camera.h:8,
-                 from camera.c:1:
-material.h:16:17: error: unknown type name ‘t_mirror’
-   16 |                 t_mirror mirror;
-      |                 ^~~~~~~~
-In file included from object.h:5,
-                 from universe.h:4,
-                 from lambertphong.c:2:
-material.h:16:17: error: unknown type name ‘t_mirror’
-   16 |                 t_mirror mirror;
-      |                 ^~~~~~~~
-In file included from object.h:5,
-                 from parser.h:12,
-                 from main.c:3:
-material.h:16:17: error: unknown type name ‘t_mirror’
-   16 |                 t_mirror mirror;
-      |                 ^~~~~~~~
-In file included from managematerials.h:5,
-                 from managematerials.c:1:
-material.h:16:17: error: unknown type name ‘t_mirror’
-   16 |                 t_mirror mirror;
-      |                 ^~~~~~~~
-In file included from material.c:1:
-material.h:16:17: error: unknown type name ‘t_mirror’
-   16 |                 t_mirror mirror;
-      |                 ^~~~~~~~
-material.c: In function ‘mat_fillMirror’:
-material.c:22:9: error: implicit declaration of function ‘mirror_fillMirror’; did you mean ‘mat_fillMirror’? [-Werror=implicit-function-declaration]
-   22 |         mirror_fillMirror(&mat->as.mirror, onoff);
-      |         ^~~~~~~~~~~~~~~~~
-      |         mat_fillMirror
-cc1: all warnings being treated as errors
-In file included from object.h:5,
-                 from object.c:1:
-material.h:16:17: error: unknown type name ‘t_mirror’
-   16 |                 t_mirror mirror;
-      |                 ^~~~~~~~
-In file included from object.h:5,
-                 from parser.h:12,
-                 from parser.c:16:
-material.h:16:17: error: unknown type name ‘t_mirror’
-   16 |                 t_mirror mirror;
-      |                 ^~~~~~~~
-parser.c: In function ‘pars_fillMaterial’:
-parser.c:326:17: error: implicit declaration of function ‘mat_fillPlastic’; did you mean ‘mat_fillMatte’? [-Werror=implicit-function-declaration]
-  326 |                 mat_fillPlastic(mat, 0);
-      |                 ^~~~~~~~~~~~~~~
-      |                 mat_fillMatte
-parser.c:328:17: error: implicit declaration of function ‘mat_fillMirror’ [-Werror=implicit-function-declaration]
-  328 |                 mat_fillMirror(mat, 0);
-      |                 ^~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
-In file included from object.h:5,
-                 from universe.h:4,
-                 from camera.h:8,
-                 from scene.h:4,
-                 from render.c:4:
-material.h:16:17: error: unknown type name ‘t_mirror’
-   16 |                 t_mirror mirror;
-      |                 ^~~~~~~~
-make: *** [Makefile:3: app] Error 1
+here is how I implement a mirror effect 
+do you agree with such implementation
+
+void	lp_lambertPhong(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, double diffuse_ratio) // diffuse ratio + specular ratio = 1 , and 0<= both ratios <= 1
+{
+	t_ray	rayToLight;
+	int		att_factor;
+	t_vec	specular_color;
+	t_vec	lambert_color;
+	t_vec			ambient_color;
+
+	light_rayToLight(&rayToLight, &rec->p, &scene->light.src);
+	att_factor = lp_attenuationFactor(&rayToLight, &scene->univ);
+
+	lp_lambert(&lambert_color, rec, &scene->light, &rayToLight);
+	lp_specular(&specular_color, ray, rec, &scene->light, &rayToLight);
+
+
+	//weightening specular and diffuse effects
+	vec_scale(&lambert_color, diffuse_ratio, &lambert_color);
+	vec_scale(&specular_color, (1.0 - diffuse_ratio), &specular_color);
+	vec_add(color, &specular_color, &lambert_color);
+
+	// Multiply diffuse and specular effect by ATTENUATION FACTOR
+	vec_scale(color, att_factor, color);
+
+	// ambient lightninig //TODO: isolate for norminette
+	t_vec	tmp;
+	vec_scale(&tmp, scene->ambient.ratio, &scene->ambient.color);
+	vec_componentWiseMultiplication(&ambient_color,  &tmp, &rec->color);
+	vec_add(color, color, &ambient_color);
+
+	//cap to one if > 1 
+	lp_capColorToOne(color);
+}
+
+
+void	lp_shade_matte(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+{
+	lp_lambertPhong(color, rec, ray, scene, 1.0);
+}
+
+//0.6 chosen here is heuristics
+void	lp_shade_plastic(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+{
+	lp_lambertPhong(color, rec, ray, scene, 0.6);
+}
+
+void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+{
+	t_vec	reflection_dir;
+	t_ray	reflection_ray;
+	t_vec	tmp;	
+
+	// r = d - 2(d.n)n
+	vec_scale(&tmp, vec_dot(&ray->dir, &rec->normal) * 2.0, &rec->normal);
+	vec_subs(&reflection_dir, &ray->dir, &tmp);
+	ray_fillRay(&reflection_ray, rec->p, reflection_dir);
+
+	//recursive call
+	render_rayColor(color, &reflection_ray, scene); 
+}
+
+void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+{
+	if (rec->mat == MATTE_TYPE)
+		lp_shade_matte(color, rec, ray, scene);
+	if (rec->mat == MIRROR_TYPE)
+		lp_shade_mirror(color, rec, ray, scene);
+	if (rec->mat == PLASTIC_TYPE)
+		lp_shade_plastic(color, rec, ray, scene);
+}
