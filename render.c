@@ -9,6 +9,12 @@ void	render_rayColor(t_vec *color, t_ray *ray, t_scene *scene, int recursion_dep
 {
 	t_hitRec	rec;
 
+	if (!recursion_depth)
+	{
+		vec_fillVec(color, 0, 0, 0);
+		return;
+	}
+
 	if (univ_hit(ray, &scene->univ, &rec)) //assumes tmin/max defined in throwray only
 		lp_shade(color, &rec, ray, scene, recursion_depth);
 	else

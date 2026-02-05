@@ -1,52 +1,22 @@
-here is how I implement a mirror effect 
-do you agree with such implementation
+here is code snippets related to recursion depth implementation:
 
-void	lp_lambertPhong(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, double diffuse_ratio) // diffuse ratio + specular ratio = 1 , and 0<= both ratios <= 1
+void	render_rayColor(t_vec *color, t_ray *ray, t_scene *scene, int recursion_depth)
 {
-	t_ray	rayToLight;
-	int		att_factor;
-	t_vec	specular_color;
-	t_vec	lambert_color;
-	t_vec			ambient_color;
+	t_hitRec	rec;
 
-	light_rayToLight(&rayToLight, &rec->p, &scene->light.src);
-	att_factor = lp_attenuationFactor(&rayToLight, &scene->univ);
+	if (!recursion_depth)
+		return ;
 
-	lp_lambert(&lambert_color, rec, &scene->light, &rayToLight);
-	lp_specular(&specular_color, ray, rec, &scene->light, &rayToLight);
-
-
-	//weightening specular and diffuse effects
-	vec_scale(&lambert_color, diffuse_ratio, &lambert_color);
-	vec_scale(&specular_color, (1.0 - diffuse_ratio), &specular_color);
-	vec_add(color, &specular_color, &lambert_color);
-
-	// Multiply diffuse and specular effect by ATTENUATION FACTOR
-	vec_scale(color, att_factor, color);
-
-	// ambient lightninig //TODO: isolate for norminette
-	t_vec	tmp;
-	vec_scale(&tmp, scene->ambient.ratio, &scene->ambient.color);
-	vec_componentWiseMultiplication(&ambient_color,  &tmp, &rec->color);
-	vec_add(color, color, &ambient_color);
-
-	//cap to one if > 1 
-	lp_capColorToOne(color);
+	if (univ_hit(ray, &scene->univ, &rec)) //assumes tmin/max defined in throwray only
+		lp_shade(color, &rec, ray, scene, recursion_depth);
+	else
+		vec_fillVec(color, 0, 0, 0);
 }
 
 
-void	lp_shade_matte(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
-{
-	lp_lambertPhong(color, rec, ray, scene, 1.0);
-}
+and in the lambert phong module:
 
-//0.6 chosen here is heuristics
-void	lp_shade_plastic(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
-{
-	lp_lambertPhong(color, rec, ray, scene, 0.6);
-}
-
-void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)
 {
 	t_vec	reflection_dir;
 	t_ray	reflection_ray;
@@ -58,15 +28,20 @@ void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
 	ray_fillRay(&reflection_ray, rec->p, reflection_dir);
 
 	//recursive call
-	render_rayColor(color, &reflection_ray, scene); 
+	render_rayColor(color, &reflection_ray, scene, --recursion_depth); 
 }
 
-void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene)
+void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)
 {
 	if (rec->mat == MATTE_TYPE)
 		lp_shade_matte(color, rec, ray, scene);
 	if (rec->mat == MIRROR_TYPE)
-		lp_shade_mirror(color, rec, ray, scene);
+		lp_shade_mirror(color, rec, ray, scene, recursion_depth);
 	if (rec->mat == PLASTIC_TYPE)
 		lp_shade_plastic(color, rec, ray, scene);
 }
+
+Is this implementatoin of recursion depth stop correct
+
+
+note: HERE IS HOW I DEFINED THE MAX RECURSION DEPTH

@@ -127,7 +127,7 @@ void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, in
 	ray_fillRay(&reflection_ray, rec->p, reflection_dir);
 
 	//recursive call
-	render_rayColor(color, &reflection_ray, scene, --recursion_depth); 
+	render_rayColor(color, &reflection_ray, scene, recursion_depth - 1); 
 }
 
 void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)
