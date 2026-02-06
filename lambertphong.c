@@ -196,4 +196,6 @@ void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recur
 		lp_shade_mirror(color, rec, ray, scene, recursion_depth);
 	if (rec->mat == PLASTIC_TYPE)
 		lp_shade_plastic(color, rec, ray, scene);
+	if (rec->mat == GOLD_TYPE)
+		lp_shade_gold(color, rec, ray, scene, recursion_depth);
 }

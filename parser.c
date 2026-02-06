@@ -330,6 +330,10 @@ static int pars_fillMaterial(t_mat *mat)
 		mat_fillPlastic(mat, 0);
 	else if (mat->type == MIRROR_TYPE)
 		mat_fillMirror(mat, 0);
+	else if (mat->type == GOLD_TYPE)
+		mat_fillGold(mat, 0);
+	else if (mat->type == STEEL_TYPE)
+		mat_fillSteel(mat, 0);
 	else
 		return (1); // should never fall here
 	return (0);
