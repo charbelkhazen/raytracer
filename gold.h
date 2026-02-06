@@ -8,4 +8,5 @@ typedef struct s_gold
 	int onoff;
 }	t_gold;
 
+void	gold_fillGold(t_gold *gold, int onoff);
 #endif

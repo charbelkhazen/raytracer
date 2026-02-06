@@ -8,4 +8,5 @@ typedef struct s_steel
 	int onoff;
 }	t_steel;
 
+void steel_fillSteel(t_steel *steel, int onoff);
 #endif
