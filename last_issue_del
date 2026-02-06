@@ -76,3 +76,9 @@ review : parse.c -> objfill should be reconsidered
 
 
 clear issue with ambient light implementation: IT IS WRONG!!!!
+
+
+!!!!
+I may need to refactor hitRec to include a pointer to the object it is pointing to:
+this makes the lambertphong code less hard coded (access object's exact property rather than hard coded values. e.g. access gold's roughness from material's property not always roughness = 0.5)
+I WILL DELAY THIS BCZ HAVING MATERIAL PROPERTIES ALSO REQUIRES HAVING A MORE ELABORATE PARSING) 
