@@ -173,15 +173,19 @@ static void	lp_distortRayWrtRoughness(t_ray *distorted_reflection, t_ray reflect
 void	lp_shade_gold(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)
 {
 	t_ray	reflection_ray;
+	t_vec	albedo;
 
 	//get reflection ray
 	lp_getReflectionRay(&reflection_ray, ray, rec);
 
 	lp_distortRayWrtRoughness(&reflection_ray, reflection_ray);
 
-
 	//recursive call
-	render_rayColor(color, &reflection_ray, scene, recursion_depth - 1); 
+	render_rayColor(color, &reflection_ray, scene, recursion_depth - 1);
+
+	//factor by albedo (metal's "absorption" effect)
+	vec_fillVec(&albedo, 1.00, 0.78, 0.34);
+	vec_componentWiseMultiplication(color, &albedo, color);
 }
 
 void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)

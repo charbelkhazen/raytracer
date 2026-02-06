@@ -78,7 +78,14 @@ review : parse.c -> objfill should be reconsidered
 clear issue with ambient light implementation: IT IS WRONG!!!!
 
 
-!!!!
+!!!! IMPORTANT REFACTORING PROJECT!!!!
 I may need to refactor hitRec to include a pointer to the object it is pointing to:
 this makes the lambertphong code less hard coded (access object's exact property rather than hard coded values. e.g. access gold's roughness from material's property not always roughness = 0.5)
 I WILL DELAY THIS BCZ HAVING MATERIAL PROPERTIES ALSO REQUIRES HAVING A MORE ELABORATE PARSING) 
+NOTE: 
+YOU WILL NEED TO ADD BACK THE removed the roughness and albedo elements in gold and steel structs
+PARSE THESE ELEMENTS 
+FIX REC TO HAVE AN OBJ POINTER
+NOW IN LAMBERT PHONG INSTEAD OF DEFINING THE ALBEDO AND THE ROUGHNES, USE THE CORRESPONDIN ONES
+(NOTE: YOU USE REC IN LAMBERTPHONG ESSENTIALY, LAMBERT PHONG DOESNT CARE ABOUT SHAPE ONLY MATERIAL, THIS IS WHY IN RT IN ONE WEEKEND HE DOESNT POINT TO THE OBJ IN REC, BECAUSE HE USES ONE MATERIAL)
+!!
