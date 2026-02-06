@@ -5,6 +5,8 @@
 #include "types.h"
 #include "plastic.h"
 #include "mirror.h"
+#include "steel.h"
+#include "gold.h"
 
 typedef struct s_material
 {

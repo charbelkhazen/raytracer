@@ -25,6 +25,6 @@ typedef enum
 	MIRROR_TYPE,
 	PLASTIC_TYPE,
 	GOLD_TYPE,
-	STEELE_TYPE,
+	STEEL_TYPE,
 }	material_type;
 #endif

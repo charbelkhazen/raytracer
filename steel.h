@@ -5,7 +5,7 @@
 
 typedef struct s_steel
 {
-	int onoff
+	int onoff;
 }	t_steel;
 
 #endif

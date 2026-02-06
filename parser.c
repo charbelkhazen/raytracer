@@ -147,7 +147,7 @@ int	pars_consumeMaterial(material_type *mat_type, char **buf)
 	else if (**buf == 'g')
 		*mat_type = GOLD_TYPE;
 	else if (**buf == 's')
-		*mat_type = STEELE_TYPE;
+		*mat_type = STEEL_TYPE;
 	else
 		return (1);
 	(*buf)++;
