@@ -6,6 +6,7 @@
 # include "ambientlight.h"
 # include "scene.h"
 # include "render.h"
+# include "random.h"
 /*
 ** very naive : assumes all objects are opaque !!
 */
@@ -132,6 +133,53 @@ void	lp_shade_mirror(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, in
 
 	//get reflection ray
 	lp_getReflectionRay(&reflection_ray, ray, rec);
+	//recursive call
+	render_rayColor(color, &reflection_ray, scene, recursion_depth - 1); 
+}
+
+//sampling ray from unit vector randomly
+//in 2d , easy : theta ! U (0, 2pi) then you use x = costheta and y = sintheta (logic circle equation)
+//IN 3d you need to incorporate z
+//z ~ u(-1,1) and r =sqrt(1 - z^2) seems to come from pythagore geom
+//->instead chose v = (rcostheta, rsintheta, z)
+static void	lp_sample_unit_vector(t_vec *sampled_unit_vector)
+{
+	double theta;
+	double z;
+	double r;
+
+	theta = rand_uniformDistributionSampling(0.0, 2 * M_PI);
+	z = rand_uniformDistributionSampling(-1.0, 1.0);
+	r = sqrt(1.0 - z * z);
+	vec_fillVec(sampled_unit_vector, r * cos(theta), r * sin(theta), z);
+}
+
+static void	lp_distortRayWrtRoughness(t_ray *distorted_reflection, t_ray reflection_ray)
+{
+	t_vec	sampled_unit_vector;
+	t_vec	scaled_by_roughness_unit;
+	double	roughness;
+
+	lp_sample_unit_vector(&sampled_unit_vector);
+	if (vec_dot(&sampled_unit_vector, &reflection_ray.dir) < 0)
+		vec_scale(&sampled_unit_vector, -1.0, &sampled_unit_vector);
+	roughness = 0.5;
+	vec_scale(&scaled_by_roughness_unit, roughness, &sampled_unit_vector);
+	vec_add(&distorted_reflection->dir, &scaled_by_roughness_unit, &reflection_ray.dir);
+	vec_unitVector(&distorted_reflection->dir, &distorted_reflection->dir);
+	distorted_reflection->orig = reflection_ray.orig;
+}
+
+void	lp_shade_gold(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)
+{
+	t_ray	reflection_ray;
+
+	//get reflection ray
+	lp_getReflectionRay(&reflection_ray, ray, rec);
+
+	lp_distortRayWrtRoughness(&reflection_ray, reflection_ray);
+
+
 	//recursive call
 	render_rayColor(color, &reflection_ray, scene, recursion_depth - 1); 
 }
