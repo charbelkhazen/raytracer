@@ -144,6 +144,10 @@ int	pars_consumeMaterial(material_type *mat_type, char **buf)
 		*mat_type = MIRROR_TYPE;
 	else if (**buf == 'p')
 		*mat_type = PLASTIC_TYPE;
+	else if (**buf == 'g')
+		*mat_type = GOLD_TYPE;
+	else if (**buf == 's')
+		*mat_type = STEELE_TYPE;
 	else
 		return (1);
 	(*buf)++;
