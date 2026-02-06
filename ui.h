@@ -17,8 +17,6 @@ typedef struct ui_mlxParams_s
 //basic mlx parameter initilization
 int	ui_initMlx(ui_mlxParams_t *params, double aspectRatio, int width, char *title);
 
-void	ui_buildImg(ui_mlxParams_t* params);
-
 //let mlx display after filling its pixel buf
 void	ui_mlxRender(ui_mlxParams_t *params);
 #endif

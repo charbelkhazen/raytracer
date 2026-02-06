@@ -154,17 +154,15 @@ static void	lp_sample_unit_vector(t_vec *sampled_unit_vector)
 	vec_fillVec(sampled_unit_vector, r * cos(theta), r * sin(theta), z);
 }
 
-static void	lp_distortRayWrtRoughness(t_ray *distorted_reflection, t_ray reflection_ray)
+static void	lp_distortRayWrtRoughness(t_ray *distorted_reflection, t_ray reflection_ray, double metal_roughness)  //If you refactor hitrec, change this then. Rather, access actual roughness from obj
 {
 	t_vec	sampled_unit_vector;
 	t_vec	scaled_by_roughness_unit;
-	double	roughness;
 
 	lp_sample_unit_vector(&sampled_unit_vector);
 	if (vec_dot(&sampled_unit_vector, &reflection_ray.dir) < 0)
 		vec_scale(&sampled_unit_vector, -1.0, &sampled_unit_vector);
-	roughness = 0.5; //If you refactor hitrec, change this then. Rather, access actual roughness from obj
-	vec_scale(&scaled_by_roughness_unit, roughness, &sampled_unit_vector);
+	vec_scale(&scaled_by_roughness_unit, metal_roughness, &sampled_unit_vector);
 	vec_add(&distorted_reflection->dir, &scaled_by_roughness_unit, &reflection_ray.dir);
 	vec_unitVector(&distorted_reflection->dir, &distorted_reflection->dir);
 	distorted_reflection->orig = reflection_ray.orig;
@@ -178,7 +176,7 @@ void	lp_shade_gold(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int 
 	//get reflection ray
 	lp_getReflectionRay(&reflection_ray, ray, rec);
 
-	lp_distortRayWrtRoughness(&reflection_ray, reflection_ray);
+	lp_distortRayWrtRoughness(&reflection_ray, reflection_ray, 0.01);
 
 	//recursive call
 	render_rayColor(color, &reflection_ray, scene, recursion_depth - 1);
@@ -188,6 +186,23 @@ void	lp_shade_gold(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int 
 	vec_componentWiseMultiplication(color, &albedo, color);
 }
 
+void	lp_shade_steel(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)
+{
+	t_ray	reflection_ray;
+	t_vec	albedo;
+
+	//get reflection ray
+	lp_getReflectionRay(&reflection_ray, ray, rec);
+
+	lp_distortRayWrtRoughness(&reflection_ray, reflection_ray, 0.01);
+
+	//recursive call
+	render_rayColor(color, &reflection_ray, scene, recursion_depth - 1);
+
+	//factor by albedo (metal's "absorption" effect)
+	vec_fillVec(&albedo, 0.5, 0.5, 0.5);
+	vec_componentWiseMultiplication(color, &albedo, color);
+}
 void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recursion_depth)
 {
 	if (rec->mat == MATTE_TYPE)
@@ -198,4 +213,6 @@ void	lp_shade(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, int recur
 		lp_shade_plastic(color, rec, ray, scene);
 	if (rec->mat == GOLD_TYPE)
 		lp_shade_gold(color, rec, ray, scene, recursion_depth);
+	if (rec->mat == STEEL_TYPE)
+		lp_shade_steel(color, rec, ray, scene, recursion_depth);
 }
