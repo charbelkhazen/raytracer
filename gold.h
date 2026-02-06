@@ -5,8 +5,7 @@
 
 typedef struct s_gold
 {
-	t_vec	albedo;
-	double	roughness; // [0,1] range
+	int onoff;
 }	t_gold;
 
 #endif

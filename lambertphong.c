@@ -163,7 +163,7 @@ static void	lp_distortRayWrtRoughness(t_ray *distorted_reflection, t_ray reflect
 	lp_sample_unit_vector(&sampled_unit_vector);
 	if (vec_dot(&sampled_unit_vector, &reflection_ray.dir) < 0)
 		vec_scale(&sampled_unit_vector, -1.0, &sampled_unit_vector);
-	roughness = 0.5;
+	roughness = 0.5; //If you refactor hitrec, change this then. Rather, access actual roughness from obj
 	vec_scale(&scaled_by_roughness_unit, roughness, &sampled_unit_vector);
 	vec_add(&distorted_reflection->dir, &scaled_by_roughness_unit, &reflection_ray.dir);
 	vec_unitVector(&distorted_reflection->dir, &distorted_reflection->dir);

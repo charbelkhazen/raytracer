@@ -5,8 +5,7 @@
 
 typedef struct s_steel
 {
-	t_vec	albedo;
-	double	roughness; // [0,1] range
+	int onoff
 }	t_steel;
 
 #endif
