@@ -36,11 +36,11 @@ static void	univ_fillRecObj(t_obj *obj, t_hitRec *rec)
 	rec->mat = obj->mat.type;
 }
 
-static int	univ_obj_hit_and_rec(t_obj *obj, t_ray *ray, t_hitRec *rec, double tmin, double *tmax)
+static int	univ_obj_hit_and_rec(t_obj *obj, t_ray *ray, t_hitRec *rec, t_interval *time_interval)
 {
-	if (!obj_hit(obj, ray, tmin, *tmax, rec))
+	if (!obj_hit(obj, ray, time_interval->min, time_interval->max, rec))
 		return (0);
-	*tmax = rec->t;
+	time_interval->max = rec->t;
 	univ_fillRecObj(obj, rec);
 	return (1);
 }
@@ -54,7 +54,7 @@ static int	univ_iterate_hits(t_ray *ray, t_univ *univ, t_hitRec *rec, t_interval
 	hit = 0;
 	while (i < univ->count)
 	{
-		if (univ_obj_hit_and_rec(&univ->obj_lst[i], ray, rec, time_interval->min, time_interval->max))
+		if (univ_obj_hit_and_rec(&univ->obj_lst[i], ray, rec, time_interval))
 			hit = 1;
 		i++;
 	}
