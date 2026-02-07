@@ -1,4 +1,3 @@
-//TODO: change render function. should take as input scene
 //NOTE: Code assummes only 1 scene: because of pars_checkCounts() function 
 #include "parser.h"
 #include "scene.h"
@@ -16,7 +15,6 @@ int main(void)
 	file_descriptor  = open("minirt.rt", O_RDONLY); //TODO:handle failure in open 
 	//TODO: HANDLE FD CLOSURE!!!!!!!
 
-	//TODO: parseProgram fils scene -> let scene be its first parameter 
 	if (pars_parseProgram(file_descriptor, &scene))
 		return (err_msgReturnOne("Wrong Format in .rt file"));
 	if (ui_initMlx(&mlx_params, scene.cam.img.img_ratio, scene.cam.img.img_width, "MiniRT"))

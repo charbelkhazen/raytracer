@@ -24,7 +24,7 @@ int	ui_initMlx(ui_mlxParams_t *p, double ratio, int w, char *ttl)
 
 int	key_hook(int keycode, void *mlx)
 {
-	if (keycode == 'q')
+	if (keycode == 'q' || keycode == 27)
 		mlx_loop_end(mlx);
 	return (0);
 }
