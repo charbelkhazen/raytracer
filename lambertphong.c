@@ -9,13 +9,13 @@
 # include "random.h"
 # include "interval.h"
 
-int	lp_attenuationFactor(t_ray *ray_to_light, t_univ *univ)
+static int	lp_attenuationFactor(t_ray *ray_to_light, t_univ *univ, double distance_ray_light)
 {
 	t_hitRec	rec;
 	t_interval	time_interval;
 
 	time_interval.min = 0.001;
-	time_interval.max = 1e6;
+	time_interval.max = distance_ray_light;
 
 	if (univ_hit(ray_to_light, univ, &rec, &time_interval))
 		return (0);
@@ -83,7 +83,11 @@ void	lp_lambertPhong(t_vec *color, t_hitRec *rec, t_ray *ray, t_scene *scene, do
 	t_vec			ambient_color;
 
 	light_rayToLight(&rayToLight, &rec->p, &scene->light.src);
-	att_factor = lp_attenuationFactor(&rayToLight, &scene->univ);
+	double	distance_ray_light; //needs refactoring . see light module to decide how to efficiently refactor
+	t_vec	ray_light_vec;
+	vec_subs(&ray_light_vec, &rec->p, &scene->light.src);
+	distance_ray_light = vec_vectorLen(&ray_light_vec);
+	att_factor = lp_attenuationFactor(&rayToLight, &scene->univ, distance_ray_light);
 
 	lp_lambert(&lambert_color, rec, &scene->light, &rayToLight);
 	lp_specular(&specular_color, ray, rec, &scene->light, &rayToLight);
