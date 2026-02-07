@@ -4,10 +4,12 @@
 # include "error.h"
 #include "scene.h"
 #include "lambertphong.h"
+#include "interval.h"
 
 void	render_rayColor(t_vec *color, t_ray *ray, t_scene *scene, int recursion_depth)
 {
 	t_hitRec	rec;
+	t_interval	time_interval;
 
 	if (!recursion_depth)
 	{
@@ -15,7 +17,10 @@ void	render_rayColor(t_vec *color, t_ray *ray, t_scene *scene, int recursion_dep
 		return;
 	}
 
-	if (univ_hit(ray, &scene->univ, &rec)) //assumes tmin/max defined in throwray only
+	time_interval.min = 0.001;
+	time_interval.max = 1e6;
+
+	if (univ_hit(ray, &scene->univ, &rec, &time_interval)) //assumes tmin/max defined in throwray only
 		lp_shade(color, &rec, ray, scene, recursion_depth);
 	else
 		vec_fillVec(color, 0, 0, 0);

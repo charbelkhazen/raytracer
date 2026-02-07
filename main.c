@@ -12,7 +12,7 @@ int main(void)
 	t_scene scene;
 	ui_mlxParams_t	mlx_params;
 
-	file_descriptor  = open("minirt.rt", O_RDONLY); //TODO:handle failure in open 
+	file_descriptor  = open("COOLMINIRT_DISPOSITION", O_RDONLY); //TODO:handle failure in open 
 	//TODO: HANDLE FD CLOSURE!!!!!!!
 
 	if (pars_parseProgram(file_descriptor, &scene))

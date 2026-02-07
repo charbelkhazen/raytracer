@@ -61,15 +61,7 @@ static int	univ_iterate_hits(t_ray *ray, t_univ *univ, t_hitRec *rec, t_interval
 	return (hit);
 }
 
-int	univ_hit(t_ray *ray, t_univ *univ, t_hitRec *rec)
+int	univ_hit(t_ray *ray, t_univ *univ, t_hitRec *rec, t_interval *time_interval)
 {
-	t_interval time_interval;
-	double	tmin;
-	double	tmax;
-
-	tmin = 0.001;
-	tmax = 1e6;
-
-	interval_fillInterval(&time_interval, tmin, tmax);
-	return (univ_iterate_hits(ray, univ, rec, &time_interval));
+	return (univ_iterate_hits(ray, univ, rec, time_interval));
 }

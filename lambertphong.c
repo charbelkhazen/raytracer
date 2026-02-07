@@ -7,14 +7,17 @@
 # include "scene.h"
 # include "render.h"
 # include "random.h"
-/*
-** very naive : assumes all objects are opaque !!
-*/
+# include "interval.h"
+
 int	lp_attenuationFactor(t_ray *ray_to_light, t_univ *univ)
 {
 	t_hitRec	rec;
+	t_interval	time_interval;
 
-	if (univ_hit(ray_to_light, univ, &rec))
+	time_interval.min = 0.001;
+	time_interval.max = 1e6;
+
+	if (univ_hit(ray_to_light, univ, &rec, &time_interval))
 		return (0);
 	return (1);
 }
