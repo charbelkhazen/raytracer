@@ -2,6 +2,7 @@
 #include "vector.h"
 #include "sphere.h"
 #include "plane.h"
+#include "interval.h"
 
 void	shape_fillSphere(t_shape *shape, t_vec center, double radius)
 {
@@ -21,8 +22,11 @@ void	shape_fillCylinder(t_shape *shape, t_vec center, t_vec normalized_axis, t_v
 	cyl_fillCyl(&shape->as.cylinder, center, normalized_axis, color, diameter, height);
 }
 
-int	shape_hit(t_shape *shape, t_ray *ray, double t_min, double t_max, t_hitRec *rec)
+int	shape_hit(t_shape *shape, t_ray *ray, t_interval *time_interval, t_hitRec *rec)
 {
+	double t_min = time_interval->min;
+	double t_max = time_interval->max;
+
 	if (shape->type == SPHERE_TYPE)
 		return (sph_hit(&shape->as.sphere, ray, t_min, t_max, rec)); 
 
