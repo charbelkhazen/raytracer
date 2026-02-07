@@ -4,6 +4,7 @@
 #include "vector.h"
 #include "material.h"
 #include "shape.h"
+#include "interval.h"
 
 typedef struct s_hitRec t_hitRec;
 
@@ -16,7 +17,7 @@ typedef struct s_obj
 
 void	obj_fillObj(t_obj *obj, t_shape shape, t_mat mat, t_vec color);
 
-int	obj_hit(t_obj *obj, t_ray *ray, double t_min, double t_max, t_hitRec *rec);
+int	obj_hit(t_obj *obj, t_ray *ray, t_interval *time_interval, t_hitRec *rec);
 
 #endif
 

@@ -38,7 +38,7 @@ static void	univ_fillRecObj(t_obj *obj, t_hitRec *rec)
 
 static int	univ_obj_hit_and_rec(t_obj *obj, t_ray *ray, t_hitRec *rec, t_interval *time_interval)
 {
-	if (!obj_hit(obj, ray, time_interval->min, time_interval->max, rec))
+	if (!obj_hit(obj, ray, time_interval, rec))
 		return (0);
 	time_interval->max = rec->t;
 	univ_fillRecObj(obj, rec);
