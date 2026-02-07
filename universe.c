@@ -6,6 +6,7 @@
 #include "stdlib.h"
 
 #include "shape.h"
+#include "interval.h"
 
 void	univ_init(t_univ *univ)
 {
@@ -44,7 +45,7 @@ static int	univ_obj_hit_and_rec(t_obj *obj, t_ray *ray, t_hitRec *rec, double tm
 	return (1);
 }
 
-static int	univ_iterate_hits(t_ray *ray, t_univ *univ, t_hitRec *rec, double tmin, double *tmax)
+static int	univ_iterate_hits(t_ray *ray, t_univ *univ, t_hitRec *rec, t_interval *time_interval)
 {
 	int	i;
 	int	hit;
@@ -53,7 +54,7 @@ static int	univ_iterate_hits(t_ray *ray, t_univ *univ, t_hitRec *rec, double tmi
 	hit = 0;
 	while (i < univ->count)
 	{
-		if (univ_obj_hit_and_rec(&univ->obj_lst[i], ray, rec, tmin, tmax))
+		if (univ_obj_hit_and_rec(&univ->obj_lst[i], ray, rec, time_interval->min, time_interval->max))
 			hit = 1;
 		i++;
 	}
@@ -62,10 +63,13 @@ static int	univ_iterate_hits(t_ray *ray, t_univ *univ, t_hitRec *rec, double tmi
 
 int	univ_hit(t_ray *ray, t_univ *univ, t_hitRec *rec)
 {
+	t_interval time_interval;
 	double	tmin;
 	double	tmax;
 
 	tmin = 0.001;
 	tmax = 1e6;
-	return (univ_iterate_hits(ray, univ, rec, tmin, &tmax));
+
+	interval_fillInterval(&time_interval, tmin, tmax);
+	return (univ_iterate_hits(ray, univ, rec, &time_interval));
 }
