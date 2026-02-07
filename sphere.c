@@ -4,6 +4,7 @@
 #include <math.h>
 #include "intersection.h"
 # include "vector.h"
+# include "interval.h"
 
 typedef struct s_sph_quadParams
 {
@@ -39,13 +40,18 @@ static	void	sph_normalPointOut(t_vec *normal, t_ray *ray)
 		vec_scale(normal, -1, normal);
 }
 
-int	sph_hit(t_sph *sphere, t_ray *ray, double t_min, double t_max, t_hitRec *rec)
+int	sph_hit(t_sph *sphere, t_ray *ray, t_interval *time_interval, t_hitRec *rec)
 {
 	//asserts e.g. rec not null...
 	t_sph_quadParams	params;
 	t_vec	normal_non_unit;
 	double	sqrtd;
 	double	root;
+	double	t_min;
+	double	t_max;
+
+	t_min = time_interval->min;
+	t_max = time_interval->max;
 
 	sph_solveQuadratic(&params, sphere, ray);
 	if (params.delta < 0)

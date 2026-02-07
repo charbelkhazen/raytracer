@@ -4,6 +4,7 @@
 
 #include "ray.h"
 #include "intersection.h"
+#include "interval.h"
 
 typedef struct s_sphere
 {
@@ -15,6 +16,6 @@ typedef struct s_sphere
 void	sph_fillSph(t_sph *sphere, t_vec center, double radius);
 
 //returns bool AND if hit fills hitRec
-int	sph_hit(t_sph *sphere, t_ray *ray, double t_min, double t_max, t_hitRec *rec);
+int	sph_hit(t_sph *sphere, t_ray *ray, t_interval *time_interval, t_hitRec *rec);
 
 #endif

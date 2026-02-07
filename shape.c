@@ -28,7 +28,7 @@ int	shape_hit(t_shape *shape, t_ray *ray, t_interval *time_interval, t_hitRec *r
 	double t_max = time_interval->max;
 
 	if (shape->type == SPHERE_TYPE)
-		return (sph_hit(&shape->as.sphere, ray, t_min, t_max, rec)); 
+		return (sph_hit(&shape->as.sphere, ray, time_interval, rec)); 
 
 	if (shape->type == PLANE_TYPE)
 		return (plane_hit(ray, &shape->as.plane, t_min, t_max, rec));  //TODO: swap the order of ray and plane parameters to make it consistent with other hit funcions
