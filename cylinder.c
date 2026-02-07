@@ -1,4 +1,5 @@
 #include "cylinder.h"
+#include "interval.h"
 #include <math.h>
 
 void	cyl_fillCyl(t_cylinder *cyl, t_vec center, t_vec normalized_axis, t_vec color, double diameter, double height)
@@ -39,7 +40,7 @@ static void	cyl_fillRecord(t_cylinder *cyl, t_hitRec *rec, double t, t_ray *ray)
 	//TODO: in sphere, rec stops here : i.e. fills t and p and normal . FORGETS ABOUT SHAPE AND MATERIAL AND COLOR -> DELEGATES IT TO ANOTHRE FUNCTION . DOESNT IT NEED REFACTORING??
 }
 
-int	cyl_hit(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hitRec *rec)
+int	cyl_hit(t_cylinder *cyl, t_ray *ray, t_interval *time_interval, t_hitRec *rec)
 {
 	double	t; // t  of ray. Remember : ray equation : p + dt
 	double	delta;
@@ -48,6 +49,9 @@ int	cyl_hit(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hitRec *r
 	t_vec	u;
 	t_vec	v;
 	t_vec	tmp;
+
+	double t_min = time_interval->min; //TODO: delete these two and pass then using time_interval
+	double t_max = time_interval->max;
 
 	//find u
 	vec_cross(&u, &cyl->normalized_axis, &ray->dir);

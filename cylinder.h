@@ -3,6 +3,7 @@
 
 #include "intersection.h"
 #include "ray.h"
+#include "interval.h"
 
 typedef struct s_cylinder
 {
@@ -18,6 +19,6 @@ void	cyl_fillCyl(t_cylinder *cyl, t_vec center, t_vec normalized_axis, t_vec col
 
 //returns bool AND if hit fills hitRec
 //Refer to my note on line cylinder intersection to understand logic
-int	cyl_hit(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hitRec *rec);
+int	cyl_hit(t_cylinder *cyl, t_ray *ray, t_interval *time_interval, t_hitRec *rec);
 
 #endif

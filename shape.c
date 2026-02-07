@@ -24,9 +24,6 @@ void	shape_fillCylinder(t_shape *shape, t_vec center, t_vec normalized_axis, t_v
 
 int	shape_hit(t_shape *shape, t_ray *ray, t_interval *time_interval, t_hitRec *rec)
 {
-	double t_min = time_interval->min;
-	double t_max = time_interval->max;
-
 	if (shape->type == SPHERE_TYPE)
 		return (sph_hit(&shape->as.sphere, ray, time_interval, rec)); 
 
@@ -34,7 +31,7 @@ int	shape_hit(t_shape *shape, t_ray *ray, t_interval *time_interval, t_hitRec *r
 		return (plane_hit(ray, &shape->as.plane, time_interval, rec));  //TODO: swap the order of ray and plane parameters to make it consistent with other hit funcions
 	
 	if (shape->type == CYLINDER_TYPE)
-		return (cyl_hit(&shape->as.cylinder,ray,  t_min, t_max, rec)); 
+		return (cyl_hit(&shape->as.cylinder,ray, time_interval, rec)); 
 
 	return (0);
 }
