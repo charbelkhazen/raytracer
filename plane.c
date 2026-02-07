@@ -1,4 +1,5 @@
 #include "plane.h"
+#include "interval.h"
 #include <math.h>
 
 void	plane_fillPlane(t_plane *plane, t_vec point, t_vec normalized_normal, t_vec color)
@@ -26,12 +27,15 @@ static void	plane_fillRecord(t_plane *plane, t_hitRec *rec, double t, t_ray *ray
 	//TODO: in sphere rec spots here : i.e. fills t and p and normal . FORGETS ABOUT SHAPE AND MATERIAL AND COLOR -> DELEGATES IT TO ANOTHRE FUNCTION . DOESNT IT NEED REFACTORING??
 }
 
-int	plane_hit(t_ray *ray, t_plane *plane, double t_min, double t_max, t_hitRec *rec)
+int	plane_hit(t_ray *ray, t_plane *plane, t_interval *time_interval, t_hitRec *rec)
 {
 	double	offset; // This is d in ax + by + cz = d ( plane equation)
 	double	denominator; // t = (D - n.P) / n.d. Define the num and denum
 	double	numerator;
 	double	t; // t  of ray. Remember : ray equation : p + dt
+
+	double t_min = time_interval->min; //TODO: remove both this and instead pass timeinterval
+	double t_max = time_interval->max;
 
 	denominator = vec_dot(&plane->normalized_normal, &ray->dir);
 	if (!denominator || fabs(denominator) < 1e-6)

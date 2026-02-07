@@ -31,7 +31,7 @@ int	shape_hit(t_shape *shape, t_ray *ray, t_interval *time_interval, t_hitRec *r
 		return (sph_hit(&shape->as.sphere, ray, time_interval, rec)); 
 
 	if (shape->type == PLANE_TYPE)
-		return (plane_hit(ray, &shape->as.plane, t_min, t_max, rec));  //TODO: swap the order of ray and plane parameters to make it consistent with other hit funcions
+		return (plane_hit(ray, &shape->as.plane, time_interval, rec));  //TODO: swap the order of ray and plane parameters to make it consistent with other hit funcions
 	
 	if (shape->type == CYLINDER_TYPE)
 		return (cyl_hit(&shape->as.cylinder,ray,  t_min, t_max, rec)); 
