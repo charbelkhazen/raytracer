@@ -43,7 +43,7 @@ int	plane_hit(t_ray *ray, t_plane *plane, t_interval *time_interval, t_hitRec *r
 	offset = vec_dot(&plane->normalized_normal, &plane->point);
 	numerator = offset - vec_dot(&plane->normalized_normal, &ray->orig);
 	t = numerator / denominator;
-	if (t < t_min || t > t_max)
+	if (t <= t_min || t >= t_max - 1e-3)
 		return (0);
 	plane_fillRecord(plane, rec, t, ray);
 	return (1);
