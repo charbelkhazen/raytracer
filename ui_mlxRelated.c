@@ -30,9 +30,16 @@ int	key_hook(int keycode, void *mlx)
 	return (0);
 }
 
+int on_close(void *param)
+{
+	mlx_loop_end(param);
+	return (0);
+}
+
 void	ui_mlxRender(ui_mlxParams_t *p)
 {
 	mlx_put_image_to_window(p->mlx, p->win, p->img, 0, 0);
 	mlx_key_hook(p->win, key_hook, p->mlx);
+	mlx_hook(p->win, 17, 0, on_close, p->mlx);
 	mlx_loop(p->mlx);
 }
