@@ -58,7 +58,7 @@ int	sph_hit(t_sph *sphere, t_ray *ray, t_interval *time_interval, t_hitRec *rec)
 		return (0);
 	sqrtd = sqrt(params.delta);
 	root = (params.h - sqrtd) / params.a;
-	if (root <= t_min || root >= t_max)
+	if (root <= t_min || root >= t_max - 1e-3)
 	{
 		root = (params.h + sqrtd) / params.a;
 		if (root <= t_min || root >= t_max - 1e-3)
