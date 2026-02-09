@@ -93,3 +93,10 @@ NOW IN LAMBERT PHONG INSTEAD OF DEFINING THE ALBEDO AND THE ROUGHNES, USE THE CO
 
 !! instead of working with gold and steel , choose one metallic effect -> realistic aluminum / silver 
 !! implement iridescent
+
+
+
+!!Need to:
+resize window (if sheet asks for it)
+map color 0.255
+clean and destroy window and mlx parasms
