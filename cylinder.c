@@ -74,7 +74,7 @@ int	cyl_hit(t_cylinder *cyl, t_ray *ray, t_interval *time_interval, t_hitRec *re
 	
 	t = (u_dot_v - sqrt(delta)) / vec_dot(&u, &u);
 	
-	if (t < t_min || t > t_max)
+	if (t <= t_min || t >= t_max - 1e-3)
 		return (0);
 
 	//until now I worked with infinite cylinder, let's impose closedness
