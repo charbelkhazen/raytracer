@@ -1,0 +1,9 @@
+when you put light on the edge of the sphere it creates a straight line on the plane
+
+error is due to shading 
+
+particularly in attenuation factor 
+
+this is bcz if you set attenuation factor = 1 -> you DO NOT GET A STRAIGHT LINE SEPERATING COLORED VS DARK)
+
+MIGHT BE NORMAL : see my sketch

@@ -3,6 +3,7 @@
 #include "error.h"
 #include "stdlib.h"
 #include "vector.h"
+#include <X11/keysym.h>
 
 int	ui_initMlx(ui_mlxParams_t *p, double ratio, int w, char *ttl)
 {
@@ -24,7 +25,7 @@ int	ui_initMlx(ui_mlxParams_t *p, double ratio, int w, char *ttl)
 
 int	key_hook(int keycode, void *mlx)
 {
-	if (keycode == 'q' || keycode == 27)
+	if (keycode == 'q' || keycode == XK_Escape)
 		mlx_loop_end(mlx);
 	return (0);
 }
