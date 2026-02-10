@@ -4,6 +4,7 @@
 #include "stdlib.h"
 #include "vector.h"
 #include <X11/keysym.h>
+#include <stdlib.h>
 
 int	ui_initMlx(ui_mlxParams_t *p, double ratio, int w, char *ttl)
 {
@@ -23,23 +24,33 @@ int	ui_initMlx(ui_mlxParams_t *p, double ratio, int w, char *ttl)
 	return (!(p->mlx && p->img && p->buf));
 }
 
-int	key_hook(int keycode, void *mlx)
-{
+int	key_hook(int keycode, void *params)
+{ 
+	ui_mlxParams_t *mlx_params;
+
+	mlx_params = ((ui_mlxParams_t *)params);
 	if (keycode == 'q' || keycode == XK_Escape)
-		mlx_loop_end(mlx);
+	{
+		mlx_destroy_window(mlx_params->mlx, mlx_params->win); 
+		mlx_loop_end(mlx_params->mlx);
+	}
 	return (0);
 }
 
-int on_close(void *param)
+int on_close(void *params)
 {
-	mlx_loop_end(param);
+	ui_mlxParams_t *mlx_params;
+
+	mlx_params = ((ui_mlxParams_t *)params);
+	mlx_destroy_window(mlx_params->mlx, mlx_params->win); 
+	mlx_loop_end(mlx_params->mlx);
 	return (0);
 }
 
 void	ui_mlxRender(ui_mlxParams_t *p)
 {
 	mlx_put_image_to_window(p->mlx, p->win, p->img, 0, 0);
-	mlx_key_hook(p->win, key_hook, p->mlx);
-	mlx_hook(p->win, 17, 0, on_close, p->mlx);
+	mlx_key_hook(p->win, key_hook, p);
+	mlx_hook(p->win, 17, 0, on_close, p);
 	mlx_loop(p->mlx);
 }
