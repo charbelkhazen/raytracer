@@ -257,6 +257,8 @@ int	pars_parseLight(t_light *light, char *buf)
 			return (1);
 		if(pars_checkColorRange(light->color))
 			return (1);
+		//need to scale light color to 0-1
+		vec_scale(&light->color, 1.0 / 255.0, &light->color);
 	}
 	if (*buf != '\n')
 		return (1);
@@ -383,6 +385,7 @@ int	pars_parseSphere(t_obj *obj, char *buf)
 	shape_fillSphere(&shape, center, diameter / 2.0);
 	//assumes material type has been added to mat
 	pars_fillMaterial(&mat);
+	vec_scale(&color, 1.0 / 255.0, &color);
 	obj_fillObj(obj, shape, mat, color);
 	return (0);
 }
@@ -433,6 +436,7 @@ int	pars_parseCylinder(t_obj *obj, char *buf)
 	shape_fillCylinder(&shape, center, normalized_axis, color, diameter, height);
 	//assumes material type has been added to mat
 	pars_fillMaterial(&mat);
+	vec_scale(&color, 1.0 / 255.0, &color);
 	obj_fillObj(obj, shape, mat, color);
 	return (0);
 }
@@ -479,6 +483,7 @@ int	pars_parsePlane(t_obj *obj, char *buf)
 	shape_fillPlane(&shape, point, normalized_normal, color);
 	//assumes material type has been added to mat
 	pars_fillMaterial(&mat);
+	vec_scale(&color, 1.0 / 255.0, &color);
 	obj_fillObj(obj, shape, mat, color);
 	return (0);
 }
